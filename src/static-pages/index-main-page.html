@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trello Clone</title>
+    <link rel="stylesheet" href="./index-main-page.css" />
+  </head>
+  <body>
+    <div class="root">
+      <div class="App">
+        <header class="header">
+          <nav class="header__nav nav__button">
+            <button class="nav_button__more"></button>
+            <button class="nav_button__trello">Trello</button>
+          </nav>
+          <div class="header__search search__container" id="search-box">
+            <form class="search__container__form" action="#">
+              <input
+                class="search__container__input"
+                id="search-box-input"
+                type="search"
+                autocomplete="off"
+                placeholder="Search"
+                name="search"
+                autofocus=""
+                onkeypress="return event.keyCode!=13"
+              />
+            </form>
+          </div>
+        </header>
+        <aside class="aside">
+          <div id="aside" class="aside__container"></div>
+        </aside>
+        <main class="main">
+          <div id="main" class="main__container"></div>
+        </main>
+        <footer class="footer">
+          <div class="footer__container">
+            <div class="footer__item">
+              <a
+                href="https://github.com/whirligigY/trello-clone"
+                target="_blank"
+              >
+                <img
+                  class="footer__item__icon-git"
+                  src="../assets/github.svg"
+                  alt="Taneros' GitHub"
+                />
+              </a>
+            </div>
+            <div class="footer__item">
+              <p class="footer__item__date">© 2021</p>
+            </div>
+            <div class="footer__item">
+              <a
+                href="https://rs.school/js/"
+                title="Link to the course"
+                target="_blank"
+              >
+                <img
+                  class="footer__item__icon-rss"
+                  src="../assets/rs_school_js_grey.svg"
+                  alt="RS School"
+                />
+              </a>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
