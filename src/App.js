@@ -54,7 +54,7 @@ const Footer = () => (
         </a>
       </div>
       <div className="footer__item">
-        <span className="footer__item__date">© 2021</span>
+        <span className="footer__item__date">© 2022</span>
       </div>
       <div className="footer__item">
         <a
