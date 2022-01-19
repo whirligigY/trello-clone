@@ -1,4 +1,4 @@
-@import url("../src/static-pages/nullstyle.css");
+@import url("./nullstyle.css");
 
 /* Main App Style */
 
@@ -51,7 +51,7 @@ body {
 .nav__button .nav_button__more {
   width: 24px;
   height: 24px;
-  background-image: url("../src/assets/more.svg");
+  background-image: url("../assets/more.svg");
   background-color: transparent;
 }
 .nav__button .nav_button__trello {
@@ -101,7 +101,6 @@ body {
   display: flex;
   justify-content: center;
   background-color: #026aa7;
-  color: white;
 }
 
 .footer__container {
