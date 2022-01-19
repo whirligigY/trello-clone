@@ -46,9 +46,6 @@ body {
   margin: 0 1em;
 }
 
-/* .header__nav {
-} */
-
 .nav__button .nav_button__more {
   width: 24px;
   height: 24px;
@@ -91,9 +88,9 @@ body {
   height: 100%;
   max-width: 100%;
   margin: 0 1em;
+
   /* background-color: lightslategray; */
 }
-
 /* Footer Styles */
 
 .footer {
