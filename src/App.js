@@ -1,21 +1,11 @@
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+// import {Modal, Container, Row, Col, Button} from 'react-bootstrap';
+import ModalWindow from './components/Modal/Modal';
 
 class App extends React.Component {
   render() {
     return (
-      <Modal show={true}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      >
-        <Modal.Header>
-          <Modal.Title>
-            CardName
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        </Modal.Body>
-      </Modal>
+      <ModalWindow></ModalWindow>
     )
   }
 }
