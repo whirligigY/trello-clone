@@ -1,0 +1,8 @@
+.description-text{
+  background-color: whitesmoke;
+  overflow: hidden;
+}
+
+.description-text .active{
+  background-color: white;
+}

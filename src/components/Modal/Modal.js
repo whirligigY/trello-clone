@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import { Modal, Container, Row, Col } from 'react-bootstrap';
+import TaskDescription from './TaskDescription';
 
 const ModalWindow = () => {
   return (
@@ -14,6 +15,15 @@ const ModalWindow = () => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <Container>
+          <Row>
+            <Col xs={14} md={10}>
+            <TaskDescription></TaskDescription>
+            </Col>
+            <Col xs={4} md={2}>
+            </Col>
+          </Row>
+        </Container>
       </Modal.Body>
     </Modal>
   )
