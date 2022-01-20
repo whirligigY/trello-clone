@@ -1,15 +1,23 @@
-import logo from './logo.svg';
+import React from 'react';
+import {Modal} from 'react-bootstrap';
 
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" /> 
-      </header>
-      <h1>Start</h1>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <Modal show={true}
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      >
+        <Modal.Header>
+          <Modal.Title>
+            CardName
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        </Modal.Body>
+      </Modal>
+    )
+  }
 }
 
 export default App;
