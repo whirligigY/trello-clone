@@ -8,12 +8,10 @@ import './Modal.css';
 
 const TaskDescription = () => {
   const [textareaActive, setAreaState] = useState(false);
+
   const setHeigth = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
-  }
-  const removeControl = (e) => {
-    DiscriptionControl.remove();
   }
 
   return (
@@ -25,9 +23,10 @@ const TaskDescription = () => {
           className={`description-text ${textareaActive ? "" : "hover"}`} 
           rows={textareaActive ? 3 : 2} 
           placeholder="Добавьте описание задачи" 
-          onFocus={() => setAreaState(true)} onKeyUp={setHeigth}
+          onFocus={() => setAreaState(true)} 
+          onKeyUp={setHeigth}
           onBlur={() => setAreaState(false)}/>
-      { setAreaState ? <DiscriptionControl/> : removeControl() }
+          {textareaActive ? <DiscriptionControl/> : null}
     </div>
   )
 }

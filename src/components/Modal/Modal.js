@@ -1,8 +1,10 @@
 import React from 'react';
 import { Modal, Container, Row, Col } from 'react-bootstrap';
 import TaskDescription from './TaskDescription';
+import CheckList from './CheckList';
 
 const ModalWindow = () => {
+
   return (
     <Modal show={true}
     size="lg"
@@ -19,6 +21,7 @@ const ModalWindow = () => {
           <Row>
             <Col xs={14} md={10}>
             <TaskDescription></TaskDescription>
+            <CheckList/>
             </Col>
             <Col xs={4} md={2}>
             </Col>

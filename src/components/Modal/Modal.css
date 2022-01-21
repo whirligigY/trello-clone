@@ -1,3 +1,4 @@
+/* discription element styles */
 .description-text {
   background-color: whitesmoke;
   overflow: hidden;
@@ -14,6 +15,20 @@
 
 }
 
+/* check-list styles */
+.add-checkbox {
+  margin-top: 10px;
+}
+
+.check-list-items{
+  margin-top: 15px;
+}
+
+/* all styles */
 .btn-close {
   margin-left: 50px;
+}
+
+.hidden {
+  display: none;
 }
