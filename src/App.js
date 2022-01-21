@@ -1,15 +1,8 @@
-import logo from './logo.svg';
+import React from 'react';
+import Board from './pages/board/board';
 
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" /> 
-      </header>
-      <h1>Start</h1>
-    </div>
-  );
-}
+const App = () => {
+  return <Board />;
+};
 
 export default App;
