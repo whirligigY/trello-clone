@@ -1,8 +1,19 @@
-.description-text{
+.description-text {
   background-color: whitesmoke;
   overflow: hidden;
 }
 
-.description-text .active{
-  background-color: white;
+.hover:hover {
+  background-color: rgb(207, 207, 207);
+}
+
+.discription-control {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+
+}
+
+.btn-close {
+  margin-left: 50px;
 }
