@@ -1,13 +1,23 @@
-import logo from './logo.svg';
-
+import NavBar from './components/navBar';
+import { Route, Switch } from 'react-router-dom';
+import Boards from './pages/boards';
+import Main from './pages/main';
+import Footer from './components/footer';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" /> 
-      </header>
-      <h1>Start</h1>
+    <div>
+      <NavBar />
+      <Switch>
+        <Route
+          path="/:boardId/:listId?/:cardId?"
+          render={(props) => {
+            return <Boards {...props} />;
+          }}
+        />
+        <Route path="/" component={Main} />
+      </Switch>
+      <Footer />
     </div>
   );
 }
