@@ -6,11 +6,6 @@ import Footer from "./components/footer";
 import "./App.css";
 import { Card } from "react-bootstrap";
 
-import "./App.css";
-
-import React from "react";
-import "./App.css";
-
 const Header = () => (
   <header className="header">
     <nav className="header__nav nav__button">
@@ -40,9 +35,11 @@ const Aside = () => (
   </aside>
 );
 
-const Main = () => (
+const Main = (props) => (
   <main className="main">
-    <div id="main" className="main__container"></div>
+    <div id="main" className="main__container">
+      {props.children}
+    </div>
   </main>
 );
 
@@ -82,6 +79,20 @@ const Footer = () => (
       </div>
     </div>
   </footer>
+);
+
+const WorkspaceBoards = () => (
+  <div class="workspace__boards">
+    <h3 class="heading-h3">Workspace Boards</h3>
+    <div class="workspace__boards board__list">
+      <Card className="board__list__board">
+        <Card.Body>Project Management</Card.Body>
+      </Card>
+      <div class="board__list__board board__list__board_new-board card">
+        Create new board
+      </div>
+    </div>
+  </div>
 );
 
 function App() {
