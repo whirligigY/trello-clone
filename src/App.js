@@ -4,6 +4,7 @@ import Board from "./pages/board";
 import Main from "./pages/main";
 import Footer from "./components/footer";
 import "./App.css";
+import { Card } from "react-bootstrap";
 
 function App() {
   const boardList = [
