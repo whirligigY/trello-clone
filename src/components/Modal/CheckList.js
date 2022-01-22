@@ -4,11 +4,11 @@ import { ProgressBar, Button, InputGroup, FormControl } from 'react-bootstrap';
 import './Modal.css';
 
 
+let counter = 0;
 
 const CheckList = () => {
   const [checkboxes, setCheckItems] = useState([]);
   const [progress, setProgress] = useState(0);
-  const [checked, setCheck] = useState(1);
 
   const item = false;
   const addCheckBox = () => {
@@ -21,14 +21,14 @@ const CheckList = () => {
 
   const changeProgress = (e) => {
     if (e.target.checked) {
-      setCheck(checked + 1);
-      setProgress(progress + Math.round(100/checkboxes.length));
-      if (checked === (checkboxes.length)) {
+      counter += 1;
+      setProgress(counter * Math.round(100/checkboxes.length));
+      if (counter === (checkboxes.length)) {
         setProgress(100);
       }
     } else {
-      setCheck(checked - 1);
-      setProgress(progress - Math.round(100/checkboxes.length));
+      counter -= 1;
+      setProgress(counter * Math.round(100/checkboxes.length));
       const checkCount = Math.round(progress/(100/checkboxes.length));
       if (checkCount - 1 === 0) {
         setProgress(0);
