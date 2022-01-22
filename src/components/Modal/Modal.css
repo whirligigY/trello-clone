@@ -12,16 +12,54 @@
   margin-top: 20px;
   display: flex;
   align-items: center;
-
 }
 
 /* check-list styles */
+.check-list {
+  padding-top: 20px;
+}
+
+.check-list-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .add-checkbox {
   margin-top: 10px;
 }
 
 .check-list-items{
   margin-top: 15px;
+}
+
+.add-check-list-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.check-list-name-input {
+  margin-left: auto auto;
+  width: 80%;
+  border-radius: 5px;
+  border: 1px solid rgb(202, 202, 202);
+}
+
+.add-check-list-menu .delimiter {
+  width: 100%;
+}
+
+#add-check-list {
+  margin: auto;
+  display: block !important;
+  width: 80%;
+  text-align: center;
+  border: 1px solid #6c757d;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #6c757d;
 }
 
 /* sidebar-buttons */

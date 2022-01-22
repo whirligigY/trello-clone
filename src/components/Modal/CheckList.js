@@ -6,7 +6,9 @@ import './Modal.css';
 
 let counter = 0;
 
-const CheckList = () => {
+const CheckList = ({ checkLists }) => {
+  const count = document.querySelectorAll('.check-list').length;
+  const name = checkLists[count - 1];
   const [checkboxes, setCheckItems] = useState([]);
   const [progress, setProgress] = useState(0);
 
@@ -22,13 +24,13 @@ const CheckList = () => {
   const changeProgress = (e) => {
     if (e.target.checked) {
       counter += 1;
-      setProgress(counter * Math.round(100/checkboxes.length));
+      setProgress(Math.round(counter/checkboxes.length * 100));
       if (counter === (checkboxes.length)) {
         setProgress(100);
       }
     } else {
       counter -= 1;
-      setProgress(counter * Math.round(100/checkboxes.length));
+      setProgress(Math.round(counter/checkboxes.length * 100));
       const checkCount = Math.round(progress/(100/checkboxes.length));
       if (checkCount - 1 === 0) {
         setProgress(0);
@@ -36,11 +38,18 @@ const CheckList = () => {
     }
   }
 
+  const removeCheckList = () => {
+    document.querySelector('.check-list').remove();
+  }
+
   return (
     <div className="check-list">
-      <h3>
-        Чек-лист
-      </h3>
+      <div className='check-list-header'>
+        {<h3>
+          Чек-лист
+        </h3>}
+        <Button className='remove-check-list' variant="outline-secondary" onClick={removeCheckList}>Удалить</Button>
+      </div>
       <ProgressBar striped now={progress} label={`${progress}%`} max={100}/>
         <div className="check-list-items"></div>
         {checkboxes.length ?

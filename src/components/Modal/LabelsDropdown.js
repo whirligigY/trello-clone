@@ -19,7 +19,7 @@ const LabelsDropdown = ({ labels, setLabels }) => {
       id="input-group-dropdown-2"
       align="start"
     >
-      <Dropdown.Item as="div" className='label-item' id='search-label' placeholder="Поиск метки">
+      <Dropdown.Item as="div" className='label-item' id='search-label'>
         <input className="search-input" type="text" placeholder="Поиск метки"></input>
       </Dropdown.Item>
       <Dropdown.Divider/>

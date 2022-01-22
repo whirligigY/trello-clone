@@ -1,13 +1,16 @@
 import React from 'react';
 import { Modal, Container, Row, Col } from 'react-bootstrap';
 import { useLabels } from './Hooks/useLabels';
+import { useCheckLists } from './Hooks/useCheckLists';
 import TaskDescription from './TaskDescription';
 import CheckList from './CheckList';
 import LabelsDropdown from './LabelsDropdown';
+import CheckListDropdown from './CheckListDropdown';
 import CurrentLabel from './CurrentLabel';
 
 const ModalWindow = () => {
   const labels = useLabels();
+  const checkLists = useCheckLists();
 
   return (
     <Modal show={true}
@@ -38,10 +41,13 @@ const ModalWindow = () => {
               )}
             </div>
             <TaskDescription/>
-            <CheckList/>
+            { checkLists.checkLists.map((item, i) => 
+                <CheckList key={i} id={`${i}`} { ...checkLists }/>
+              )}
             </Col>
             <Col className="side-buttons" xs={4} md={2}>
-              <LabelsDropdown {...labels}/>
+              <LabelsDropdown { ...labels }/>
+              <CheckListDropdown { ...checkLists }/>
             </Col>
           </Row>
         </Container>
