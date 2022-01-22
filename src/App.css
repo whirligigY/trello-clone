@@ -46,8 +46,9 @@ body {
   margin: 0 1em;
 }
 
-.header__nav {
-}
+/* .header__nav {
+} */
+
 .nav__button .nav_button__more {
   width: 24px;
   height: 24px;
@@ -80,7 +81,7 @@ body {
   height: 100%;
   width: 100%;
   margin: 0 10px;
-  background-color: lightskyblue;
+  /* background-color: lightskyblue; */
 }
 
 /* Main Styles */
@@ -90,7 +91,7 @@ body {
   height: 100%;
   max-width: 100%;
   margin: 0 1em;
-  background-color: lightslategray;
+  /* background-color: lightslategray; */
 }
 
 /* Footer Styles */
@@ -121,4 +122,37 @@ body {
 
 .footer__item__icon-rss {
   height: 3em;
+}
+
+/* Workspace boards styles*/
+
+.workspace__boards .heading-h3 {
+  color: rgb(23, 43, 77);
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.workspace__boards.board__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.board__list__board.card {
+  width: 165px;
+  height: 65px;
+  background-color: darkviolet;
+  color: white;
+}
+
+.board__list__board.card .card-body {
+  padding: 5px;
+}
+
+.board__list__board.board__list__board_new-board {
+  background-color: #ccc;
+  color: #172b4d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -121,3 +121,32 @@ body {
 .footer__item__icon-rss {
   height: 3em;
 }
+
+/* workspace boards styles*/
+
+.workspace__boards .heading-h3 {
+  color: rgb(23, 43, 77);
+  margin-bottom: 10px;
+}
+
+.workspace__boards.board__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.board__list__board.card {
+  width: 165px;
+  height: 65px;
+  padding: 5px;
+  background-color: darkviolet;
+  border-radius: 5px;
+}
+
+.board__list__board.board__list__board_new-board {
+  background-color: #ccc;
+  color: #172b4d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
