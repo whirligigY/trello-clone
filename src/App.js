@@ -1,3 +1,4 @@
+
 import NavBar from './components/navBar';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Board from './pages/board';
@@ -64,5 +65,6 @@ function App() {
     </BrowserRouter>
   );
 }
+
 
 export default App;
