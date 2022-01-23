@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ADD_LIST, ADD_CARD } from '../actions/constants';
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_LIST, ADD_CARD } from "../../actions/constants";
 
 const AddButton = ({ text, type, listId = null }) => {
   const [condition, setCondition] = useState({ isFormActive: false });
@@ -9,25 +9,25 @@ const AddButton = ({ text, type, listId = null }) => {
 
   const handleAddActivity = (ev) => {
     const text = condition.text;
-    if (type === 'list' && text) {
+    if (type === "list" && text) {
       dispatch({ type: ADD_LIST, payload: { text } });
     }
-    if (type === 'card' && text) {
+    if (type === "card" && text) {
       console.log(listId, state);
       dispatch({ type: ADD_CARD, payload: { text, id: listId } });
     }
     return;
   };
   const onChange = (ev) => {
-    onChangeCondition('text', ev.target.value);
+    onChangeCondition("text", ev.target.value);
   };
 
   const renderForm = (type, text) => {
     const placeholder =
-      type === 'list'
-        ? 'Введите заголовок списка'
-        : 'Введите заголовок для это карточки';
-    const textFormButton = type === 'list' ? 'список' : 'задачу';
+      type === "list"
+        ? "Введите заголовок списка"
+        : "Введите заголовок для это карточки";
+    const textFormButton = type === "list" ? "список" : "задачу";
     return (
       <form>
         <textarea
@@ -36,7 +36,7 @@ const AddButton = ({ text, type, listId = null }) => {
           rows="3"
           placeholder={placeholder}
           autoFocus
-          onBlur={() => onChangeCondition('isFormActive', false)}
+          onBlur={() => onChangeCondition("isFormActive", false)}
           value={condition.text}
           onChange={onChange}
           style={style.textarea}
@@ -58,8 +58,8 @@ const AddButton = ({ text, type, listId = null }) => {
   const renderButton = (type, text) => {
     return (
       <div
-        style={type === 'list' ? style.list : style.card}
-        onClick={() => onChangeCondition('isFormActive', true)}
+        style={type === "list" ? style.list : style.card}
+        onClick={() => onChangeCondition("isFormActive", true)}
       >
         <i className="bi bi-plus-lg"></i>
         <span className="p-2">Добавить {text}</span>
@@ -80,29 +80,29 @@ const AddButton = ({ text, type, listId = null }) => {
 };
 const style = {
   list: {
-    backgroundColor: 'rgba(0, 0, 0, 0.15)',
-    padding: '15px',
-    borderRadius: '3px',
+    backgroundColor: "rgba(0, 0, 0, 0.15)",
+    padding: "15px",
+    borderRadius: "3px",
     opacity: 0.5,
-    cursor: 'pointer',
-    height: 'fit-content',
+    cursor: "pointer",
+    height: "fit-content",
   },
   card: {
-    backgroundColor: 'inherit',
-    padding: '15px 0 0 0',
+    backgroundColor: "inherit",
+    padding: "15px 0 0 0",
     opacity: 1,
-    cursor: 'pointer',
-    marginBottom: '8px',
+    cursor: "pointer",
+    marginBottom: "8px",
   },
   textarea: {
-    resize: 'none',
-    outline: 'none',
-    width: '100%',
-    border: 'none',
-    width: '100%',
+    resize: "none",
+    outline: "none",
+    width: "100%",
+    border: "none",
+    width: "100%",
   },
   cross: {
-    marginLeft: '10px',
+    marginLeft: "10px",
   },
 };
 export default AddButton;

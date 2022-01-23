@@ -1,13 +1,12 @@
-
-import React from 'react';
-import ModalWindow from './components/Modal/Modal';
+import React from "react";
+import ModalWindow from "./components/Modal/Modal";
 import { Card } from "react-bootstrap";
 import "./App.css";
-import NavBar from './components/navBar';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Board from './pages/board';
-import Main from './pages/main';
-import Footer from './components/footer';
+import Header from "./components/Header/Header";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Board from "./pages/Board/board";
+import Main from "./pages/main";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const boardList = [
@@ -59,9 +58,9 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <NavBar />
+        <Header />
         <Switch>
-          <Route path="/:board/:boardId?" component={Board} />
+          <Route path="/board/:boardId?" component={Board} />
           <Route path="/" component={Main} />
         </Switch>
         <ModalWindow></ModalWindow>
@@ -70,6 +69,5 @@ function App() {
     </BrowserRouter>
   );
 }
-
 
 export default App;

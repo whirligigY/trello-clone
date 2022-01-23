@@ -1,6 +1,6 @@
-import CardItem from '../cardItem/cardItem';
-import { React, useState } from 'react';
-import AddButton from '../../components/addButton';
+import CardItem from "../CardItem/CardItem";
+import { React, useState } from "react";
+import AddButton from "../../components/AddButton/AddButton";
 
 const ListCards = ({ list }) => {
   // { title, id, cards }
@@ -11,19 +11,19 @@ const ListCards = ({ list }) => {
       {list.cards.map((card) => (
         <CardItem key={card.id} text={card.text} />
       ))}
-      <AddButton text={'задачу'} type={'card'} listId={list.id} />
+      <AddButton text={"задачу"} type={"card"} listId={list.id} />
     </>
   );
 };
 
 const style = {
   container: {
-    minWidth: '272px',
+    minWidth: "272px",
     padding: 10,
-    backgroundColor: 'lightgrey',
+    backgroundColor: "lightgrey",
     borderRadius: 3,
     marginRight: 10,
-    height: 'fit-content',
+    height: "fit-content",
   },
 };
 

@@ -1,42 +1,42 @@
-import { useSelector } from 'react-redux';
-import { React, useState } from 'react';
-import ListCards from '../listCards/listCards';
-import AddButton from '../../components/addButton';
-import { useDispatch } from 'react-redux';
-import { CHANGE_ORDER } from '../../actions/constants';
+import { useSelector } from "react-redux";
+import { React, useState } from "react";
+import ListCards from "../ListCards/ListCards";
+import AddButton from "../../components/AddButton/AddButton";
+import { useDispatch } from "react-redux";
+import { CHANGE_ORDER } from "../../actions/constants";
 
 const Board = () => {
   const lists = useSelector((state) => state.lists);
   const initialState = [
     {
       id: 0,
-      title: 'Новые',
+      title: "Новые",
       cards: [
         {
           id: 0,
-          text: 'this is the text for task 1',
+          text: "this is the text for task 1",
         },
         {
           id: 1,
-          text: 'this is the text for task 2',
+          text: "this is the text for task 2",
         },
       ],
     },
     {
       id: 1,
-      title: 'В работе',
+      title: "В работе",
       cards: [
         {
           id: 0,
-          text: 'this is the text for new task ',
+          text: "this is the text for new task ",
         },
         {
           id: 1,
-          text: 'this is the text for new new task ',
+          text: "this is the text for new new task ",
         },
         {
           id: 2,
-          text: 'this is the text for new new new task ',
+          text: "this is the text for new new new task ",
         },
       ],
     },
@@ -57,7 +57,7 @@ const Board = () => {
 
   function dragOverBoardHandler(e) {
     e.preventDefault();
-    e.target.style.background = 'light';
+    e.target.style.background = "light";
   }
 
   function dropBoardHandler(e, board) {
@@ -93,7 +93,7 @@ const Board = () => {
 
   return (
     <div className="board">
-      <div className={'container'} style={style.listContainer}>
+      <div className={"container"} style={style.listContainer}>
         {lists.sort(sortBoards).map((list) => (
           <div
             className="list-card"
@@ -118,23 +118,23 @@ const Board = () => {
             <ListCards key={Number(list.id)} list={list} />
           </div>
         ))}
-        <AddButton text={'еще одну колонку'} type={'list'} />
+        <AddButton text={"еще одну колонку"} type={"list"} />
       </div>
     </div>
   );
 };
 const style = {
   listContainer: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
   },
   container: {
-    minWidth: '272px',
+    minWidth: "272px",
     padding: 10,
-    backgroundColor: 'lightgrey',
+    backgroundColor: "lightgrey",
     borderRadius: 3,
     marginRight: 10,
-    height: 'fit-content',
+    height: "fit-content",
   },
 };
 export default Board;
