@@ -1,5 +1,6 @@
 
-
+import React from 'react';
+import ModalWindow from './components/Modal/Modal';
 import { Card } from "react-bootstrap";
 import "./App.css";
 import NavBar from './components/navBar';
@@ -63,6 +64,7 @@ function App() {
           <Route path="/:board/:boardId?" component={Board} />
           <Route path="/" component={Main} />
         </Switch>
+        <ModalWindow></ModalWindow>
         <Footer />
       </div>
     </BrowserRouter>
