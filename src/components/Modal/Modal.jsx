@@ -9,8 +9,8 @@ import CheckListDropdown from './CheckListDropdown';
 import CurrentLabel from './CurrentLabel';
 
 const ModalWindow = () => {
-  const labels = useLabels();
-  const checkLists = useCheckLists();
+  const labels = useLabels(); // TODO: Удалить
+  const checkLists = useCheckLists(); // TODO: Удалить
 
   return (
     <Modal show={true}
@@ -33,7 +33,7 @@ const ModalWindow = () => {
           <Row className='content'>
             <Col xs={14} md={10} className='main-content'>
             <div className="current-labels">
-              { labels.labels.map((item, i) => 
+              { labels.labels.map((item, i) =>
                 <div className="current-label" key={i}>
                   <CurrentLabel { ...labels } />
                   <div className="current-label-content" style={{backgroundColor:`${item}`}}></div>

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_LIST, ADD_CARD } from "../../actions/constants";
+import styles from './AddButton.module.css';
 
 const AddButton = ({ text, type, listId = null }) => {
   const [condition, setCondition] = useState({ isFormActive: false });
   const dispatch = useDispatch();
   const state = useSelector((state) => state.lists);
 
-  const handleAddActivity = (ev) => {
+  const handleAddActivity = () => {
     const text = condition.text;
     if (type === "list" && text) {
       dispatch({ type: ADD_LIST, payload: { text } });
@@ -16,18 +17,20 @@ const AddButton = ({ text, type, listId = null }) => {
       console.log(listId, state);
       dispatch({ type: ADD_CARD, payload: { text, id: listId } });
     }
-    return;
   };
+
   const onChange = (ev) => {
     onChangeCondition("text", ev.target.value);
   };
 
-  const renderForm = (type, text) => {
+  const renderForm = (type) => {
     const placeholder =
       type === "list"
         ? "Введите заголовок списка"
         : "Введите заголовок для это карточки";
+
     const textFormButton = type === "list" ? "список" : "задачу";
+
     return (
       <form>
         <textarea
@@ -39,8 +42,8 @@ const AddButton = ({ text, type, listId = null }) => {
           onBlur={() => onChangeCondition("isFormActive", false)}
           value={condition.text}
           onChange={onChange}
-          style={style.textarea}
-        ></textarea>
+          style={styles.textarea}
+        />
         <div className="input-group d-flex align-items-center">
           <button
             type="submit"
@@ -49,7 +52,7 @@ const AddButton = ({ text, type, listId = null }) => {
           >
             Добавить {textFormButton}
           </button>
-          <i className="bi bi-x-lg" style={style.cross}></i>
+          <i className="bi bi-x-lg" style={styles.cross} />
         </div>
       </form>
     );
@@ -58,10 +61,10 @@ const AddButton = ({ text, type, listId = null }) => {
   const renderButton = (type, text) => {
     return (
       <div
-        style={type === "list" ? style.list : style.card}
+        style={type === "list" ? styles.list : styles.card}
         onClick={() => onChangeCondition("isFormActive", true)}
       >
-        <i className="bi bi-plus-lg"></i>
+        <i className="bi bi-plus-lg" />
         <span className="p-2">Добавить {text}</span>
       </div>
     );
@@ -71,38 +74,12 @@ const AddButton = ({ text, type, listId = null }) => {
   }
 
   return (
-    <>
+    <div>
       {condition.isFormActive
-        ? renderForm(type, text, style)
+        ? renderForm(type, text, styles)
         : renderButton(type, text)}
-    </>
+    </div>
   );
 };
-const style = {
-  list: {
-    backgroundColor: "rgba(0, 0, 0, 0.15)",
-    padding: "15px",
-    borderRadius: "3px",
-    opacity: 0.5,
-    cursor: "pointer",
-    height: "fit-content",
-  },
-  card: {
-    backgroundColor: "inherit",
-    padding: "15px 0 0 0",
-    opacity: 1,
-    cursor: "pointer",
-    marginBottom: "8px",
-  },
-  textarea: {
-    resize: "none",
-    outline: "none",
-    width: "100%",
-    border: "none",
-    width: "100%",
-  },
-  cross: {
-    marginLeft: "10px",
-  },
-};
-export default AddButton;
+
+export { AddButton };

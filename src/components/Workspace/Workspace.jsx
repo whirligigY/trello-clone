@@ -11,3 +11,5 @@ const WorkspaceBoards = () => (
     </div>
   </div>
 );
+
+export { WorkspaceBoards };

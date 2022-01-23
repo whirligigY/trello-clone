@@ -1,69 +1,23 @@
 import React from "react";
-import ModalWindow from "./components/Modal/Modal";
-import { Card } from "react-bootstrap";
 import "./App.css";
 import Header from "./components/Header/Header";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Board from "./pages/Board/board";
-import Main from "./pages/main";
+import { BrowserRouter, Route, Router } from "react-router-dom";
+import { DashboardPage } from "./pages/DashboardPage";
+import { HomePage } from "./pages/HomePage";
 import Footer from "./components/Footer/Footer";
+import { createBrowserHistory } from 'history'
 
-function App() {
-  const boardList = [
-    {
-      id: 0,
-      title: "Board1",
-      board: [
-        {
-          id: 0,
-          title: "New tasks board1",
-          cards: [
-            { id: 0, text: "Task01" },
-            { id: 1, text: "Task02" },
-          ],
-        },
-        {
-          id: 1,
-          title: "In progress",
-          cards: [
-            { id: 0, text: "Task11" },
-            { id: 1, text: "Task12" },
-          ],
-        },
-      ],
-    },
-    {
-      id: 1,
-      title: "Board2",
-      board: [
-        {
-          id: 0,
-          title: "New tasks board2",
-          cards: [
-            { id: 0, text: "Task01" },
-            { id: 1, text: "Task02" },
-          ],
-        },
-        {
-          id: 1,
-          title: "In progress board2",
-          cards: [
-            { id: 0, text: "Task11" },
-            { id: 1, text: "Task12" },
-          ],
-        },
-      ],
-    },
-  ];
+const App = () => {
+  const newHistory = createBrowserHistory();
+
   return (
     <BrowserRouter>
       <div>
         <Header />
-        <Switch>
-          <Route path="/board/:boardId?" component={Board} />
-          <Route path="/" component={Main} />
-        </Switch>
-        <ModalWindow></ModalWindow>
+        <Router history={newHistory}>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/dashboard" component={DashboardPage} />
+        </Router>
         <Footer />
       </div>
     </BrowserRouter>

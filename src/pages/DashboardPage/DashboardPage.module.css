@@ -1,0 +1,13 @@
+.listContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.container {
+    min-width: 272px;
+    padding: 10px;
+    background-color: lightgrey;
+    border-radius: 3px;
+    margin-right: 10px;
+    height: fit-content;
+}

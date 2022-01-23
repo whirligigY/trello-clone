@@ -1,9 +1,9 @@
-const Main = (props) => (
+const Main = ({ children }) => (
   <main className="main">
     <div id="main" className="main__container">
-      {props.children}
+      {children}
     </div>
   </main>
 );
 
-export default Main;
+export { Main };
