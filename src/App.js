@@ -3,8 +3,10 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Board from "./pages/board";
 import Main from "./pages/main";
 import Footer from "./components/footer";
-import "./App.css";
+
 import { Card } from "react-bootstrap";
+
+import "./App.css";
 
 function App() {
   const boardList = [
