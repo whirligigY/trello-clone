@@ -53,7 +53,7 @@ const listsReducer = (state = initialState, action) => {
         id: state[action.payload.id].cards.length,
         text: action.payload.text,
       };
-      return state.map((item) => {
+      return state.map((item, index) => {
         if (item.id === action.payload.id)
           return { ...item, cards: [...item.cards, newTask] };
         return { ...item };

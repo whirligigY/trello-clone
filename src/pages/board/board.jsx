@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { CHANGE_ORDER } from '../../actions/constants';
 
 const Board = () => {
-  const state = useSelector((state) => state.lists);
+  const lists = useSelector((state) => state.lists);
   const initialState = [
     {
       id: 0,
@@ -41,8 +41,7 @@ const Board = () => {
       ],
     },
   ];
-  const boards = state;
-  //const [boards, setBoards] = useState(initialState);
+
   const dispatch = useDispatch();
   const [currentBoard, setCurrentBoard] = useState(null);
 
@@ -63,9 +62,7 @@ const Board = () => {
 
   function dropBoardHandler(e, board) {
     e.preventDefault();
-    console.log(state);
     dispatch({ type: CHANGE_ORDER, payload: { board, currentBoard } });
-    console.log(state);
     /* //if (e.target.className === 'board') {
   setBoards(
     boards.map((el) => {
@@ -93,7 +90,7 @@ const Board = () => {
     if (a.order > b.order) return 1;
     else return -1;
   };
-  const lists = useSelector((state) => state.lists);
+
   return (
     <div className="board">
       <div className={'container'} style={style.listContainer}>
