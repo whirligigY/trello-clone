@@ -1,18 +1,8 @@
 import React from 'react';
 
-const Card = ({ cardId, listId, board }) => {
-  return (
-    <>
-      {board.board.map((el) => {
-        if (el.id === listId) {
-          return el.cards.map((item) => {
-            if (cardId === item.id) return <h3>{item.text}</h3>;
-          });
-        }
-        return null;
-      })}
-    </>
-  );
+const Card = ({ match }) => {
+  //cardId, listId, board
+  return <h1>Card</h1>;
 };
 
 export default Card;
