@@ -8,21 +8,7 @@ import "./App.css";
 import { Card } from "react-bootstrap";
 
 function App() {
-  return (
-    <div>
-      <NavBar />
-      <Switch>
-        <Route
-          path="/:boardId/:listId?/:cardId?"
-          render={(props) => {
-            return <Boards {...props} />;
-          }}
-        />
-        <Route path="/" component={Main} />
-      </Switch>
-      <Footer />
-    </div>
-  );
+  return <div className="App"></div>;
 }
 
 export default App;
