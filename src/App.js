@@ -1,12 +1,12 @@
-import NavBar from "./components/navBar";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Board from "./pages/board";
-import Main from "./pages/main";
-import Footer from "./components/footer";
+
 
 import { Card } from "react-bootstrap";
-
 import "./App.css";
+import NavBar from './components/navBar';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Board from './pages/board';
+import Main from './pages/main';
+import Footer from './components/footer';
 
 function App() {
   const boardList = [
@@ -68,5 +68,6 @@ function App() {
     </BrowserRouter>
   );
 }
+
 
 export default App;
