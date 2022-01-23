@@ -1,5 +1,8 @@
+
 import React from 'react';
 import ModalWindow from './components/Modal/Modal';
+import { Card } from "react-bootstrap";
+import "./App.css";
 import NavBar from './components/navBar';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Board from './pages/board';
@@ -10,44 +13,44 @@ function App() {
   const boardList = [
     {
       id: 0,
-      title: 'Board1',
+      title: "Board1",
       board: [
         {
           id: 0,
-          title: 'New tasks board1',
+          title: "New tasks board1",
           cards: [
-            { id: 0, text: 'Task01' },
-            { id: 1, text: 'Task02' },
+            { id: 0, text: "Task01" },
+            { id: 1, text: "Task02" },
           ],
         },
         {
           id: 1,
-          title: 'In progress',
+          title: "In progress",
           cards: [
-            { id: 0, text: 'Task11' },
-            { id: 1, text: 'Task12' },
+            { id: 0, text: "Task11" },
+            { id: 1, text: "Task12" },
           ],
         },
       ],
     },
     {
       id: 1,
-      title: 'Board2',
+      title: "Board2",
       board: [
         {
           id: 0,
-          title: 'New tasks board2',
+          title: "New tasks board2",
           cards: [
-            { id: 0, text: 'Task01' },
-            { id: 1, text: 'Task02' },
+            { id: 0, text: "Task01" },
+            { id: 1, text: "Task02" },
           ],
         },
         {
           id: 1,
-          title: 'In progress board2',
+          title: "In progress board2",
           cards: [
-            { id: 0, text: 'Task11' },
-            { id: 1, text: 'Task12' },
+            { id: 0, text: "Task11" },
+            { id: 1, text: "Task12" },
           ],
         },
       ],
@@ -67,5 +70,6 @@ function App() {
     </BrowserRouter>
   );
 }
+
 
 export default App;
