@@ -1,4 +1,4 @@
-@import url("../src/static-pages/nullstyle.css");
+@import url("./nullstyle.css");
 
 /* Main App Style */
 
@@ -46,10 +46,12 @@ body {
   margin: 0 1em;
 }
 
+.header__nav {
+}
 .nav__button .nav_button__more {
   width: 24px;
   height: 24px;
-  background-image: url("../src/assets/more.svg");
+  background-image: url("../assets/more.svg");
   background-color: transparent;
 }
 .nav__button .nav_button__trello {
@@ -78,7 +80,7 @@ body {
   height: 100%;
   width: 100%;
   margin: 0 10px;
-  /* background-color: lightskyblue; */
+  background-color: lightskyblue;
 }
 
 /* Main Styles */
@@ -88,7 +90,7 @@ body {
   height: 100%;
   max-width: 100%;
   margin: 0 1em;
-  /* background-color: lightslategray; */
+  background-color: lightslategray;
 }
 
 /* Footer Styles */
@@ -99,7 +101,6 @@ body {
   display: flex;
   justify-content: center;
   background-color: #026aa7;
-  color: white;
 }
 
 .footer__container {
@@ -121,12 +122,11 @@ body {
   height: 3em;
 }
 
-/* Workspace boards styles*/
+/* workspace boards styles*/
 
 .workspace__boards .heading-h3 {
   color: rgb(23, 43, 77);
   margin-bottom: 10px;
-  font-size: 1em;
 }
 
 .workspace__boards.board__list {
@@ -138,12 +138,9 @@ body {
 .board__list__board.card {
   width: 165px;
   height: 65px;
-  background-color: darkviolet;
-  color: white;
-}
-
-.board__list__board.card .card-body {
   padding: 5px;
+  background-color: darkviolet;
+  border-radius: 5px;
 }
 
 .board__list__board.board__list__board_new-board {
