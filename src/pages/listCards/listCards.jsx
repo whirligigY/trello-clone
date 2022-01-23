@@ -1,16 +1,18 @@
 import CardItem from '../cardItem/cardItem';
-import React from 'react';
+import { React, useState } from 'react';
 import AddButton from '../../components/addButton';
 
-const ListCards = ({ title, id, cards }) => {
+const ListCards = ({ list }) => {
+  // { title, id, cards }
+
   return (
-    <div className="list-card" style={style.container}>
-      <h4>{title}</h4>
-      {cards.map((card) => (
+    <>
+      <h4>{list.title}</h4>
+      {list.cards.map((card) => (
         <CardItem key={card.id} text={card.text} />
       ))}
-      <AddButton text={"задачу"} type={'card'} listId={id}/>
-    </div>
+      <AddButton text={'задачу'} type={'card'} listId={list.id} />
+    </>
   );
 };
 
