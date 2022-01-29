@@ -2,18 +2,15 @@ import React from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import './Modal.css';
 
-const CheckListDropdown = ({ checkLists, setCheckList }) => {
-
+const CheckListDropdown = ({checkLists, changeCheckList}) => {
+  console.log('checkLists = ', checkLists)
+  console.log('setCheckList = ', changeCheckList)
   const addCheckList = (e) => {
     const input = document.querySelector('.check-list-name-input');
     const name = input.value;
     console.log('name = ', name)
-    setCheckList([...checkLists, name]);
+    changeCheckList(name);
  }
-
-  const enterName = (e) => {
-    e.preventDefault();
-  }
 
   return (
     <DropdownButton
@@ -24,7 +21,7 @@ const CheckListDropdown = ({ checkLists, setCheckList }) => {
       align="start"
     >
       <div className='add-check-list-menu'>
-        <input className="check-list-name-input" type="text" placeholder="Название" onClick={enterName}></input>
+        <input className="check-list-name-input" type="text" placeholder="Название"></input>
         <Dropdown.Divider className='delimiter'/>
         <Dropdown.Item as="button" id="add-check-list" onClick={addCheckList}>Добавить чек-лист</Dropdown.Item>
       </div>

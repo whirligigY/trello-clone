@@ -1,13 +1,13 @@
 import React from 'react';
 import { Dropdown, DropdownButton, Button } from 'react-bootstrap';
 
-const LabelsDropdown = ({ labels, setLabels }) => {
+const LabelsDropdown = ({ labels, changeLabels }) => {
 
   const addLabel = (e) => {
     const target = e.target;
     if (target.classList.contains('label')) {
       const item = target.id;
-      setLabels([...labels, item]);
+      changeLabels(item);
     }
   }
 
