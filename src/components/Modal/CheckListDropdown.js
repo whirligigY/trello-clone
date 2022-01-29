@@ -17,10 +17,10 @@ const CheckListDropdown = ({ checkLists, setCheckList }) => {
 
   return (
     <DropdownButton
-      className="aside-buttons"
+    className="aside-buttons"
       variant="outline-secondary"
       title="Чек-лист"
-      id="add-check-list-menu"
+      id="input-group-dropdown-2"
       align="start"
     >
       <div className='add-check-list-menu'>
