@@ -2,9 +2,7 @@ import React from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import './Modal.css';
 
-const CheckListDropdown = ({checkLists, changeCheckList}) => {
-  console.log('checkLists = ', checkLists)
-  console.log('setCheckList = ', changeCheckList)
+const CheckListDropdown = ({ changeCheckList }) => {
   const addCheckList = (e) => {
     const input = document.querySelector('.check-list-name-input');
     const name = input.value;

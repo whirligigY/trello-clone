@@ -8,13 +8,21 @@ let counter = 0;
 
 const CheckList = ({ checkLists }) => {
   const count = document.querySelectorAll('.check-list').length;
-  const name = checkLists[count - 1];
+  const name = checkLists[count];
   const [checkboxes, setCheckItems] = useState([]);
   const [progress, setProgress] = useState(0);
 
   const item = false;
   const addCheckBox = () => {
     setCheckItems([...checkboxes, item]);
+    if (progress !== 0) {
+      const checkCount = Math.round(progress/(100/checkboxes.length));
+      setProgress(Math.round(100/(checkboxes.length + 1)) * checkCount);
+    }
+  };
+
+  const removeCheckBox = () => {
+    setCheckItems([...checkboxes.slice(0, checkboxes.length - 1)]);
     if (progress !== 0) {
       const checkCount = Math.round(progress/(100/checkboxes.length));
       setProgress(Math.round(100/(checkboxes.length + 1)) * checkCount);
@@ -38,16 +46,21 @@ const CheckList = ({ checkLists }) => {
     }
   }
 
-  const removeCheckList = () => {
-    document.querySelector('.check-list').remove();
+  const removeCheckList = (e) => {
+    e.target.closest('.check-list').remove();
+  }
+
+  const removeItem = (e) => {
+    e.target.closest('.subtask').remove();
+    // removeCheckBox();
   }
 
   return (
     <div className="check-list">
       <div className='check-list-header'>
-        {<h3>
-          Чек-лист
-        </h3>}
+        <h3>
+        {name}
+        </h3>
         <Button className='remove-check-list' variant="outline-secondary" onClick={removeCheckList}>Удалить</Button>
       </div>
       <ProgressBar striped now={progress} label={`${progress}%`} max={100}/>
@@ -55,10 +68,12 @@ const CheckList = ({ checkLists }) => {
         {checkboxes.length ?
         <div className="check-list-items">
           { checkboxes.map((item, i) => 
-          <InputGroup className="mb-3" key={i}>
+          <InputGroup className="mb-3 subtask" key={i}>
             <InputGroup.Checkbox aria-label="Checkbox for following text input" onChange={changeProgress}/>
             <FormControl aria-label="Text input with checkbox"/>
-          </InputGroup>)}
+            <Button className='remove-check-list' variant="outline-secondary" onClick={removeItem}>Удалить</Button>
+          </InputGroup>
+          )}
         </div> : 
         null}
       <Button className="add-checkbox" variant="secondary" onClick={addCheckBox}>Добавить элемент</Button>
