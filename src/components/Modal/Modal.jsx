@@ -54,7 +54,7 @@ const ModalWindow = () => {
             </Col>
             <Col className="side-buttons" xs={4} md={2}>
               <LabelsDropdown labels={labels} changeLabels={changeLabels}/>
-              <CheckListDropdown checkLists={checkLists} changeCheckList={changeCheckList}/>
+              <CheckListDropdown changeCheckList={changeCheckList}/>
               <DeadlineDropdown/>
             </Col>
           </Row>
