@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import Header from "./components/Header/Header";
+import { Header } from "./components/Header";
 import { BrowserRouter, Route, Router } from "react-router-dom";
 import { DashboardPage } from "./pages/DashboardPage";
 import { HomePage } from "./pages/HomePage";
-import Footer from "./components/Footer/Footer";
-import { createBrowserHistory } from 'history'
+import { Footer } from "./components/Footer";
+import { createBrowserHistory } from "history";
 
 const App = () => {
   const newHistory = createBrowserHistory();
@@ -22,6 +22,6 @@ const App = () => {
       </div>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

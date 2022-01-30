@@ -1,0 +1,14 @@
+.container {
+  min-width: 308px;
+  padding: 10px;
+  background-color: lightgrey;
+  border-radius: 3px;
+  margin-right: 10px;
+  height: fit-content;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
+.title_hide {
+  display: none;
+}
