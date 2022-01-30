@@ -1,5 +1,0 @@
-const ADD_LIST = 'ADD_LIST';
-const ADD_CARD = 'ADD_CARD';
-const CHANGE_ORDER = 'CHANGE_ORDER';
-
-export { ADD_LIST, ADD_CARD, CHANGE_ORDER };

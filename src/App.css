@@ -1,3 +1,21 @@
+body {
+  height: 100vh;
+  background-image: url('./assets/beautiful.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#root,
+.wrapper {
+  height: 100%;
+}
+
+/*.wrapper {
+  background-image: url('./assets/beautiful.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}*/
+
 .App {
   text-align: center;
 }
