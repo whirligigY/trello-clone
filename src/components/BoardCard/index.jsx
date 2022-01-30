@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import IMG from './abstract1.jpeg';
-import { Card } from 'react-bootstrap';
-import styles from './BoardCard.module.css';
+import { useState } from "react";
+import IMG from "./abstract1.jpeg";
+import { Card } from "react-bootstrap";
+import styles from "./BoardCard.module.css";
 //import Modal from '../Modal';
 
 const BoardCard = ({ columnId, card }) => {
@@ -19,13 +19,13 @@ const BoardCard = ({ columnId, card }) => {
       {/* <Modal visible={visible} closeHandle={closeHandle} /> */}
       {Number(card.columnId) === columnId && (
         <Card
-          style={{ width: '18rem' }}
+          style={{ width: "18rem" }}
           className={styles.card}
           onClick={openHandle}
         >
           <div className={styles.bd_clipboard}>
             <i
-              className={'bi bi-pencil btn-secondary ' + styles.btn_clipboard}
+              className={"bi bi-pencil btn-secondary " + styles.btn_clipboard}
             ></i>
           </div>
           <Card.Img variant="top" src={IMG} />
@@ -35,7 +35,7 @@ const BoardCard = ({ columnId, card }) => {
               <i className="bi bi-clock-fill"></i>
               <span className={styles.ml}>23 янв</span>
             </Card.Link>
-            <Card.Link href="#" className={'card-link ' + styles.descrip}>
+            <Card.Link href="#" className={"card-link " + styles.descrip}>
               <i className="bi bi-justify-left btn-light"></i>
             </Card.Link>
             <Card.Link href="#">
@@ -43,7 +43,7 @@ const BoardCard = ({ columnId, card }) => {
             </Card.Link>
             <Card.Link href="#">
               <i className="bi bi-check2-square btn-light"></i>
-              <span className={'btn-light ' + styles.ml}>2/2</span>
+              <span className={"btn-light " + styles.ml}>2/2</span>
             </Card.Link>
           </Card.Body>
         </Card>

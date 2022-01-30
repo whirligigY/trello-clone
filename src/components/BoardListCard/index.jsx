@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styles from './BoardListCard.module.css';
-import { BoardCard } from '../BoardCard';
-import { AddButton } from '../AddButton';
-import { getNewTask } from '../../utils';
-import { BoardTitleTextarea } from '../BoardTitleTextarea';
+import React, { useState, useEffect } from "react";
+import styles from "./BoardListCard.module.css";
+import { BoardCard } from "../BoardCard";
+import { AddButton } from "../AddButton";
+import { getNewTask } from "../../utils";
+import { BoardTitleTextarea } from "../BoardTitleTextarea";
 
 const BoardListCard = ({
   title,
@@ -21,7 +21,7 @@ const BoardListCard = ({
   const [cards, setCards] = useState([]);
 
   const getCards = async () => {
-    const response = await fetch('mocks/tasks.json');
+    const response = await fetch("mocks/tasks.json");
     const data = await response.json();
     setCards(data);
   };
@@ -46,11 +46,11 @@ const BoardListCard = ({
         <BoardCard columnId={id} card={card} key={card.id} />
       ))}
       <AddButton
-        text={'task'}
-        type={'card'}
+        text={"task"}
+        type={"card"}
         listId={id}
-        placeholder={'Enter a title for this card'}
-        textBtn={'task'}
+        placeholder={"Enter a title for this card"}
+        textBtn={"task"}
         onClick={AddTask}
       />
     </div>
