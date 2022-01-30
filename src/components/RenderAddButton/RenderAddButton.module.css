@@ -3,7 +3,7 @@
   border: none !important;
   padding: 30px;
   opacity: 0.6;
-  min-width: 270px;
+  min-width: 308px;
   height: fit-content;
 }
 .list:hover {
@@ -16,7 +16,7 @@
   padding: 15px 0 0 0;
   opacity: 1;
   cursor: pointer;
-  min-width: 250px;
+  min-width: 308px;
   text-align: left !important;
   margin-bottom: 8px;
 }
