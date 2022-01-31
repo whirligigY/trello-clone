@@ -5,7 +5,7 @@ import { TaskModalBody } from './TaskModalBody'
 
 
 
-const TaskModalWindow = ({ visible = true, closeHandle }) => {
+const TaskModalWindow = ({ visible, closeHandle }) => {
 
   return (
     <Modal show={visible}
