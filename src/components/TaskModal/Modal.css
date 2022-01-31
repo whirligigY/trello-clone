@@ -1,4 +1,10 @@
 /* discription element styles */
+.task-description-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .description-text {
   background-color: whitesmoke;
   overflow: hidden;
@@ -12,6 +18,18 @@
   margin-top: 20px;
   display: flex;
   align-items: center;
+}
+
+.edit-task-description, .save-task-description {
+  width: 70px;
+  height: 30px;
+  text-align: center;
+  padding: 0px !important;
+  margin: 0px;
+}
+
+.edit-task-description {
+  margin-left: 20px;
 }
 
 /* check-list styles */

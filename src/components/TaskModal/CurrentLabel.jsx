@@ -11,7 +11,7 @@ const CurrentLabel = ({ labels, setLabels }) => {
   }
 
   return (
-    <DropdownButton as={Button}
+    <DropdownButton
       className="current-label-button"
       title=''
       id="current-label-button"

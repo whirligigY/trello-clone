@@ -3,15 +3,15 @@ import { Button } from 'react-bootstrap';
 import '../Modal.css';
 
 
-const DiscriptionControl = ({changeView}) => {
+const DiscriptionControl = ({ save, close }) => {
   const saveDiscription = () => {
-    changeView(false);
-    document.querySelector('.description-text').setAttribute("disabled", "true");
+    save(false);
   }
+
   return (
     <div className="discription-control">
-      <Button onClick={saveDiscription}>Сохранить</Button>
-      <button type="button" className="btn-close" aria-label="Close"></button>
+      <Button className='save-task-description' onClick={saveDiscription}>Save</Button>
+      <Button className="btn-close" aria-label="Close" onClick={() => close(false)}></Button>
     </div>
   )
 }
