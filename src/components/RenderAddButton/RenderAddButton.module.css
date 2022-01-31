@@ -1,0 +1,25 @@
+.list {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  border: none !important;
+  padding: 30px;
+  opacity: 0.6;
+  min-width: 308px;
+  height: fit-content;
+}
+.list:hover {
+  background-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+.card {
+  background-color: inherit !important;
+  border: none !important;
+  padding: 15px 0 0 0;
+  opacity: 1;
+  cursor: pointer;
+  min-width: 308px;
+  text-align: left !important;
+  margin-bottom: 8px;
+}
+.card:hover {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+}
