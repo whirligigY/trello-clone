@@ -5,14 +5,14 @@ import { BrowserRouter, Route, Router } from "react-router-dom";
 import { DashboardPage } from "./pages/DashboardPage";
 import { HomePage } from "./pages/HomePage";
 import Footer from "./components/Footer/Footer";
-import { createBrowserHistory } from 'history'
+import { createBrowserHistory } from "history";
 
 const App = () => {
   const newHistory = createBrowserHistory();
 
   return (
     <BrowserRouter>
-      <div>
+      <div className="wrapper">
         <Header />
         <Router history={newHistory}>
           <Route exact path="/" component={HomePage} />
@@ -22,6 +22,6 @@ const App = () => {
       </div>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

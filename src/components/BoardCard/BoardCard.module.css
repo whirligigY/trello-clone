@@ -1,0 +1,44 @@
+.card {
+  width: 256px;
+  border-radius: 3px;
+  min-height: 80px;
+  box-shadow: 0 1px 0 #091e4240;
+  border: none;
+  margin-bottom: 10px;
+}
+.img {
+  width: 256px;
+  height: 153px;
+  object-fit: fill;
+}
+.bd_clipboard {
+  position: relative;
+  float: right;
+}
+.btn_clipboard {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+  display: block;
+  padding: 0.25rem 0.5rem;
+  color: #818a91;
+  cursor: pointer;
+  background-color: lightgrey;
+  border: 0;
+  border-radius: 0.25rem;
+  opacity: 0;
+}
+.btn_clipboard:hover {
+  background-color: white;
+  opacity: 0.7;
+}
+.link {
+  text-decoration: none;
+}
+.ml {
+  margin-left: 10px;
+}
+a {
+  text-decoration: none !important;
+}

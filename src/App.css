@@ -1,6 +1,68 @@
+/*
+body {
+  height: 100vh;
+  background-image: url("./assets/beautiful.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#root,
+.wrapper {
+  height: 100%;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+*/
+
 body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: #fff;
+  /*color: #fff;*/
+  height: 100vh;
+  background-image: url("./assets/beautiful.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#root,
+.wrapper {
+  height: 100%;
 }
 
 .App {
@@ -15,6 +77,7 @@ body {
   grid-template-rows: auto 1fr auto;
   grid-template-columns: 1fr 1fr 1fr;
   background-color: white;
+  text-align: center;
 }
 
 /* Header Styles */
@@ -25,8 +88,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin: 0 1em; */
-  background-color: #026aa7;
+  /*background-color: #026aa7;*/
+  background-color: rgba(2, 106, 167, 0.75);
   padding: 0 10px;
 }
 
@@ -59,7 +122,6 @@ body {
 
 .search__container .search__container__input {
   padding: 6px;
-  /* font-size: 16px; */
   border: none;
   border-radius: 5px;
 }
@@ -74,7 +136,6 @@ body {
   height: 100%;
   width: 100%;
   margin: 0 10px;
-  /* background-color: lightskyblue; */
 }
 
 /* Index Styles */
@@ -84,7 +145,6 @@ body {
   height: 100%;
   max-width: 100%;
   margin: 0 1em;
-  /* background-color: lightslategray; */
 }
 
 /* Footer Styles */
@@ -94,7 +154,8 @@ body {
   height: 50px;
   display: flex;
   justify-content: center;
-  background-color: #026aa7;
+  /*background-color: #026aa7;*/
+  background-color: rgba(2, 106, 167, 0.75);
   color: white;
 }
 
