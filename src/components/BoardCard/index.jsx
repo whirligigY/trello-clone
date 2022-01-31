@@ -33,7 +33,7 @@ const BoardCard = ({ columnId, card }) => {
             <Card.Text>{card.title}</Card.Text>
             <Card.Link href="#" className="p-1 btn btn-secondary">
               <i className="bi bi-clock-fill"></i>
-              <span className={styles.ml}>23 янв</span>
+              <span className={styles.ml}>23 jan</span>
             </Card.Link>
             <Card.Link href="#" className={"card-link " + styles.descrip}>
               <i className="bi bi-justify-left btn-light"></i>
@@ -53,5 +53,3 @@ const BoardCard = ({ columnId, card }) => {
 };
 
 export { BoardCard };
-
-//Dots : <i className="bi bi-three-dots"></i>

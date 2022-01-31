@@ -27,7 +27,7 @@ const AddButton = ({
 
   return (
     <div ref={formRef}>
-      {isFormActive ? (
+      {isFormActive && (
         <RenderFormAddButton
           onChangeState={onChangeState}
           handleAddActivity={handleAddActivity}
@@ -35,7 +35,8 @@ const AddButton = ({
           input={input}
           textBtn={textBtn}
         />
-      ) : (
+      )}
+      {!isFormActive && (
         <RenderAddButton
           type={type}
           textBtn={textBtn}
