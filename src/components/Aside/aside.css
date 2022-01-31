@@ -1,0 +1,9 @@
+/* Aside Styles */
+.aside {
+  grid-area: aside;
+  height: 100%;
+  width: 100%;
+  margin: 0 10px;
+  background-color: rgba(135, 206, 250, 0.26);
+  border-radius: 10px;
+}

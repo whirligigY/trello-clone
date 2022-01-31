@@ -1,3 +1,5 @@
+import "./header.css";
+
 const Header = () => (
   <header className="header">
     <nav className="header__nav nav__button">

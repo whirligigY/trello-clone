@@ -1,3 +1,5 @@
+import "./main.css";
+
 const Main = ({ children }) => (
   <main className="main">
     <div id="main" className="main__container">
@@ -6,4 +8,4 @@ const Main = ({ children }) => (
   </main>
 );
 
-export { Main };
+export default Main;
