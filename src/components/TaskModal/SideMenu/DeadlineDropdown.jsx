@@ -42,7 +42,7 @@ const DeadlineDropdown = () => {
     <DropdownButton
       className="aside-buttons"
       variant="outline-secondary"
-      title="Сроки"
+      title="Deadline"
       id="input-group-dropdown-2"
       align="start"
     >
@@ -70,4 +70,4 @@ const DeadlineDropdown = () => {
   )
 }
 
-export default DeadlineDropdown;
+export { DeadlineDropdown };

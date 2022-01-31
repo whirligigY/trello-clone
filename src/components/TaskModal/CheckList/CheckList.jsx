@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from "react";
 import { ProgressBar, Button, InputGroup, FormControl } from 'react-bootstrap';
-import './Modal.css';
+import '../Modal.css';
 
 
 let counter = 0;
@@ -56,7 +56,7 @@ const CheckList = ({ title }) => {
     e.target.closest('.check-list').remove();
   }
 
-  const removeItem = (e) => {
+  const removeCheckListItem = (e) => {
     e.target.closest('.subtask').remove();
     // removeCheckBox();
   }
@@ -71,20 +71,21 @@ const CheckList = ({ title }) => {
       </div>
       <ProgressBar striped now={progress} label={`${progress}%`} max={100}/>
         <div className="check-list-items"></div>
-        {checkboxes.length ?
-        <div className="check-list-items">
-          { checkboxes.map((item, i) => 
-          <InputGroup className="mb-3 subtask" key={i}>
-            <InputGroup.Checkbox aria-label="Checkbox for following text input" onChange={changeProgress}/>
-            <FormControl aria-label="Text input with checkbox"/>
-            <Button className='remove-check-list' variant="outline-secondary" onClick={removeItem}>Удалить</Button>
-          </InputGroup>
-          )}
-        </div> : 
-        null}
+        {checkboxes.length && (
+          <div className="check-list-items">
+            { checkboxes.map((item, i) => 
+            <InputGroup className="mb-3 subtask" key={i}>
+              <InputGroup.Checkbox aria-label="Checkbox for following text input" onChange={changeProgress}/>
+              <FormControl aria-label="Text input with checkbox"/>
+              <Button className='remove-check-list' variant="outline-secondary" onClick={removeCheckListItem}>Удалить</Button>
+            </InputGroup>
+            )}
+          </div>
+        )}
+        {checkboxes.length && ( null )}
       <Button className="add-checkbox" variant="secondary" onClick={addCheckBox}>Добавить элемент</Button>
     </div>
   )
 }
 
-export default CheckList;
+export { CheckList };

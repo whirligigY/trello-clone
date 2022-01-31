@@ -18,4 +18,4 @@ const CurrentLabels = ({ labels }) => {
   )
 }
 
-export default CurrentLabels;
+export { CurrentLabels };

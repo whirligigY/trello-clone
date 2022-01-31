@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from "react";
 import { Form, Button } from 'react-bootstrap';
-import DiscriptionControl from './DiscriptionControl';
-import './Modal.css';
+import { DiscriptionControl } from './DiscriptionControl';
+import '../Modal.css';
 
 const TaskDescription = () => {
   const [textareaActive, setAreaState] = useState(false);
@@ -31,9 +31,10 @@ const TaskDescription = () => {
           onKeyUp={setHeigth}
           /*onBlur={() => setAreaState(false)}*/
           />
-          {textareaActive ? <DiscriptionControl changeView={changeControlView}/> : null}
+          {textareaActive && ( <DiscriptionControl changeView={changeControlView}/> )}
+          {textareaActive && ( null )}
     </div>
   )
 }
 
-export default TaskDescription;
+export { TaskDescription };

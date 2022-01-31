@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalWindow from './components/Modal/Modal';
+import { TaskModalWindow } from './components/TaskModal/TaskModal';
 import NavBar from './components/navBar';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Board from './pages/board';
@@ -61,7 +61,7 @@ function App() {
           <Route path="/:board/:boardId?" component={Board} />
           <Route path="/" component={Main} />
         </Switch>
-        <ModalWindow></ModalWindow>
+        <TaskModalWindow/>
         <Footer />
       </div>
     </BrowserRouter>

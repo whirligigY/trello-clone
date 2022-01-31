@@ -1,25 +1,24 @@
 import React from 'react';
 import { Dropdown, DropdownButton, Button } from 'react-bootstrap';
 
-const LabelsDropdown = ({ labels, changeLabels }) => {
-
+const CurrentLabel = ({ labels, setLabels }) => {
   const addLabel = (e) => {
     const target = e.target;
     if (target.classList.contains('label')) {
       const item = target.id;
-      changeLabels(item);
+      setLabels([...labels, item]);
     }
   }
 
   return (
-    <DropdownButton
-      className="aside-buttons"
-      variant="outline-secondary"
-      title="Метки"
-      id="input-group-dropdown-2"
+    <DropdownButton as={Button}
+      className="current-label-button"
+      title=''
+      id="current-label-button"
       align="start"
+      variant="warning"
     >
-      <Dropdown.Item as="div" className='label-item' id='search-label'>
+      <Dropdown.Item as="div" className='label-item' id='search-label' placeholder="Поиск метки">
         <input className="search-input" type="text" placeholder="Поиск метки"></input>
       </Dropdown.Item>
       <Dropdown.Divider/>
@@ -46,4 +45,4 @@ const LabelsDropdown = ({ labels, changeLabels }) => {
   )
 }
 
-export default LabelsDropdown;
+export { CurrentLabel };

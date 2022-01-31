@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
-import './Modal.css';
+import '../Modal.css';
 
 const CheckListDropdown = ({ changeCheckList }) => {
   const addCheckList = (e) => {
@@ -12,9 +12,9 @@ const CheckListDropdown = ({ changeCheckList }) => {
 
   return (
     <DropdownButton
-    className="aside-buttons"
+      className="aside-buttons"
       variant="outline-secondary"
-      title="Чек-лист"
+      title="Check-list"
       id="input-group-dropdown-2"
       align="start"
     >
@@ -27,4 +27,4 @@ const CheckListDropdown = ({ changeCheckList }) => {
   )
 }
 
-export default CheckListDropdown;
+export { CheckListDropdown };

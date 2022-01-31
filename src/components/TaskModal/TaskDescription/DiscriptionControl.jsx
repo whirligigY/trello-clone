@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import './Modal.css';
+import '../Modal.css';
 
 
 const DiscriptionControl = ({changeView}) => {
@@ -16,4 +16,4 @@ const DiscriptionControl = ({changeView}) => {
   )
 }
 
-export default DiscriptionControl;
+export { DiscriptionControl };

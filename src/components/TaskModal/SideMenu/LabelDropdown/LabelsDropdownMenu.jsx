@@ -1,27 +1,19 @@
 import React from 'react';
-import { Dropdown, DropdownButton, Button } from 'react-bootstrap';
+import { Dropdown, Button } from 'react-bootstrap';
 
-const CurrentLabel = ({ labels, setLabels }) => {
+const LabelsDropdownMenu = ({ labels, changeLabels }) => {
+
   const addLabel = (e) => {
     const target = e.target;
     if (target.classList.contains('label')) {
       const item = target.id;
-      setLabels([...labels, item]);
+      changeLabels(item);
     }
   }
 
   return (
-    <DropdownButton as={Button}
-      className="current-label-button"
-      // variant="outline-secondary"
-      title=''
-      id="current-label-button"
-      align="start"
-      variant="warning"
-    >
-      <Dropdown.Item as="div" className='label-item' id='search-label' placeholder="Поиск метки">
-        <input className="search-input" type="text" placeholder="Поиск метки"></input>
-      </Dropdown.Item>
+    <Dropdown.Menu>
+      <input className="search-input" type="text" placeholder="Поиск метки"></input>
       <Dropdown.Divider/>
       <div className='dropdownList' onClick={addLabel}>
         <Dropdown.Item as="div" className='label-item'>
@@ -42,8 +34,10 @@ const CurrentLabel = ({ labels, setLabels }) => {
         </Dropdown.Item>
       </div>
       <Dropdown.Item as="button" id="add-label">Добавить метку</Dropdown.Item>
-    </DropdownButton>
+    </Dropdown.Menu>
   )
 }
 
-export default CurrentLabel;
+export { LabelsDropdownMenu };
+
+
