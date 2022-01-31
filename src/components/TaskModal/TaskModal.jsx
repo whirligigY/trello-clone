@@ -5,15 +5,15 @@ import { TaskModalBody } from './TaskModalBody'
 
 
 
-const TaskModalWindow = ( ) => {
+const TaskModalWindow = ({ visible = true, closeHandle }) => {
 
   return (
-    <Modal show={true}
+    <Modal show={visible}
     size="lg"
     aria-labelledby="contained-modal-title-vcenter"
     centered
     >
-      <Modal.Header closeButton>
+      <Modal.Header closeButton onClick={closeHandle}>
       <div className="header-content d-flex flex-column">
         <Modal.Title>
         Card name
