@@ -16,7 +16,7 @@ const CardItem = ({ text }) => {
           style={style.btnClipboard}
           onMouseOver={(e) => handleOver(e)}
           onMouseOut={(e) => handleOut(e)}
-        ></i>
+        />
       </div>
       <img
         className="card-img-top"
@@ -28,17 +28,17 @@ const CardItem = ({ text }) => {
       <div className="card-body">
         <p className="card-text">{text}</p>
         <a href="#" className="card-link btn btn-secondary p-1">
-          <i className="bi bi-clock-fill"></i>
+          <i className="bi bi-clock-fill"/>
           <span style={style.ml}>23 янв</span>
         </a>
         <a href="#" className="card-link" style={style.descrip}>
-          <i className="bi bi-justify-left btn-light"></i>
+          <i className="bi bi-justify-left btn-light"/>
         </a>
         <a href="#" className="card-link">
-          <i className="bi bi-link-45deg btn-light"></i>
+          <i className="bi bi-link-45deg btn-light"/>
         </a>
         <a href="#" className="card-link" style={style.link}>
-          <i className="bi bi-check2-square btn-light"></i>
+          <i className="bi bi-check2-square btn-light"/>
           <span className="btn-light" style={style.ml}>
             2/2
           </span>
@@ -92,6 +92,6 @@ const style = {
   },
 };
 
-export default CardItem;
+export { CardItem };
 
 //Dots : <i className="bi bi-three-dots"></i>

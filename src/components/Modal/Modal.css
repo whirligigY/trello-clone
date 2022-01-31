@@ -1,0 +1,181 @@
+/* discription element styles */
+.description-text {
+  background-color: whitesmoke;
+  overflow: hidden;
+}
+
+.hover:hover {
+  background-color: rgb(207, 207, 207);
+}
+
+.discription-control {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* check-list styles */
+.check-list {
+  padding-top: 20px;
+}
+
+.check-list-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.add-checkbox {
+  margin-top: 10px;
+}
+
+.check-list-items{
+  margin-top: 15px;
+}
+
+.add-check-list-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.check-list-name-input {
+  margin-left: auto auto;
+  width: 80%;
+  border-radius: 5px;
+  border: 1px solid rgb(202, 202, 202);
+}
+
+.add-check-list-menu .delimiter {
+  width: 100%;
+}
+
+#add-check-list {
+  margin: auto;
+  display: block !important;
+  width: 80%;
+  text-align: center;
+  border: 1px solid #6c757d;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #6c757d;
+}
+
+/* sidebar-buttons */
+.side-buttons {
+  box-sizing: border-box;
+  border-left: 1px solid rgb(202, 202, 202);
+}
+
+#input-group-dropdown-2 {
+  width: 100%;
+}
+
+/* dropdown lists */
+.dropdown-menu {
+  width: 300px;
+}
+
+.edit-button {
+  width: 10px;
+  height: 25px;
+  background-image: url('../../assets/edit.png');
+  border: none !important;
+}
+
+/* labels */
+.dropdown-item {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label {
+  margin: 0;
+  width: 85%;
+  height: 30px;
+  border-radius: 5px;
+}
+
+#add-label {
+  display: block !important;
+  width: 100%;
+  text-align: center;
+}
+
+#search-label {
+  display: block !important;
+  width: 100%;
+}
+
+#blue {
+  background-color: blue;
+}
+
+#yellow {
+  background-color: yellow;
+}
+#red {
+  background-color: red;
+}
+#green {
+  background-color: green;
+}
+
+.search-input {
+  width: 100%;
+  background-image: url('../../assets/svg/search.svg');
+  background-size: 15px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  border-radius: 5px;
+  border: 1px solid rgb(202, 202, 202);
+}
+
+/* curent labels styles */
+.current-labels {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+.current-label {
+  width: 100px;
+  height: 30px;
+  position: relative;
+}
+
+.current-label-content {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+#current-label-button {
+  background-color: transparent;
+  border: none;
+  width: 100% !important;
+  height: 30px;
+  position: absolute !important;
+  border-radius: 5px;
+  top: 0;
+  left: 0;
+}
+
+#current-label-button::after {
+  content: none;
+}
+
+/* all styles */
+.btn-close {
+  margin-left: 50px;
+}
+
+.hidden {
+  display: none;
+}
