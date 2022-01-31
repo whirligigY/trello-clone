@@ -6,20 +6,26 @@ import './Modal.css';
 
 let counter = 0;
 
-const CheckList = ({ checkLists }) => {
-  const count = document.querySelectorAll('.check-list').length;
-  const name = checkLists[count];
+const CheckList = ({ title }) => {
   const [checkboxes, setCheckItems] = useState([]);
   const [progress, setProgress] = useState(0);
 
-  const item = false;
   const addCheckBox = () => {
-    setCheckItems([...checkboxes, item]);
+    setCheckItems((prevState)=>{
+      return [...prevState, {title: '', id: prevState.length + 1}];
+    });
     if (progress !== 0) {
       const checkCount = Math.round(progress/(100/checkboxes.length));
       setProgress(Math.round(100/(checkboxes.length + 1)) * checkCount);
     }
   };
+
+  const onChange = (e, id) => {
+    setCheckItems((prevState) => {
+      // TODO: найти элемент с id и изменить его title
+      return [];
+    })
+  }
 
   const removeCheckBox = () => {
     setCheckItems([...checkboxes.slice(0, checkboxes.length - 1)]);
@@ -59,7 +65,7 @@ const CheckList = ({ checkLists }) => {
     <div className="check-list">
       <div className='check-list-header'>
         <h3>
-        {name}
+          {title}
         </h3>
         <Button className='remove-check-list' variant="outline-secondary" onClick={removeCheckList}>Удалить</Button>
       </div>

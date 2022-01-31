@@ -3,10 +3,14 @@ import { Button } from 'react-bootstrap';
 import './Modal.css';
 
 
-const DiscriptionControl = () => {
+const DiscriptionControl = ({changeView}) => {
+  const saveDiscription = () => {
+    changeView(false);
+    document.querySelector('.description-text').setAttribute("disabled", "true");
+  }
   return (
     <div className="discription-control">
-      <Button>Сохранить</Button>
+      <Button onClick={saveDiscription}>Сохранить</Button>
       <button type="button" className="btn-close" aria-label="Close"></button>
     </div>
   )

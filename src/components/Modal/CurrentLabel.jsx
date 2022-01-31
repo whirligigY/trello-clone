@@ -11,12 +11,13 @@ const CurrentLabel = ({ labels, setLabels }) => {
   }
 
   return (
-    <DropdownButton
+    <DropdownButton as={Button}
       className="current-label-button"
-      variant="outline-secondary"
+      // variant="outline-secondary"
       title=''
       id="current-label-button"
       align="start"
+      variant="warning"
     >
       <Dropdown.Item as="div" className='label-item' id='search-label' placeholder="Поиск метки">
         <input className="search-input" type="text" placeholder="Поиск метки"></input>

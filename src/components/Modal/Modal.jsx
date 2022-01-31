@@ -6,10 +6,11 @@ import LabelsDropdown from './LabelsDropdown';
 import CheckListDropdown from './CheckListDropdown';
 import DeadlineDropdown from './DeadlineDropdown';
 import CurrentLabel from './CurrentLabel';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 const ModalWindow = () => {
-  const [labels, setLabels] = useState([]);
+  const [labels, setLabels] = useState([{color: 'red', state: 'active', id: '1'}]);
   const [checkLists, setCheckList] = useState([]);
   const changeCheckList = (value) => {
     setCheckList([...checkLists, value])
@@ -49,7 +50,7 @@ const ModalWindow = () => {
             </div>
             <TaskDescription/>
             { checkLists.map((item, i) => 
-                <CheckList key={i} id={`${i}`} checkLists={checkLists}/>
+                <CheckList key={i} id={`${i}`} title={item} />
               )}
             </Col>
             <Col className="side-buttons" xs={4} md={2}>
