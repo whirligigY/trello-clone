@@ -1,19 +1,17 @@
 import React from 'react';
-import CurrentLabel from './CurrentLabel';
-import { useLabels } from './Hooks/useLabels';
+import { CurrentLabel } from './CurrentLabel';
 import './TaskModalWindow.css'
 
 const CurrentLabels = ({ labels }) => {
-  const label = useLabels();
 
   return (
-    <div className="current-labels">
-      { labels.map((item, i) => 
-        <div className="current-label" key={i}>
-          <CurrentLabel { ...label } />
-          <div className="current-label-content" style={{backgroundColor:`${item}`}}></div>
-        </div>
-      )}
+    <div>
+      <p className="service-title">Labels</p>
+      <div className="current-labels">
+        { labels.map((item, i) => {
+          return <CurrentLabel item={item} key={i}/>}
+        )}
+      </div>
     </div>
   )
 }

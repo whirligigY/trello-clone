@@ -103,7 +103,8 @@
 }
 
 /* labels */
-.dropdown-item {
+.label-item {
+  width: 100%;
   display: flex !important;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -115,7 +116,11 @@
   margin: 0;
   width: 85%;
   height: 30px;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  padding-left: 5px;
 }
 
 #add-label {
@@ -144,13 +149,21 @@
 }
 
 .search-input {
-  width: 100%;
+  width: 90%;
+  margin-left: 5%;
   background-image: url('../../assets/svg/search.svg');
   background-size: 15px;
   background-repeat: no-repeat;
   background-position: right center;
   border-radius: 5px;
   border: 1px solid rgb(202, 202, 202);
+}
+
+.label.active {
+  background-image: url('../../assets/svg/active.svg');
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: right center;
 }
 
 /* curent labels styles */
@@ -161,11 +174,17 @@
   justify-content: flex-start;
 }
 
+.service-title {
+  margin: 0px;
+}
 
 .current-label {
-  width: 100px;
-  height: 30px;
+  min-width: 50px;
+  height: 25px;
   position: relative;
+  margin-right: 5px;
+  padding: 0px 2px !important;
+  border: none;
 }
 
 .current-label-content {
@@ -174,19 +193,8 @@
   border-radius: 5px;
 }
 
-#current-label-button {
-  background-color: transparent;
-  border: none;
-  width: 100% !important;
-  height: 30px;
-  position: absolute !important;
-  border-radius: 5px;
-  top: 0;
-  left: 0;
-}
-
-#current-label-button::after {
-  content: none;
+.current-label::after {
+  content: none !important;
 }
 
 /* deadline dropdown styles */
@@ -204,9 +212,24 @@
   margin-left: 15px;
 }
 
+/* services section */
+.services-content {
+  margin-bottom: 10px;
+}
+
+
 /* all styles */
-.task-modal-window {
+.modal-content {
+  height: 1px;
   min-height: 80vh;
+}
+
+.container {
+  height: 100%;
+}
+
+.content {
+  height: 100%;
 }
 
 .btn-close {

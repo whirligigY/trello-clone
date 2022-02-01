@@ -1,48 +1,27 @@
 import React from 'react';
-import { Dropdown, DropdownButton, Button } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
+import { LabelsDropdownMenu } from './SideMenu/LabelDropdown/LabelsDropdownMenu';
+import './TaskModalWindow.css'
 
-const CurrentLabel = ({ labels, setLabels }) => {
-  const addLabel = (e) => {
+const CurrentLabel = ({ item }) => {
+  /* const addLabel = (e) => {
     const target = e.target;
     if (target.classList.contains('label')) {
       const item = target.id;
       setLabels([...labels, item]);
     }
-  }
-
+  } */
   return (
-    <DropdownButton
-      className="current-label-button"
-      title=''
-      id="current-label-button"
-      align="start"
-      variant="warning"
-    >
-      <Dropdown.Item as="div" className='label-item' id='search-label' placeholder="Поиск метки">
-        <input className="search-input" type="text" placeholder="Поиск метки"></input>
-      </Dropdown.Item>
-      <Dropdown.Divider/>
-      <div className='dropdownList' onClick={addLabel}>
-        <Dropdown.Item as="div" className='label-item'>
-          <div className='label' id='blue'></div>
-          <Button className='edit-button' variant="outline-secondary"></Button>
-        </Dropdown.Item>
-        <Dropdown.Item as="div" className='label-item'>
-          <div className='label' id='red'></div>
-          <Button className='edit-button' variant="outline-secondary"></Button>
-        </Dropdown.Item>
-        <Dropdown.Item as="div" className='label-item'>
-          <div className='label' id='yellow'></div>
-          <Button className='edit-button' variant="outline-secondary"></Button>
-        </Dropdown.Item>
-        <Dropdown.Item as="div" className='label-item'>
-          <div className='label' id='green'></div>
-          <Button className='edit-button' variant="outline-secondary"></Button>
-        </Dropdown.Item>
-      </div>
-      <Dropdown.Item as="button" id="add-label">Добавить метку</Dropdown.Item>
-    </DropdownButton>
+    <Dropdown>
+      <Dropdown.Toggle
+      className="current-label"
+      style={{ backgroundColor: `${item.color}` }}>
+        {item.value}
+      </Dropdown.Toggle>
+      <LabelsDropdownMenu /> 
+    </Dropdown>
   )
 }
+ /*changeLabels={changeLabels} */
 
 export { CurrentLabel };

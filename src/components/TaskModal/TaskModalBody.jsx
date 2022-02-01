@@ -5,10 +5,10 @@ import { CheckList } from './CheckList/CheckList';
 import { LabelsDropdown } from './SideMenu/LabelDropdown/LabelsDropdown';
 import { CheckListDropdown } from './SideMenu/CheckListDropdown';
 import { DeadlineDropdown } from './SideMenu/DeadlineDropdown';
-import { CurrentLabel } from './CurrentLabel';
+import { CurrentLabels } from './CurrentLabels';
 
 const TaskModalBody = () => {
-  const [labels, setLabels] = useState([{color: 'red', state: 'active', id: '1'}]);
+  const [labels, setLabels] = useState([]);
   const [checkLists, setCheckList] = useState([]);
   const changeCheckList = (value) => {
     setCheckList([...checkLists, value])
@@ -16,6 +16,19 @@ const TaskModalBody = () => {
   const changeLabels = (value) => {
     setLabels([...labels, value]);
   }
+  const removeLabel = (value) => {
+    setLabels([
+      ...labels.slice(0, value),
+      ...labels.slice(value + 1)
+    ]);
+  }
+
+  /*const removeLabel = (value) => {
+    setLabels([
+      ...labels.slice(0, value),
+      ...labels.slice(value + 1)
+    ]);
+  }*/
 
 
   return (
@@ -23,12 +36,9 @@ const TaskModalBody = () => {
       <Container>
         <Row className='content'>
           <Col xs={14} md={10} className='main-content'>
-          <div className="current-labels">
-            { labels.map((item, i) => 
-              <div className="current-label" key={i}>
-                <CurrentLabel labels={labels} setLabels={setLabels} />
-                <div className="current-label-content" style={{backgroundColor:`${item}`}}></div>
-              </div>
+          <div className='services-content'>
+            {labels.length > 0 && (
+              <CurrentLabels labels={labels} />
             )}
           </div>
           <TaskDescription/>
@@ -37,7 +47,7 @@ const TaskModalBody = () => {
             )}
           </Col>
           <Col className="side-buttons" xs={4} md={2}>
-            <LabelsDropdown labels={labels} changeLabels={changeLabels}/>
+            <LabelsDropdown labels={labels} changeLabels={changeLabels} remove={removeLabel}/>
             <CheckListDropdown changeCheckList={changeCheckList}/>
             <DeadlineDropdown/>
           </Col>
