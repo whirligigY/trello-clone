@@ -190,7 +190,6 @@
 }
 
 /* deadline dropdown styles */
-
 .deadline-text {
   text-align: center;
   margin-bottom: 10px;
@@ -206,6 +205,10 @@
 }
 
 /* all styles */
+.task-modal-window {
+  min-height: 80vh;
+}
+
 .btn-close {
   margin-left: 50px;
 }

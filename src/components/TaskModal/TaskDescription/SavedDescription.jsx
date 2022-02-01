@@ -1,5 +1,5 @@
 import React from 'react';
-import '../Modal.css';
+import '../TaskModalWindow.css'
 
 const SavedDescription = ({ description }) => {
   return (

@@ -17,7 +17,11 @@ const BoardCard = ({ columnId, card }) => {
 
   return (
     <div>
-      {<TaskModalWindow visible={visible} closeHandle={closeHandle} />}
+      {<TaskModalWindow 
+      visible={visible} 
+      closeHandle={closeHandle} 
+      title={card.title}
+      />}
       {Number(card.columnId) === columnId && (
         <Card
           style={{ width: "19rem" }}

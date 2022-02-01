@@ -1,7 +1,7 @@
 import React from 'react';
 import CurrentLabel from './CurrentLabel';
 import { useLabels } from './Hooks/useLabels';
-import './Modal.css';
+import './TaskModalWindow.css'
 
 const CurrentLabels = ({ labels }) => {
   const label = useLabels();

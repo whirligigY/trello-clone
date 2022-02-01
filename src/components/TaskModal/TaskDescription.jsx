@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from "react";
 import { Form } from 'react-bootstrap';
 import DiscriptionControl from './DiscriptionControl';
-import './Modal.css';
+import './TaskModalWindow.css'
 
 
 

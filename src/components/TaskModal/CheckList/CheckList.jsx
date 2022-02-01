@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from "react";
 import { ProgressBar, Button, InputGroup, FormControl } from 'react-bootstrap';
-import '../Modal.css';
+import '../TaskModalWindow.css'
 
 
 let counter = 0;

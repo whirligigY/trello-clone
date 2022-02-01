@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from 'react-bootstrap';
 import { EditForm } from './EditForm'
 import { SavedDescription } from './SavedDescription';
-import '../Modal.css';
+import '../TaskModalWindow.css'
 
 const TaskDescription = () => {
   const [textareaActive, setActiveState] = useState(false);

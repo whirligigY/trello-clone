@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { DiscriptionControl } from './DiscriptionControl';
-import '../Modal.css';
+import '../TaskModalWindow.css'
 
 
 const EditForm = ({ activeStatus, setActiveState, description, setDescription, setHeigth, saveDescription, stopEdit }) => {

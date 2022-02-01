@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
-import '../Modal.css';
+import '../TaskModalWindow.css'
 
 const CheckListDropdown = ({ changeCheckList }) => {
   const addCheckList = (e) => {
