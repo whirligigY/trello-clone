@@ -11,3 +11,9 @@
   flex-direction: column;
   flex-wrap: wrap;
 }
+
+.main__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

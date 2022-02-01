@@ -8,6 +8,7 @@ import { DashboardPage } from "./pages/DashboardPage";
 import { HomePage } from "./pages/HomePage";
 import { createBrowserHistory } from "history";
 import SignIn from "./components/SignIn";
+import Profile from "./components/Profile";
 
 const App = () => {
   const newHistory = createBrowserHistory();
@@ -21,6 +22,7 @@ const App = () => {
           <Route exact path="/" component={HomePage} />
           <Route path="/dashboard" component={DashboardPage} />
           <Route path="/sign-in" component={SignIn} />
+          <Route path="/profile" component={Profile} />
         </Router>
         <Footer />
       </div>
