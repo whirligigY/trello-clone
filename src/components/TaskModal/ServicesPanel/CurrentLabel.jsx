@@ -3,14 +3,8 @@ import { Dropdown } from 'react-bootstrap';
 import { LabelsDropdownMenu } from '../SideMenu/LabelDropdown/LabelsDropdownMenu';
 import '../TaskModalWindow.css'
 
-const CurrentLabel = ({ item }) => {
-  /* const addLabel = (e) => {
-    const target = e.target;
-    if (target.classList.contains('label')) {
-      const item = target.id;
-      setLabels([...labels, item]);
-    }
-  } */
+const CurrentLabel = ({ item, labels, changeLabels, remove }) => {
+
   return (
     <Dropdown>
       <Dropdown.Toggle
@@ -18,10 +12,9 @@ const CurrentLabel = ({ item }) => {
       style={{ backgroundColor: `${item.color}` }}>
         {item.value}
       </Dropdown.Toggle>
-      <LabelsDropdownMenu /> 
+      <LabelsDropdownMenu labels={labels} changeLabels={changeLabels} remove={remove}/> 
     </Dropdown>
   )
 }
- /*changeLabels={changeLabels} */
 
 export { CurrentLabel };

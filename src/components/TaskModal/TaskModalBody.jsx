@@ -38,7 +38,7 @@ const TaskModalBody = () => {
               <CurrentMembers/>
             )}
             {labels.length > 0 && (
-              <CurrentLabels labels={labels} />
+              <CurrentLabels labels={labels} changeLabels={changeLabels} remove={removeLabel}/>
             )}
             {deadline && (
               <CurrentDeadline/>
