@@ -1,0 +1,48 @@
+/* Header Styles */
+
+.header {
+  grid-area: header;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(2, 106, 167, 0.75);
+  padding: 0 10px;
+}
+
+/* Navigation Styles */
+
+.header__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__nav > * + * {
+  margin: 0 1em;
+}
+
+.nav__button .nav_button__more {
+  width: 24px;
+  height: 24px;
+  background-image: url("../../assets/more.svg");
+  background-color: transparent;
+}
+.nav__button .nav_button__trello {
+  background: transparent;
+  color: white;
+}
+
+/* Search Input Styles */
+
+/* Style the input container */
+
+.search__container .search__container__input {
+  padding: 6px;
+  border: none;
+  border-radius: 5px;
+}
+
+.search__container button:hover {
+  background: #ccc;
+}
