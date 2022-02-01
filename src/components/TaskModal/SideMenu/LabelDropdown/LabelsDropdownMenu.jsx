@@ -56,7 +56,7 @@ const LabelsDropdownMenu = ({ labels, changeLabels, remove }) => {
           <Button className='edit-button' variant="outline-secondary"></Button>
         </div>
       </div>
-      <Button className='dropdown-item' variant="outline-secondary" id="add-label">Добавить метку</Button>
+      <Button className='dropdown-item' variant="outline-secondary" id="add-label">Add new label</Button>
     </Dropdown.Menu>
   )
 }
