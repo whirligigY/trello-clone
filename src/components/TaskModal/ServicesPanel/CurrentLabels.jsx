@@ -1,6 +1,6 @@
 import React from 'react';
 import { CurrentLabel } from './CurrentLabel';
-import './TaskModalWindow.css'
+import '../TaskModalWindow.css'
 
 const CurrentLabels = ({ labels }) => {
 

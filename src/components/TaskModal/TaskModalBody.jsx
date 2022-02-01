@@ -4,12 +4,15 @@ import { TaskDescription } from './TaskDescription/TaskDescription';
 import { CheckList } from './CheckList/CheckList';
 import { LabelsDropdown } from './SideMenu/LabelDropdown/LabelsDropdown';
 import { CheckListDropdown } from './SideMenu/CheckListDropdown';
-import { DeadlineDropdown } from './SideMenu/DeadlineDropdown';
-import { CurrentLabels } from './CurrentLabels';
+import { DeadlineDropdown } from './SideMenu/DeadlineDropdown/DeadlineDropdown';
+import { CurrentLabels } from './ServicesPanel/CurrentLabels';
+import { CurrentDeadline } from './ServicesPanel/CurrentDeadline';
 
 const TaskModalBody = () => {
   const [labels, setLabels] = useState([]);
   const [checkLists, setCheckList] = useState([]);
+  const [deadline, setDeadline] = useState(true);
+
   const changeCheckList = (value) => {
     setCheckList([...checkLists, value])
   }
@@ -23,14 +26,6 @@ const TaskModalBody = () => {
     ]);
   }
 
-  /*const removeLabel = (value) => {
-    setLabels([
-      ...labels.slice(0, value),
-      ...labels.slice(value + 1)
-    ]);
-  }*/
-
-
   return (
     <Modal.Body>
       <Container>
@@ -39,6 +34,9 @@ const TaskModalBody = () => {
           <div className='services-content'>
             {labels.length > 0 && (
               <CurrentLabels labels={labels} />
+            )}
+            {deadline && (
+              <CurrentDeadline/>
             )}
           </div>
           <TaskDescription/>

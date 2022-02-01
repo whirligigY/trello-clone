@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown } from 'react-bootstrap';
-import { LabelsDropdownMenu } from './SideMenu/LabelDropdown/LabelsDropdownMenu';
-import './TaskModalWindow.css'
+import { LabelsDropdownMenu } from '../SideMenu/LabelDropdown/LabelsDropdownMenu';
+import '../TaskModalWindow.css'
 
 const CurrentLabel = ({ item }) => {
   /* const addLabel = (e) => {

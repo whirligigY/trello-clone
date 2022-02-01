@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { TaskModalBody } from './TaskModalBody'
 import './TaskModalWindow.css'
 
-const TaskModalWindow = ({ visible, closeHandle, title }) => {
+const TaskModalWindow = ({ visible, closeHandle, title, column }) => {
 
   return (
     <Modal show={visible}
@@ -19,7 +19,7 @@ const TaskModalWindow = ({ visible, closeHandle, title }) => {
         {title}
         </Modal.Title>
         <p className="text-start">
-        in column <a href="#" className="link-secondary">column name</a>
+        in column <a href="#" className="link-secondary">{column}</a>
         </p>
       </div>
       </Modal.Header>
