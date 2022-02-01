@@ -166,7 +166,7 @@
   background-position: right center;
 }
 
-/* curent labels styles */
+/* current labels styles */
 .current-labels {
   display: flex;
   flex-direction: row;
@@ -176,7 +176,7 @@
 
 .current-label {
   min-width: 50px;
-  height: 25px;
+  height: 40px;
   position: relative;
   margin-right: 5px;
   padding: 0px 5px !important;
@@ -211,10 +211,55 @@
 /* current deadline styles */
 .current-deadline {
   padding: 0px 5px !important;
-  height: 25px;
+  height: 40px;
 }
 
 .current-deadline::after {
+  content: none !important;
+}
+
+/* members dropdown styles */
+.member {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+}
+
+.member-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(0, 119, 255);
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.member-name {
+  font-weight: 600;
+}
+
+/* current members styles */
+.current-members-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.add-current-members {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0px !important;
+  width: 40px;
+  height: 40px;
+  border-radius: 50% !important;
+  font-size: 30px !important;
+}
+
+.add-current-members::after {
   content: none !important;
 }
 
@@ -228,7 +273,6 @@
 .service-title {
   margin: 0px;
 }
-
 
 /* all styles */
 .modal-content {

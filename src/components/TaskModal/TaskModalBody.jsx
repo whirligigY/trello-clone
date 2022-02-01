@@ -5,8 +5,10 @@ import { CheckList } from './CheckList/CheckList';
 import { LabelsDropdown } from './SideMenu/LabelDropdown/LabelsDropdown';
 import { CheckListDropdown } from './SideMenu/CheckListDropdown';
 import { DeadlineDropdown } from './SideMenu/DeadlineDropdown/DeadlineDropdown';
+import { MembersDropdown } from './SideMenu/MembersDropdown/MembersDropdown';
 import { CurrentLabels } from './ServicesPanel/CurrentLabels';
 import { CurrentDeadline } from './ServicesPanel/CurrentDeadline';
+import { CurrentMembers } from './ServicesPanel/CurrentMembers';
 
 const TaskModalBody = () => {
   const [labels, setLabels] = useState([]);
@@ -32,6 +34,9 @@ const TaskModalBody = () => {
         <Row className='content'>
           <Col xs={14} md={10} className='main-content'>
           <div className='services-content'>
+            {deadline && (
+              <CurrentMembers/>
+            )}
             {labels.length > 0 && (
               <CurrentLabels labels={labels} />
             )}
@@ -45,6 +50,7 @@ const TaskModalBody = () => {
             )}
           </Col>
           <Col className="side-buttons" xs={4} md={2}>
+            <MembersDropdown/>
             <LabelsDropdown labels={labels} changeLabels={changeLabels} remove={removeLabel}/>
             <CheckListDropdown changeCheckList={changeCheckList}/>
             <DeadlineDropdown/>
