@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Router } from "react-router-dom";
 import { DashboardPage } from "./pages/DashboardPage";
 import { HomePage } from "./pages/HomePage";
 import { createBrowserHistory } from "history";
+import SignIn from "./components/SignIn";
 
 const App = () => {
   const newHistory = createBrowserHistory();
@@ -19,6 +20,7 @@ const App = () => {
         <Router history={newHistory}>
           <Route exact path="/" component={HomePage} />
           <Route path="/dashboard" component={DashboardPage} />
+          <Route path="/sign-in" component={SignIn} />
         </Router>
         <Footer />
       </div>
