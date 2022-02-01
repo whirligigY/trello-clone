@@ -67,7 +67,7 @@ const CheckList = ({ title }) => {
         <h3>
           {title}
         </h3>
-        <Button className='remove-check-list' variant="outline-secondary" onClick={removeCheckList}>Удалить</Button>
+        <Button className='remove-check-list' variant="outline-secondary" onClick={removeCheckList}>Remove</Button>
       </div>
       <ProgressBar striped now={progress} label={`${progress}%`} max={100}/>
         <div className="check-list-items"></div>
@@ -77,13 +77,13 @@ const CheckList = ({ title }) => {
             <InputGroup className="mb-3 subtask" key={i}>
               <InputGroup.Checkbox aria-label="Checkbox for following text input" onChange={changeProgress}/>
               <FormControl aria-label="Text input with checkbox"/>
-              <Button className='remove-check-list' variant="outline-secondary" onClick={removeCheckListItem}>Удалить</Button>
+              <Button className='remove-check-list' variant="outline-secondary" onClick={removeCheckListItem}>Remove</Button>
             </InputGroup>
             )}
           </div>
         )}
         {checkboxes.length && ( null )}
-      <Button className="add-checkbox" variant="secondary" onClick={addCheckBox}>Добавить элемент</Button>
+      <Button className="add-checkbox" variant="secondary" onClick={addCheckBox}>Add element</Button>
     </div>
   )
 }

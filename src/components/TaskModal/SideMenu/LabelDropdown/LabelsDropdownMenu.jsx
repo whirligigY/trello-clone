@@ -31,7 +31,7 @@ function LabelsDropdownMenu({ labels, changeLabels, remove }) {
 
   return (
     <Dropdown.Menu>
-      <input className="search-input" type="text" placeholder="Поиск метки" />
+      <input className="search-input" type="text" placeholder="Search label" />
       <Dropdown.Divider />
       <div className="labels-list" onClick={addLabel}>
         <div className="label-item dropdown-item" id="1">

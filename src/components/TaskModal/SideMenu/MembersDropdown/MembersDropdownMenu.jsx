@@ -6,7 +6,7 @@ function MembersDropdownMenu () {
 
   return (
     <Dropdown.Menu>
-      <input className="search-input" type="text" placeholder="Member search" />
+      <input className="search-input" type="text" placeholder="Search member" />
       <Dropdown.Divider />
       <div className="members-list">
         <Dropdown.Item className="member" id="1">

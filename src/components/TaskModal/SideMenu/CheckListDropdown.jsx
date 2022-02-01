@@ -19,9 +19,9 @@ const CheckListDropdown = ({ changeCheckList }) => {
       align="start"
     >
       <div className='add-check-list-menu'>
-        <input className="check-list-name-input" type="text" placeholder="Название" />
+        <input className="check-list-name-input" type="text" placeholder="Name"/>
         <Dropdown.Divider className='delimiter'/>
-        <Dropdown.Item as="button" id="add-check-list" onClick={addCheckList}>Добавить чек-лист</Dropdown.Item>
+        <Dropdown.Item as="button" id="add-check-list" onClick={addCheckList}>Add check-list</Dropdown.Item>
       </div>
     </DropdownButton>
   )
