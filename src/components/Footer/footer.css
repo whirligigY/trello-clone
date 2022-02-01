@@ -1,0 +1,31 @@
+/* Footer Styles */
+
+.footer {
+  grid-area: footer;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  /*background-color: #026aa7;*/
+  background-color: rgba(2, 106, 167, 0.75);
+  color: white;
+}
+
+.footer__container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.footer__item a {
+  color: whitesmoke;
+}
+
+.footer__item__icon-git {
+  height: 1.5em;
+}
+
+.footer__item__icon-rss {
+  height: 3em;
+  fill: white;
+}

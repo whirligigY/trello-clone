@@ -1,0 +1,39 @@
+/* Workspace boards styles*/
+
+.workspace__boards .heading-h3 {
+  color: rgb(23, 43, 77);
+  margin-bottom: 10px;
+  font-size: 1em;
+  font-weight: 600;
+  margin: 10px 0 0 10px;
+}
+
+.workspace__boards .heading-h3 > i {
+  padding-right: 10px;
+}
+
+.workspace__boards.board__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.board__list__board.card {
+  width: 165px;
+  height: 65px;
+  background-color: darkviolet;
+  color: white;
+}
+
+.board__list__board.card .card-body {
+  padding: 5px;
+}
+
+.board__list__board.board__list__board_new-board {
+  background-color: #ccc;
+  color: #172b4d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
