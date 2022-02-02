@@ -14,42 +14,44 @@ const BoardListCard = ({
   dragStartBoardHandler,
   dragOverBoardHandler,
   dragEndBoardHandler,
+  changeCurrentValue,
+  currentCard,
 }) => {
   const [cards, setCards] = useState([]);
+
   function AddTask(text) {
     const newTask = getNewTask(cards.length, text, id);
     setCards([...cards, newTask]);
   }
 
-  const swapCardIndex = (dragOrder, dropOrder) => {
-    /*const getColumn = (col, pos) => {
-      return { ...col, order: pos };
-    };
-    setColumns(
-      columns.map((column) => {
-        if (column.order === dragOrder) return getColumn(column, dropOrder);
-        if (column.order === dropOrder) return getColumn(column, dragOrder);
-        return column;
-      })
-    );*/
-  };
-  const useDragDropCards = (swapCardIndex) => {
-    const [currentCard, setCurrentCard] = useState(null);
-    const [currentBoard, setCurrentBoard] = useState(null);
-    const dragStartCardHandler = (e, columnId) => {
+  const useDragDropCards = () => {
+    const dragStartCardHandler = (e, card) => {
       e.dataTransfer.setData("text/plain", "card");
-      //console.log(e, id, columnId);
-      //if (!e.target.classList.contains("card")) setOrder(order);
+      changeCurrentValue(card);
     };
     const dragOverCardHandler = (e) => {
       e.preventDefault();
     };
 
     const dragEndCardHandler = (e) => {};
-    const dropCardHandler = (e, columnId) => {
+    const dropCardHandler = (e, card, columnID) => {
       e.preventDefault();
-      // e.stopImmediatePropagation();
-      //console.log(e, id, columnId);
+      const currentDeleteIndex = cards.findIndex(
+        (card) => card.id === currentCard.id
+      );
+      const currentInsertIndex = cards.findIndex(
+        (cardElem) => cardElem.id === card.id
+      );
+      console.log(currentDeleteIndex, currentInsertIndex);
+
+      setCards([...cards.splice(currentDeleteIndex, 1)]);
+      //currentArr.splice(currentInsertIndex, 0, {
+      // ...currentCard,
+      //  columnId: columnID,
+      //});
+      // setCards(currentArr);
+
+      console.log(cards);
       //swapCardIndex(order, newOrder);
     };
     return {
@@ -64,7 +66,7 @@ const BoardListCard = ({
     dragOverCardHandler,
     dragEndCardHandler,
     dropCardHandler,
-  } = useDragDropCards(swapCardIndex);
+  } = useDragDropCards();
 
   const getCards = async () => {
     const response = await fetch("mocks/tasks.json");

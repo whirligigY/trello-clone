@@ -3,14 +3,36 @@
     "id": 0,
     "title": "Task one",
     "status": "active",
-    "columnId": 2,
-    "order": 1
+    "columnId": 0
   },
   {
     "id": 1,
     "title": "Tsk two",
     "status": "active",
-    "columnId": 5,
-    "order": 1
+    "columnId": 0
+  },
+  {
+    "id": 2,
+    "title": "Tsk three",
+    "status": "active",
+    "columnId": 1
+  },
+  {
+    "id": 3,
+    "title": "Task four",
+    "status": "active",
+    "columnId": 1
+  },
+  {
+    "id": 4,
+    "title": "Tsk five",
+    "status": "active",
+    "columnId": 2
+  },
+  {
+    "id": 5,
+    "title": "Tsk six",
+    "status": "active",
+    "columnId": 2
   }
 ]

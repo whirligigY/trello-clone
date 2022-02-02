@@ -46,10 +46,8 @@ export const useDragDrop = (swapColumnIndex) => {
   };
   const dropBoardHandler = (e, dataSet, newOrder) => {
     e.preventDefault();
-
     e.target.style.opacity = "1";
     const dataType = e.dataTransfer.getData("text/plain");
-    console.log(dataType);
 
     if (dataType === "column") swapColumnIndex(order, newOrder);
   };

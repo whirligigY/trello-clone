@@ -12,6 +12,7 @@ const BoardCard = ({
   dragEndCardHandler,
   dropCardHandler,
 }) => {
+  const [visible, setVisible] = useState(false);
   function closeHandle() {
     setVisible(false);
   }
@@ -19,7 +20,6 @@ const BoardCard = ({
   function openHandle() {
     setVisible(true);
   }
-  const [visible, setVisible] = useState(false);
 
   return (
     <div>
@@ -31,13 +31,13 @@ const BoardCard = ({
           onClick={openHandle}
           draggable={true}
           onDragStart={(e) => {
-            dragStartCardHandler(e, card.title, columnId);
+            dragStartCardHandler(e, card);
           }}
           onDragLeave={dragEndCardHandler}
           onDragEnd={dragEndCardHandler}
           onDragOver={dragOverCardHandler}
           onDrop={(e) => {
-            dropCardHandler(e, card.title, columnId);
+            dropCardHandler(e, card, columnId);
           }}
         >
           <div className={styles.bd_clipboard}>

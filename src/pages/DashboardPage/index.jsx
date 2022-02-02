@@ -33,6 +33,11 @@ const DashboardPage = () => {
   } = useDragDrop(swapColumnIndex);
   const [columns, setColumns] = useState([]);
 
+  const [currentCard, setCurrentCard] = useState(null);
+  const changeCurrentValue = (card) => {
+    setCurrentCard(card);
+  };
+
   const fetchColumns = async () => {
     try {
       const response = await fetch("mocks/boardList.json");
@@ -63,6 +68,8 @@ const DashboardPage = () => {
             dropBoardHandler={dropBoardHandler}
             dragOverBoardHandler={dragOverBoardHandler}
             dragEndBoardHandler={dragEndBoardHandler}
+            changeCurrentValue={changeCurrentValue}
+            currentCard={currentCard}
           />
         ))}
         <AddButton
