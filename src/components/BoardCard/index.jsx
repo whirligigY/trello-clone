@@ -2,9 +2,9 @@ import { useState } from "react";
 import IMG from "./abstract1.jpeg";
 import { Card } from "react-bootstrap";
 import styles from "./BoardCard.module.css";
-//import Modal from '../Modal';
+import { TaskModalWindow } from '../TaskModal/TaskModal';
 
-const BoardCard = ({ columnId, card }) => {
+const BoardCard = ({ columnId, card, columnTitile }) => {
   function closeHandle() {
     setVisible(false);
   }
@@ -12,11 +12,17 @@ const BoardCard = ({ columnId, card }) => {
   function openHandle() {
     setVisible(true);
   }
+
   const [visible, setVisible] = useState(false);
 
   return (
     <div>
-      {/* <Modal visible={visible} closeHandle={closeHandle} /> */}
+      {<TaskModalWindow 
+      visible={visible} 
+      closeHandle={closeHandle} 
+      title={card.title}
+      column={columnTitile}
+      />}
       {Number(card.columnId) === columnId && (
         <Card
           style={{ width: "19rem" }}

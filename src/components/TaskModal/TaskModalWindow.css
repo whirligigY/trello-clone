@@ -1,4 +1,10 @@
 /* discription element styles */
+.task-description-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .description-text {
   background-color: whitesmoke;
   overflow: hidden;
@@ -12,6 +18,18 @@
   margin-top: 20px;
   display: flex;
   align-items: center;
+}
+
+.edit-task-description, .save-task-description {
+  width: 70px;
+  height: 30px;
+  text-align: center;
+  padding: 0px !important;
+  margin: 0px;
+}
+
+.edit-task-description {
+  margin-left: 20px;
 }
 
 /* check-list styles */
@@ -30,7 +48,7 @@
   margin-top: 10px;
 }
 
-.check-list-items{
+.check-list-items {
   margin-top: 15px;
 }
 
@@ -85,7 +103,8 @@
 }
 
 /* labels */
-.dropdown-item {
+.label-item {
+  width: 100%;
   display: flex !important;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -97,7 +116,11 @@
   margin: 0;
   width: 85%;
   height: 30px;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  padding-left: 5px;
 }
 
 #add-label {
@@ -126,7 +149,8 @@
 }
 
 .search-input {
-  width: 100%;
+  width: 90%;
+  margin-left: 5%;
   background-image: url('../../assets/svg/search.svg');
   background-size: 15px;
   background-repeat: no-repeat;
@@ -135,7 +159,14 @@
   border: 1px solid rgb(202, 202, 202);
 }
 
-/* curent labels styles */
+.label.active {
+  background-image: url('../../assets/svg/active.svg');
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+/* current labels styles */
 .current-labels {
   display: flex;
   flex-direction: row;
@@ -143,11 +174,13 @@
   justify-content: flex-start;
 }
 
-
 .current-label {
-  width: 100px;
-  height: 30px;
+  min-width: 50px;
+  height: 40px;
   position: relative;
+  margin-right: 5px;
+  padding: 0px 5px !important;
+  border: none;
 }
 
 .current-label-content {
@@ -156,26 +189,114 @@
   border-radius: 5px;
 }
 
-#current-label-button {
-  background-color: transparent;
-  border: none;
-  width: 100% !important;
-  height: 30px;
-  position: absolute !important;
-  border-radius: 5px;
-  top: 0;
-  left: 0;
+.current-label::after {
+  content: none !important;
 }
 
-#current-label-button::after {
-  content: none;
+/* deadline dropdown styles */
+.deadline-text {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.start-task-date, .end-task-date {
+  margin-left: 15px;
+  width: 130px;
+}
+
+.calendar-range-toggle {
+  margin-left: 15px;
+}
+
+/* current deadline styles */
+.current-deadline {
+  padding: 0px 5px !important;
+  height: 40px;
+}
+
+.current-deadline::after {
+  content: none !important;
+}
+
+/* members dropdown styles */
+.member {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+}
+
+.member-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(0, 119, 255);
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.member-name {
+  font-weight: 600;
+}
+
+/* current members styles */
+.current-members-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.add-current-members {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0px !important;
+  width: 40px;
+  height: 40px;
+  border-radius: 50% !important;
+  font-size: 30px !important;
+}
+
+.add-current-members::after {
+  content: none !important;
+}
+
+/* services section */
+.services-content {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.service-title {
+  margin: 0px;
 }
 
 /* all styles */
+.modal-content {
+  height: 1px;
+  min-height: 80vh;
+}
+
+.container {
+  height: 100%;
+}
+
+.content {
+  height: 100%;
+}
+
 .btn-close {
   margin-left: 50px;
 }
 
 .hidden {
   display: none;
+}
+
+.aside-buttons {
+  width: 120px;
+  margin-bottom: 10px;
 }
