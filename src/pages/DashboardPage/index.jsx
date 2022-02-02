@@ -57,6 +57,8 @@ const DashboardPage = () => {
           <BoardListCard
             {...column}
             key={column.id}
+            dataSet="column"
+            dropBoardHandler={dropBoardHandler}
             dragStartBoardHandler={dragStartBoardHandler}
             dropBoardHandler={dropBoardHandler}
             dragOverBoardHandler={dragOverBoardHandler}

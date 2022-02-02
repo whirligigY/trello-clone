@@ -3,6 +3,7 @@ const Header = () => (
     <nav className="header__nav nav__button">
       <button className="nav_button__more"></button>
       <button className="nav_button__trello">Trello</button>
+      <button className="nav_button__trello">Trello</button>
     </nav>
     <div className="header__search search__container" id="search-box">
       <form className="search__container__form" action="#">
