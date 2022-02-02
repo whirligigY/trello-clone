@@ -19,6 +19,11 @@ const Boards = () => {
     fetchBoards();
   }, []);
 
+  //TODO
+  /**
+   *  show boards only for logged in user
+   **/
+
   return (
     <div className="container">
       <Row className="workspace__boards board__list">

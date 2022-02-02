@@ -12,7 +12,7 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  async function submitEmail() {
+  async function submitEmail(email) {
     //TODO
     /**
      * add a proper email validation here
@@ -20,25 +20,28 @@ export default function SignIn() {
      **/
 
     if (!email) return;
-
+    console.log(`email`, email);
     try {
-      const { error } = await supabase.auth.signIn({ email });
+      const { error, data } = await supabase.auth.signIn({ email });
+      console.log(`submit email`);
       if (error) throw new Error(error);
       else setSubmitted(true);
     } catch (error) {
       console.error(error);
+    } finally {
+      console.log("submitted state", submitted);
     }
+  }
 
-    if (submitted) {
-      console.log(`submitted!`);
-      return (
-        <Main>
-          <div>
-            <h2>Please check your email to get your Magic Link.</h2>
-          </div>
-        </Main>
-      );
-    }
+  if (submitted) {
+    console.log(`submitted!`);
+    return (
+      <Main>
+        <div>
+          <h2>Please check your email to get your Magic Link.</h2>
+        </div>
+      </Main>
+    );
   }
 
   return (
@@ -67,18 +70,21 @@ export default function SignIn() {
                   <button
                     className="btn btn-outline-light btn-lg px-5"
                     type="submit"
-                    onClick={() => submitEmail()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      submitEmail(email);
+                    }}
                   >
                     Sign In
                   </button>
 
                   <div className="d-flex justify-content-center text-center mt-4 pt-1">
                     <a href="#!" className="text-white">
-                      <i class="bi bi-google mx-2 px-1"></i>
+                      <i className="bi bi-google mx-2 px-1"></i>
                     </a>
 
                     <a href="#!" className="text-white">
-                      <i class="bi bi-github mx-2 px-1"></i>
+                      <i className="bi bi-github mx-2 px-1"></i>
                     </a>
                   </div>
                 </div>

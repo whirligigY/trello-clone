@@ -32,6 +32,11 @@ const Header = () => {
     }
   }
 
+  //TODO
+  /**
+   * problem after sign out not returning to sign -in route
+   **/
+
   async function handleAuthChange(event, session) {
     await fetch("../../api/index.jsx", {
       method: "POST",
@@ -50,7 +55,9 @@ const Header = () => {
     <header className="header">
       <nav className="header__nav nav__button">
         <button className="nav_button__more"></button>
-        <button className="nav_button__trello">Crello</button>
+        <Link to="/">
+          <button className="nav_button__trello">Crello</button>
+        </Link>
         <div className="nav__button__sign-in">
           {authState === "authenticated" ? (
             <>
@@ -59,7 +66,7 @@ const Header = () => {
               </Link>
 
               <Link to="/protected" style={basicStyles}>
-                Protected
+                Dashboard
               </Link>
             </>
           ) : null}

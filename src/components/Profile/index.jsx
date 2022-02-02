@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Router, Redirect } from "react-router-dom";
+import { Router, Redirect, useHistory } from "react-router-dom";
 import { supabase } from "../../client";
 import Main from "../Main";
 
 export default function Profile() {
+  let history = useHistory();
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
@@ -17,7 +18,7 @@ export default function Profile() {
      * write proper redirect route
      **/
     if (!profileData) {
-      return <Redirect to="/sign-in" />;
+      history.push("/sign-in");
     } else {
       setProfile(profileData);
     }
@@ -25,7 +26,7 @@ export default function Profile() {
 
   async function signOut() {
     await supabase.auth.signOut();
-    return <Redirect to="/sign-in" />;
+    history.push("/sign-in");
   }
 
   if (!profile) return null;
@@ -34,7 +35,7 @@ export default function Profile() {
       <div>
         <h2>Hello, {profile.email}</h2>
         <p>user ID: {profile.id}</p>
-        <button onClick={signOut}> Sign Out </button>
+        <button onClick={() => signOut()}> Sign Out </button>
       </div>
     </Main>
   );
