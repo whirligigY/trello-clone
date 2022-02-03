@@ -5,6 +5,10 @@
   border-radius: 5px;
 }
 
+.main.main_center {
+  justify-content: center;
+}
+
 .sbui-auth .sbui-btn-primary {
   background-color: #0079bf;
 }
