@@ -5,7 +5,6 @@
  **/
 
 const WorkspaceBoards = ({ children }) => {
-  console.log(`children`, children);
   return (
     <div className="workspace__boards">
       <h2 className="heading-h3">

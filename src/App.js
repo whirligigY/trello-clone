@@ -19,7 +19,6 @@ import { supabase } from "./client";
 
 const App = () => {
   // const newHistory = createBrowserHistory();
-  console.log(`App.js loaded`, AuthProvider);
 
   return (
     <BrowserRouter>
