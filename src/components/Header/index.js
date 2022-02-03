@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/Auth";
+import { Auth, Typography, Button } from "@supabase/ui";
 
 import "./header.css";
 
@@ -10,7 +11,7 @@ const basicStyles = {
 };
 
 const Header = () => {
-  const { authState } = useAuth();
+  const { authState, signOut } = useAuth();
 
   return (
     <header className="header">
@@ -36,7 +37,11 @@ const Header = () => {
             <Link to="/sign-in" style={basicStyles}>
               Sign In
             </Link>
-          ) : null}
+          ) : (
+            <Button block onClick={() => signOut()}>
+              Sign out
+            </Button>
+          )}
         </div>
       </nav>
       <div className="header__search search__container" id="search-box">

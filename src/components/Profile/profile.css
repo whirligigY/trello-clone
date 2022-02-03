@@ -1,0 +1,19 @@
+.profile {
+  width: 100%;
+  padding: 15px;
+  background: rgba(248, 249, 250, 1);
+  border-radius: 5px;
+}
+
+.profile .sbui-btn-primary {
+  background-color: #0079bf;
+  width: fit-content;
+}
+
+.profile .sbui-btn-primary:hover {
+  background-color: #00c2e0;
+}
+
+.profile .profile__info {
+  margin-bottom: 20px;
+}

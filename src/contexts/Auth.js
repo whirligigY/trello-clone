@@ -1,11 +1,22 @@
 import React, { useContext, useState, useEffect } from "react";
-import { supabase } from "../client";
 import { useHistory } from "react-router-dom";
+import { supabase } from "../client";
+
+//TODO: password restore
+/**
+ * fix password restore
+ * when password is restared user is singed in directly without asking to reset the assword
+ *
+ **/
 
 const AuthContext = React.createContext();
 
 export function useAuth() {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 }
 
 export function AuthProvider({ children }) {
@@ -22,13 +33,12 @@ export function AuthProvider({ children }) {
     const { data: listener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log(`session`, session);
-        handleAuthChange(event, session);
         setUser(session?.user ?? null);
         setLoading(false);
 
         if (event === "SIGNED_IN") {
           setAuthState("authenticated");
-          history.push("/profile");
+          history.push("/");
         } else if (event === "SIGNED_OUT") {
           setAuthState("non-authenticated");
         }
@@ -45,15 +55,6 @@ export function AuthProvider({ children }) {
     if (user) {
       setAuthState("authenticated");
     }
-  }
-
-  async function handleAuthChange(event, session) {
-    await fetch("../api/index.js", {
-      method: "POST",
-      headers: new Headers({ "Content-Type": "application/json" }),
-      credentials: "same-origin",
-      body: JSON.stringify({ event, session }),
-    });
   }
 
   const value = {

@@ -10,6 +10,7 @@ import { createBrowserHistory } from "history";
 import SignIn from "./components/SignIn";
 import Profile from "./components/Profile";
 import { AuthProvider } from "./contexts/Auth";
+import { supabase } from "./client";
 
 //TODO: change switch to route with history
 /**
@@ -22,7 +23,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <AuthProvider>
+      <AuthProvider supabase={supabase}>
         <div className="wrapper">
           <Header />
           <Aside />

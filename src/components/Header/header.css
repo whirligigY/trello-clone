@@ -33,6 +33,22 @@
   color: white;
 }
 
+.nav__button__sign-in {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+
+.header__nav .sbui-btn-primary {
+  background-color: #0079bf;
+  width: fit-content;
+}
+
+.header__nav .sbui-btn-primary:hover {
+  background-color: #00c2e0;
+}
+
 /* Search Input Styles */
 
 /* Style the input container */
