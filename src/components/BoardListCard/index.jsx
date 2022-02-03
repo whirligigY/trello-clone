@@ -44,7 +44,7 @@ const BoardListCard = ({
       <h4 className={styles.title_hide}>{title}</h4>
       <BoardTitleTextarea title={title} />
       {cards.map((card) => (
-        <BoardCard columnId={id} card={card} key={card.id} />
+        <BoardCard columnId={id} card={card} key={card.id} columnTitile={title}/>
       ))}
       <AddButton
         text={"task"}
