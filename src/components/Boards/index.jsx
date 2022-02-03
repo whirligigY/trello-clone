@@ -1,6 +1,7 @@
 import { Row } from "react-bootstrap";
 import "./boards.css";
 import { useState, useEffect } from "react";
+import WorkspaceBoards from "../Workspace";
 
 const Boards = () => {
   const [boards, setBoards] = useState([]);
@@ -22,10 +23,13 @@ const Boards = () => {
   //TODO
   /**
    *  show boards only for logged in user
+   *
+   *  justify content left how to pass modifier styles to Main?
+   *
    **/
 
   return (
-    <div className="container">
+    <WorkspaceBoards>
       <Row className="workspace__boards board__list">
         {boards.map((item) => (
           <div className="board__list__board card">
@@ -33,7 +37,7 @@ const Boards = () => {
           </div>
         ))}
       </Row>
-    </div>
+    </WorkspaceBoards>
   );
 };
 
