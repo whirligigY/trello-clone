@@ -11,6 +11,10 @@ import { supabase } from "../client";
 
 const AuthContext = React.createContext();
 
+// const getDate = ()=> {
+//   // 2022-02-04T07:09:03+03:00
+// }
+
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -32,13 +36,22 @@ export function AuthProvider({ children }) {
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log(`session`, session);
         setUser(session?.user ?? null);
         setLoading(false);
 
         if (event === "SIGNED_IN") {
-          setAuthState("authenticated");
-          history.push("/");
+          supabase
+            .from("profiles")
+            .upsert({
+              id: supabase.auth.user().id,
+              username: supabase.auth.user().email,
+            })
+            .then((_data, error) => {
+              if (!error) {
+                setAuthState("authenticated");
+                history.push("/");
+              }
+            });
         } else if (event === "SIGNED_OUT") {
           setAuthState("non-authenticated");
           history.push("/");
