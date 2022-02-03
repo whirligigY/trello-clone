@@ -2,9 +2,13 @@ import { Row } from "react-bootstrap";
 import "./boards.css";
 import { useState, useEffect } from "react";
 import WorkspaceBoards from "../Workspace";
+import { useAuth } from "../../contexts/Auth";
+import { supabase } from "../../client";
 
 const Boards = () => {
   const [boards, setBoards] = useState([]);
+
+  const { user } = useAuth();
 
   const fetchBoards = async () => {
     try {
@@ -15,6 +19,22 @@ const Boards = () => {
       console.error(e);
     }
   };
+
+  useEffect(() => {
+    console.log(`user`, user);
+    if (user) {
+      supabase
+        .from("boards")
+        .select("*")
+        .eq("user_id", user?.id)
+        .order("id", { ascending: false })
+        .then(({ data, error }) => {
+          if (!error) {
+            console.log(`data`, data);
+          }
+        });
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchBoards();
