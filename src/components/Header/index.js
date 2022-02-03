@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/Auth";
 import { Auth, Typography, Button } from "@supabase/ui";
@@ -44,6 +43,9 @@ const Header = () => {
           )}
         </div>
       </nav>
+      {
+        //TODO: use bootstrap search
+      }
       <div className="header__search search__container" id="search-box">
         <form className="search__container__form" action="#">
           <input

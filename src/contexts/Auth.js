@@ -41,6 +41,7 @@ export function AuthProvider({ children }) {
           history.push("/");
         } else if (event === "SIGNED_OUT") {
           setAuthState("non-authenticated");
+          history.push("/");
         }
       }
     );
