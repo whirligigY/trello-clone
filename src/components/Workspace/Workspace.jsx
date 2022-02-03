@@ -1,3 +1,9 @@
+//TODO: workspace remove this component?
+/**
+ * remove or rewrite this component
+ * move boards here from Components/Boards
+ **/
+
 const WorkspaceBoards = () => (
   <div class="workspace__boards">
     <h3 class="heading-h3">Workspace Boards</h3>

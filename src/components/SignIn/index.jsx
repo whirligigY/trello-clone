@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { supabase } from "../../client";
+import { useState, useRef } from "react";
 import Main from "../Main";
 import styled from "@emotion/styled";
+
+import { useAuth } from "../../contexts/Auth";
 
 const LoginBtn = styled.button`
   padding-left: 2.5rem;
@@ -12,7 +13,10 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  async function submitEmail(email) {
+  const { signIn } = useAuth();
+
+  async function submitEmail(e) {
+    e.preventDefault();
     //TODO
     /**
      * add a proper email validation here
@@ -21,8 +25,9 @@ export default function SignIn() {
 
     if (!email) return;
     console.log(`email`, email);
+
     try {
-      const { error, data } = await supabase.auth.signIn({ email });
+      const { error } = await signIn({ email });
       console.log(`submit email`);
       if (error) throw new Error(error);
       else setSubmitted(true);
@@ -70,10 +75,7 @@ export default function SignIn() {
                   <button
                     className="btn btn-outline-light btn-lg px-5"
                     type="submit"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      submitEmail(email);
-                    }}
+                    onClick={submitEmail}
                   >
                     Sign In
                   </button>

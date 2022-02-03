@@ -1,55 +1,16 @@
 import { useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { supabase } from "../../client";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/Auth";
 
 import "./header.css";
 
+const basicStyles = {
+  color: "#fff",
+  margin: "0 10px 0 10px",
+};
+
 const Header = () => {
-  const [authState, setAuthState] = useState("non-authenticated");
-
-  useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        handleAuthChange(event, session);
-        if (event === "SIGNED_IN") {
-          setAuthState("authenticated");
-          return <Redirect to="/profile" />;
-        } else if (event === "SIGNED_OUT") {
-          setAuthState("non-authenticated");
-        }
-      }
-    );
-    checkUser();
-    return () => {
-      authListener.unsubscribe();
-    };
-  }, []);
-
-  async function checkUser() {
-    const user = await supabase.auth.user();
-    if (user) {
-      setAuthState("authenticated");
-    }
-  }
-
-  //TODO
-  /**
-   * problem after sign out not returning to sign -in route
-   **/
-
-  async function handleAuthChange(event, session) {
-    await fetch("../../api/index.jsx", {
-      method: "POST",
-      headers: new Headers({ "Content-Type": "application/json" }),
-      credentials: "same-origin",
-      body: JSON.stringify({ event, session }),
-    });
-  }
-
-  const basicStyles = {
-    color: "#fff",
-    margin: "0 10px 0 10px",
-  };
+  const { authState } = useAuth();
 
   return (
     <header className="header">
