@@ -6,8 +6,8 @@ import 'react-calendar/dist/Calendar.css';
 
 function DeadlineDropdownMenu() {
   const [value, onChange] = useState(new Date());
-  const storDefaultEvent = (e) => {
-    console.log('value1 = ', e.target);
+  const [deadlineDate, setDeadlineDate] = useState();
+  const changeDate = (e) => {
     let newDate = new Date();
     if (Array.isArray(value)) {
       newDate = value[0];
@@ -19,7 +19,7 @@ function DeadlineDropdownMenu() {
     const year = String(newDate.getFullYear());
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
-    document.querySelector('.end-task-date').value = `${year}-${month}-${day}`;
+    setDeadlineDate(`${year}-${month}-${day}`);
   }
 
   const addCalendarRange = (e) => {
@@ -33,7 +33,7 @@ function DeadlineDropdownMenu() {
       <Calendar className='calendar'
         onChange={onChange}
         value={value}
-        onClickDay={storDefaultEvent}
+        onClickDay={changeDate}
       />
       </div>
       <p className='deadline-text'>Start date</p>
@@ -42,7 +42,7 @@ function DeadlineDropdownMenu() {
       <Dropdown.Divider/>
       <p className='deadline-text'>Deadline date</p>
       <div className='deadline'>
-        <input className="end-task-date" type="date"></input>
+        <input className="end-task-date" type="date" value={deadlineDate}></input>
         <input className="end-task-date" type="time"></input>
       </div>
       <Dropdown.Divider className='delimiter'/>
