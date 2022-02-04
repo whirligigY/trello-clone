@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Header from "./components/Header";
-import Aside from "./components/Aside";
+
 import Footer from "./components/Footer";
 import { BrowserRouter, Route, Router, Switch } from "react-router-dom";
 import { DashboardPage } from "./pages/DashboardPage";
@@ -25,7 +25,6 @@ const App = () => {
       <AuthProvider supabase={supabase}>
         <div className="wrapper">
           <Header />
-          <Aside />
           {/* <Router history={newHistory}> */}
           <Switch>
             <Route exact path="/" component={HomePage} />
