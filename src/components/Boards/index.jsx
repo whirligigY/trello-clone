@@ -10,34 +10,34 @@ const Boards = () => {
 
   const { user } = useAuth();
 
-  const fetchBoards = async () => {
-    try {
-      const response = await fetch("mocks/boardList.json");
-      const data = await response.json();
-      setBoards(data);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // const fetchBoards = async () => {
+  //   try {
+  //     const response = await fetch("mocks/boardList.json");
+  //     const data = await response.json();
+  //     setBoards(data);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
   useEffect(() => {
-    console.log(`user`, user);
     if (user) {
       supabase
         .from("boards")
         .select("*")
         .eq("user_id", user?.id)
-        .order("id", { ascending: false })
+        .order("id", { ascending: true })
         .then(({ data, error }) => {
           if (!error) {
-            console.log(`data`, data);
+            console.log(`boards`, boards);
+            setBoards(data);
           }
         });
     }
-  }, [user]);
+  }, [user, boards]);
 
   useEffect(() => {
-    fetchBoards();
+    // fetchBoards();
   }, []);
 
   //TODO
@@ -51,11 +51,17 @@ const Boards = () => {
   return (
     <WorkspaceBoards>
       <Row className="workspace__boards board__list">
-        {boards.map((item) => (
-          <div className="board__list__board card">
-            <p>{item.title}</p>
+        {boards ? (
+          boards.map((item) => (
+            <div className="board__list__board card" key={boards.id}>
+              <p>{item.title}</p>
+            </div>
+          ))
+        ) : (
+          <div>
+            <p>You need to sign in to view your boards.</p>
           </div>
-        ))}
+        )}
       </Row>
     </WorkspaceBoards>
   );

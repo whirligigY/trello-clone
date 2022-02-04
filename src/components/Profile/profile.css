@@ -16,4 +16,6 @@
 
 .profile .profile__info {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }

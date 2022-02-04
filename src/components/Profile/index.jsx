@@ -18,6 +18,7 @@ export default function Profile() {
           <div className="profile">
             <div className="profile__info">
               <Typography.Text>Signed in as: {user.email}</Typography.Text>
+              <Typography.Text>ID: {user.id}</Typography.Text>
             </div>
             <Button block onClick={() => signOut()}>
               Sign out
