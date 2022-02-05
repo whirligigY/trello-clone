@@ -1,7 +1,14 @@
 import { Dropdown, Button } from "react-bootstrap";
 import "../../TaskModalWindow.css";
 
-function LabelsDropdownMenu({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) {
+const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
+  // TODO: Пример как реализваоть поиск
+
+  // const [search, setSearch] = useState();
+  // const preparedLables = useMemo(() => search ? labels.filter(() => {
+  //     // todo: ..)
+  //   }) : labels
+  // , [search]);
 
   const addLabel = (e) => {
     const { target } = e;
