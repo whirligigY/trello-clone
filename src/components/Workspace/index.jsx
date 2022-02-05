@@ -1,3 +1,5 @@
+import "./workspace.css";
+
 //TODO: workspace remove this component?
 /**
  * remove or rewrite this component

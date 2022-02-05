@@ -6,7 +6,12 @@ import { supabase } from "../client";
 /**
  * fix password restore
  * when password is restared user is singed in directly without asking to reset the assword
- *
+ *  see here: https://dev.to/misha_wtf/user-authentication-in-nextjs-with-supabase-4l12
+ **/
+
+//TODO: refactor checkUser()
+/**
+ * not sure if checkUser() is required check
  **/
 
 const AuthContext = React.createContext();
@@ -38,7 +43,7 @@ export function AuthProvider({ children }) {
       async (event, session) => {
         setUser(session?.user ?? null);
         setLoading(false);
-
+        console.log(`event`, event);
         if (event === "SIGNED_IN") {
           supabase
             .from("profiles")
@@ -58,25 +63,20 @@ export function AuthProvider({ children }) {
         }
       }
     );
-    checkUser();
     return () => {
       listener?.unsubscribe();
     };
   }, [history]);
 
-  async function checkUser() {
-    const user = await supabase.auth.user();
-    if (user) {
-      setAuthState("authenticated");
-    }
-  }
-
   const value = {
     signIn: (data) => supabase.auth.signIn(data),
     signOut: () => supabase.auth.signOut(),
     userProfile: () => supabase.auth.user(),
+    client: supabase,
     user,
     authState,
+    // listenTable: (table) =>
+    //   realtimeSupabaseClient.channel(`realtime:public:${table}`),
   };
 
   return (
