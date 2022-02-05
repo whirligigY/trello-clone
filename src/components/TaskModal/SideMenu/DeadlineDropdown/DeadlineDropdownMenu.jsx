@@ -31,6 +31,7 @@ function DeadlineDropdownMenu() {
       <p className='deadline-text'>Deadline</p>
       <div className='label-item' id='search-label'>
       <Calendar className='calendar'
+        defaultValue={new Date()}
         onChange={onChange}
         value={value}
         onClickDay={changeDate}

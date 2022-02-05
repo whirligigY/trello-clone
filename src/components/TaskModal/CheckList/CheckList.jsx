@@ -27,8 +27,11 @@ const CheckList = ({ title }) => {
     })
   }
 
-  const removeCheckBox = () => {
-    setCheckItems([...checkboxes.slice(0, checkboxes.length - 1)]);
+  const removeCheckBox = (id) => {
+    const index = 0;
+    setCheckItems([
+      ...checkboxes
+    ]);
     if (progress !== 0) {
       const checkCount = Math.round(progress/(100/checkboxes.length));
       setProgress(Math.round(100/(checkboxes.length + 1)) * checkCount);
@@ -56,9 +59,10 @@ const CheckList = ({ title }) => {
     e.target.closest('.check-list').remove();
   }
 
-  const removeCheckListItem = (e) => {
-    e.target.closest('.subtask').remove();
-    // removeCheckBox();
+  const removeCheckListItem = (e, id) => {
+    /*if 
+    e.target.closest('.subtask').remove();*/
+    removeCheckBox(id);
   }
 
   return (
