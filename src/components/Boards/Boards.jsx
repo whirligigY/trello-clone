@@ -1,6 +1,6 @@
 import { Row } from "react-bootstrap";
-import "./boards.css";
 import { useState, useEffect } from "react";
+import "./boards.css";
 
 const Boards = () => {
   const [boards, setBoards] = useState([]);
@@ -23,7 +23,7 @@ const Boards = () => {
     <div className="container">
       <Row className="workspace__boards board__list">
         {boards.map((item) => (
-          <div className="board__list__board card">
+          <div key={item.id} className="board__list__board card">
             <p>{item.title}</p>
           </div>
         ))}

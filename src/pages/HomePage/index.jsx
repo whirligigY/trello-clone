@@ -7,7 +7,7 @@ const HomePage = () => {
     <Main>
       <div className="workspace__boards">
         <h2 className="heading-h3">
-          <i class="fa fa-user-o"></i> Workspace Boards
+          <i className="fa fa-user-o"></i> Workspace Boards
         </h2>
         <Boards />
       </div>
