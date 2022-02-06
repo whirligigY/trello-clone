@@ -1,0 +1,87 @@
+import React, { useContext, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { supabase } from "../client";
+
+//TODO: password restore
+/**
+ * fix password restore
+ * when password is restared user is singed in directly without asking to reset the assword
+ *  see here: https://dev.to/misha_wtf/user-authentication-in-nextjs-with-supabase-4l12
+ **/
+
+//TODO: refactor checkUser()
+/**
+ * not sure if checkUser() is required check
+ **/
+
+const AuthContext = React.createContext();
+
+// const getDate = ()=> {
+//   // 2022-02-04T07:09:03+03:00
+// }
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}
+
+export function AuthProvider({ children }) {
+  let history = useHistory();
+  const [user, setUser] = useState();
+  const [authState, setAuthState] = useState("non-authenticated");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const session = supabase.auth.session();
+    setUser(session?.user ?? null);
+    setLoading(false);
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+        console.log(`event`, event);
+        if (event === "SIGNED_IN") {
+          supabase
+            .from("profiles")
+            .upsert({
+              id: supabase.auth.user().id,
+              username: supabase.auth.user().email,
+            })
+            .then((_data, error) => {
+              if (!error) {
+                setAuthState("authenticated");
+                history.push("/");
+              }
+            });
+        } else if (event === "SIGNED_OUT") {
+          setAuthState("non-authenticated");
+          history.push("/");
+        }
+      }
+    );
+    return () => {
+      listener?.unsubscribe();
+    };
+  }, [history]);
+
+  const value = {
+    signIn: (data) => supabase.auth.signIn(data),
+    signOut: () => supabase.auth.signOut(),
+    userProfile: () => supabase.auth.user(),
+    client: supabase,
+    user,
+    authState,
+    // listenTable: (table) =>
+    //   realtimeSupabaseClient.channel(`realtime:public:${table}`),
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
+}
