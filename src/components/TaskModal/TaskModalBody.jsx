@@ -12,7 +12,8 @@ import { CurrentDeadline } from './ServicesPanel/CurrentDeadline';
 import { CurrentMembers } from './ServicesPanel/CurrentMembers';
 
 const TaskModalBody = () => {
-  const [labels, setLabels] = useState([]);
+  const [activeLabels, setActiveLabels] = useState([]);
+  const [labels, setLabels] = useState([{id: 1, value: '', status: false, color: 'blue'}, {id: 2, value: '', status: false, color: 'red'}, {id: 3, value: '', status: false, color: 'yellow'}, {id: 4, value: '', status: false, color: 'green'}]);
   const [checkLists, setCheckList] = useState([]);
   const [deadline, setDeadline] = useState(true);
 
@@ -20,12 +21,25 @@ const TaskModalBody = () => {
     setCheckList([...checkLists, value])
   }
   const changeLabels = (value) => {
-    setLabels([...labels, value]);
+    setLabels((prevState)=>{
+      return prevState.map((item) => {
+        if (Number(value.id) === Number(item.id)) {
+          item.id = value.id;
+          item.status = value.status;
+          item.color = value.color;
+          item.value = value.value;
+        }
+        return item;
+      });
+    });
+  }
+  const changeActiveLabels = (value) => {
+    setActiveLabels([...activeLabels, value]);
   }
   const removeLabel = (value) => {
-    setLabels([
-      ...labels.slice(0, value),
-      ...labels.slice(value + 1)
+    setActiveLabels([
+      ...activeLabels.slice(0, value),
+      ...activeLabels.slice(value + 1)
     ]);
   }
 
@@ -38,8 +52,13 @@ const TaskModalBody = () => {
             {deadline && (
               <CurrentMembers/>
             )}
-            {labels.length > 0 && (
-              <CurrentLabels labels={labels} changeLabels={changeLabels} remove={removeLabel}/>
+            {activeLabels.length > 0 && (
+              <CurrentLabels 
+              activeLabels={activeLabels}
+              changeActiveLabels={changeActiveLabels}
+              labels={labels}
+              changeLabels={changeLabels}
+              remove={removeLabel}/>
             )}
             {deadline && (
               <CurrentDeadline/>
@@ -52,7 +71,12 @@ const TaskModalBody = () => {
           </Col>
           <Col className="side-buttons" xs={4} md={2}>
             <MembersDropdown/>
-            <LabelsDropdown labels={labels} changeLabels={changeLabels} remove={removeLabel}/>
+            <LabelsDropdown 
+              activeLabels={activeLabels}
+              changeActiveLabels={changeActiveLabels}
+              labels={labels}
+              changeLabels={changeLabels}
+              remove={removeLabel}/>
             <CheckListDropdown changeCheckList={changeCheckList}/>
             <DeadlineDropdown/>
             <CoversDropdown/>
