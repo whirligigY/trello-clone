@@ -1,30 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Row } from "react-bootstrap";
+import Boards from "../../components/Boards/Boards";
+import Main from "../../components/Main";
 
 const HomePage = () => {
-  // const [boards, setBoards] = useState([]);
-  //
-  // const fetchBoards = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:3000/boardList.json');
-  //     const data = await response.json();
-  //     setBoards(data);
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
-  //
-  // useEffect(() => {
-  //   fetchBoards();
-  // }, []);
-
   return (
-    <h1>
-      <Row>
-        <h2>Твои доски</h2>
-        <div>{/*{boards.map((item) => <div></div>)}*/}</div>
-      </Row>
-    </h1>
+    <Main>
+      <div className="workspace__boards">
+        <h2 className="heading-h3">
+          <i class="fa fa-user-o"></i> Workspace Boards
+        </h2>
+        <Boards />
+      </div>
+    </Main>
   );
 };
 

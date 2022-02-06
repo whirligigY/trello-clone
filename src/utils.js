@@ -31,25 +31,35 @@ export const useInput = (initial) => {
   return { value, onChange, onClear };
 };
 
-export const useDragDrop = (swapColumnIndex) => {
+export const useDragDrop = (
+  swapColumnIndex,
+  cards,
+  dropComponent,
+  changeDropComponent,
+  getNewCardState
+) => {
   const [order, setOrder] = useState(null);
-  const dragStartBoardHandler = (e, dataSet, order) => {
-    e.stopPropagation();
+  const dragStartBoardHandler = (e, order) => {
     setOrder(order);
+    changeDropComponent("column");
   };
-  const dragOverBoardHandler = (e) => {
+  const dragOverBoardHandler = (e, newOrder) => {
     e.preventDefault();
   };
 
-  const dragEndBoardHandler = (e) => {
-    e.target.style.opacity = "1";
+  const dragEndBoardHandler = (e, newOrder) => {
+    console.log(e.target);
   };
-  const dropBoardHandler = (e, dataSet, newOrder) => {
+  const dropBoardHandler = (e, newOrder, columnId) => {
     e.preventDefault();
-    e.target.style.opacity = "1";
-    const dataType = e.dataTransfer.getData("text/plain");
 
-    if (dataType === "column") swapColumnIndex(order, newOrder);
+    const dataType = dropComponent;
+    if (dataType === "column") {
+      swapColumnIndex(order, newOrder);
+    } else {
+      if (cards.find((el) => el.columnId === columnId) === undefined)
+        getNewCardState(columnId);
+    }
   };
   return {
     dragStartBoardHandler,

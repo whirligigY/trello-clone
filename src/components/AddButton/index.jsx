@@ -3,18 +3,11 @@ import { RenderFormAddButton } from "../RenderFormAddButton";
 import { RenderAddButton } from "../RenderAddButton";
 import { useClick } from "../../utils";
 
-const AddButton = ({
-  text,
-  type,
-  listId = null,
-  placeholder,
-  textBtn,
-  onClick,
-}) => {
+const AddButton = ({ type, placeholder, textBtn, onClick }) => {
   const handleAddActivity = (text) => {
     if (typeof onClick === "function") {
       setIsFormActive(false);
-      onClick(text);
+      if (text) onClick(text);
     }
   };
 

@@ -1,18 +1,22 @@
 import { useState } from "react";
-import IMG from "./abstract1.jpeg";
+import IMG_1 from "./abstract1.jpeg";
+import IMG_2 from "./abstract2.jpeg";
+import IMG_3 from "./abstract3.jpeg";
 import { Card } from "react-bootstrap";
 import styles from "./BoardCard.module.css";
-//import Modal from '../Modal';
+import { TaskModalWindow } from "../TaskModal/TaskModal";
 
 const BoardCard = ({
   columnId,
   card,
+  columnTitle,
   dragStartCardHandler,
   dragOverCardHandler,
   dragEndCardHandler,
   dropCardHandler,
 }) => {
   const [visible, setVisible] = useState(false);
+
   function closeHandle() {
     setVisible(false);
   }
@@ -23,7 +27,14 @@ const BoardCard = ({
 
   return (
     <div>
-      {/* <Modal visible={visible} closeHandle={closeHandle} /> */}
+      {
+        <TaskModalWindow
+          visible={visible}
+          closeHandle={closeHandle}
+          title={card.title}
+          column={columnTitle}
+        />
+      }
       {Number(card.columnId) === columnId && (
         <Card
           style={{ width: "19rem" }}
@@ -45,7 +56,15 @@ const BoardCard = ({
               className={"bi bi-pencil btn-secondary " + styles.btn_clipboard}
             ></i>
           </div>
-          <Card.Img variant="top" src={IMG} draggable={false} />
+          {card.id === 0 && (
+            <Card.Img variant="top" src={IMG_1} draggable={false} />
+          )}
+          {card.id === 1 && (
+            <Card.Img variant="top" src={IMG_3} draggable={false} />
+          )}
+          {card.id === 3 && (
+            <Card.Img variant="top" src={IMG_2} draggable={false} />
+          )}
           <Card.Body>
             <Card.Text draggable={false}>{card.title}</Card.Text>
             <Card.Link

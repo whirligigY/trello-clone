@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "./BoardListCard.module.css";
 import { BoardCard } from "../BoardCard";
 import { AddButton } from "../AddButton";
-import { getNewTask } from "../../utils";
 import { BoardTitleTextarea } from "../BoardTitleTextarea";
+import { useDragDropCards } from "../../pages/DashboardPage/hooks";
 
 const BoardListCard = ({
   title,
@@ -15,89 +15,41 @@ const BoardListCard = ({
   dragOverBoardHandler,
   dragEndBoardHandler,
   changeCurrentValue,
-  currentCard,
+  getNewCardState,
+  cards,
+  AddTask,
+  changeDropComponent,
 }) => {
-  const [cards, setCards] = useState([]);
-
-  function AddTask(text) {
-    const newTask = getNewTask(cards.length, text, id);
-    setCards([...cards, newTask]);
-  }
-
-  const useDragDropCards = () => {
-    const dragStartCardHandler = (e, card) => {
-      e.dataTransfer.setData("text/plain", "card");
-      changeCurrentValue(card);
-    };
-    const dragOverCardHandler = (e) => {
-      e.preventDefault();
-    };
-
-    const dragEndCardHandler = (e) => {};
-    const dropCardHandler = (e, card, columnID) => {
-      e.preventDefault();
-      const currentDeleteIndex = cards.findIndex(
-        (card) => card.id === currentCard.id
-      );
-      const currentInsertIndex = cards.findIndex(
-        (cardElem) => cardElem.id === card.id
-      );
-      console.log(currentDeleteIndex, currentInsertIndex);
-
-      setCards([...cards.splice(currentDeleteIndex, 1)]);
-      //currentArr.splice(currentInsertIndex, 0, {
-      // ...currentCard,
-      //  columnId: columnID,
-      //});
-      // setCards(currentArr);
-
-      console.log(cards);
-      //swapCardIndex(order, newOrder);
-    };
-    return {
-      dragStartCardHandler,
-      dragOverCardHandler,
-      dragEndCardHandler,
-      dropCardHandler,
-    };
-  };
   const {
     dragStartCardHandler,
     dragOverCardHandler,
     dragEndCardHandler,
     dropCardHandler,
-  } = useDragDropCards();
-
-  const getCards = async () => {
-    const response = await fetch("mocks/tasks.json");
-    const data = await response.json();
-    setCards(data);
-  };
-
-  useEffect(() => {
-    getCards();
-  }, []);
+  } = useDragDropCards(
+    changeCurrentValue,
+    getNewCardState,
+    changeDropComponent
+  );
 
   return (
     <div
       className={styles.container}
-      data-set="column"
       draggable={true}
-      onDragStart={(e) => dragStartBoardHandler(e, dataSet, order)}
-      onDragLeave={dragEndBoardHandler}
-      onDragEnd={dragEndBoardHandler}
-      onDragOver={dragOverBoardHandler}
-      onDrop={(e) => dropBoardHandler(e, dataSet, order)}
+      onDragStart={(e) => dragStartBoardHandler(e, order)}
+      onDragLeave={(e) => dragEndBoardHandler(e, order)}
+      onDragEnd={(e) => dragEndBoardHandler(e, order)}
+      onDragOver={(e) => dragOverBoardHandler(e, order)}
+      onDrop={(e) => dropBoardHandler(e, order, id)}
       capture={true}
     >
       <h4>{title}</h4>
       {/* <BoardTitleTextarea title={title} /> */}
-
-      {cards.map((card) => (
+      {cards.map((card, index) => (
         <BoardCard
           columnId={id}
           card={card}
           key={card.id}
+          columnTitle={title}
           dragStartCardHandler={dragStartCardHandler}
           dragOverCardHandler={dragOverCardHandler}
           dragEndCardHandler={dragEndCardHandler}
@@ -110,7 +62,7 @@ const BoardListCard = ({
         listId={id}
         placeholder={"Enter a title for this card"}
         textBtn={"task"}
-        onClick={AddTask}
+        onClick={(text) => AddTask(text, id)}
       />
     </div>
   );
