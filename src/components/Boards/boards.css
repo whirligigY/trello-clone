@@ -1,29 +1,31 @@
 /* Workspace boards styles*/
 
-.workspace__boards .heading-h3 {
-  color: rgb(23, 43, 77);
-  margin-bottom: 10px;
-  font-size: 1em;
-  font-weight: 600;
-  margin: 10px 0 0 10px;
-}
-
-.workspace__boards .heading-h3 > i {
-  padding-right: 10px;
-}
-
-.workspace__boards.board__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-}
-
 .board__list__board.card {
+  position: relative;
   width: 165px;
   height: 65px;
   background-color: darkviolet;
   color: white;
+  padding: 5px;
+}
+
+.board__list__board.card.card_add-new-board {
+  background-color: #ccc;
+}
+.board__list__board.card.card_add-new-board > button {
+  position: absolute;
+  width: fit-content;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.board__list__board.card.card_add-new-board > button:hover {
+  background-color: #ccc;
+  border-color: #ccc;
+}
+
+.board__list__board.card.card_add-new-board > p {
+  margin: 0 0 5px 0;
 }
 
 .board__list__board.card .card-body {
