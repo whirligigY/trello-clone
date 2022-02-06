@@ -6,14 +6,14 @@
 }
 
 .container {
-  min-width: 272px;
-  padding: 10px;
-  background-color: lightgrey;
-  border-radius: 3px;
-  margin-right: 10px;
-  height: fit-content;
+  grid-area: board;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  position: relative;
 }
 
-.dashboard_container {
+.dashboard_container_right {
   height: 100%;
+  width: 100%;
 }
