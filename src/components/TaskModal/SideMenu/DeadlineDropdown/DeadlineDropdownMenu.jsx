@@ -23,21 +23,12 @@ function DeadlineDropdownMenu() {
     <Dropdown.Menu>
       <p className='deadline-text'>Deadline</p>
       <div className='label-item' id='search-label'>
-<<<<<<< HEAD
-      <Calendar className='calendar'
-        defaultValue={new Date()}
-        onChange={onChange}
-        value={value}
-        onClickDay={changeDate}
-      />
-=======
         <Calendar
           value={value}
           selectRange={isActiveRange}
           onChange={onChange}
           className='calendar'
         />
->>>>>>> origin/task_modal_window
       </div>
       <p className='deadline-text'>Start date</p>
       <input className='calendar-range-toggle' type='checkbox' onChange={addCalendarRange} />

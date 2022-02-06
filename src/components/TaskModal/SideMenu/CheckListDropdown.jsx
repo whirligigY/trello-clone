@@ -6,8 +6,8 @@ const CheckListDropdown = ({ changeCheckList }) => {
   const addCheckList = (e) => {
     const input = document.querySelector('.check-list-name-input');
     const name = input.value;
-    console.log('name = ', name)
     changeCheckList(name);
+    input.value = '';
  }
 
   return (
