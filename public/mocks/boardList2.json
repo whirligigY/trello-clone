@@ -1,0 +1,55 @@
+[
+  {
+    "id": 0,
+    "title": "Board1",
+    "columns": [
+      {
+        "id": 0,
+        "order": 1,
+        "title": "New"
+      },
+      {
+        "id": 1,
+        "order": 2,
+        "title": "In progress"
+      },
+      {
+        "id": 2,
+        "order": 3,
+        "title": "Done"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "title": "Board2",
+    "columns": [
+      {
+        "id": 0,
+        "order": 1,
+        "title": "In progress"
+      },
+      {
+        "id": 1,
+        "order": 2,
+        "title": "Done"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Board3",
+    "columns": [
+      {
+        "id": 0,
+        "order": 1,
+        "title": "In progress"
+      },
+      {
+        "id": 1,
+        "order": 2,
+        "title": "Done"
+      }
+    ]
+  }
+]

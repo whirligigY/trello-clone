@@ -10,8 +10,16 @@ const BoardTitleTextarea = ({ title }) => {
   };
   return (
     <Form>
-      <Form.Group className={"mb-3 " + styles.title} controlId="formBasicEmail">
-        <Form.Label className={styles.label}>{value}</Form.Label>
+      <Form.Group
+        className={"mb-3 " + styles.title}
+        controlId="formColumnTitle"
+      >
+        <Form.Label
+          className={styles.label}
+          onClick={(e) => e.preventDefault()}
+        >
+          {value}
+        </Form.Label>
         <Form.Control
           as="textarea"
           className={styles.textarea}

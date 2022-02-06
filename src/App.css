@@ -67,6 +67,7 @@ body {
   grid-template-areas:
     "header header header"
     "aside main main"
+    "board board board"
     "footer footer footer";
   grid-row-gap: 1em;
   grid-template-rows: auto 1fr auto;

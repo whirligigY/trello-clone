@@ -1,0 +1,28 @@
+.container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  width: 400px;
+  background-color: #fff;
+  color: #212529;
+  height: fit-content;
+  border-radius: 5px !important;
+}
+
+.visible {
+  display: block;
+  z-index: 10;
+}
+
+.modal__dialog {
+  max-width: 500px;
+  margin: 0 !important;
+  border-radius: none !important;
+  background-color: transparent !important;
+}
+
+.checkbox {
+  display: flex !important;
+  align-items: center !important;
+}
