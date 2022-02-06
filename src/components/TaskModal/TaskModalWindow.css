@@ -200,9 +200,17 @@
   margin-bottom: 10px;
 }
 
-.start-task-date, .end-task-date {
+.start-task-date, .end-task-date, .end-task-time {
   margin-left: 15px;
   width: 130px;
+}
+
+.end-task-date {
+  background-image: url('../../assets/svg/calendar.svg');
+  background-size: 15px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  border-radius: 5px;
 }
 
 .calendar-range-toggle {

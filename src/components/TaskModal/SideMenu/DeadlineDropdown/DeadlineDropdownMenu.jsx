@@ -8,11 +8,13 @@ import moment from 'moment';
 function DeadlineDropdownMenu() {
   const [value, onChange] = useState(new Date());
   const [isActiveRange, setIsActiveRange] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [dateRange, setDateRange] = useState([]);
 
   const poreparedDate = useMemo(() => isActiveRange ? ({
-    startDate: moment(value[0]).format('yyyy-MM-DD'),
-    endDate: moment(value[1]).format('yyyy-MM-DD'),
-  }) : moment(value).format('yyyy-MM-DD')
+    startDate: moment(value[0]).format('DD-MM-yyyy'),
+    endDate: moment(value[1]).format('DD-MM-yyyy'),
+  }) : moment(value).format('DD-MM-yyyy')
   , [value]); 
 
   const addCalendarRange = () => {
@@ -32,12 +34,12 @@ function DeadlineDropdownMenu() {
       </div>
       <p className='deadline-text'>Start date</p>
       <input className='calendar-range-toggle' type='checkbox' onChange={addCalendarRange} />
-      <input className="start-task-date" type="date" disabled={!isActiveRange} value={isActiveRange && poreparedDate?.startDate} />
+      <input className="end-task end-task-date" type="text" disabled={!isActiveRange} value={isActiveRange ? poreparedDate?.startDate : 'дд-мм-гггг'}/>
       <Dropdown.Divider/>
       <p className='deadline-text'>Deadline date</p>
       <div className='deadline'>
-        <input className="end-task-date" type="date" value={poreparedDate?.endDate ?? poreparedDate} />
-        <input className="end-task-date" type="time" />
+        <input className="end-task end-task-date" type="text" value={poreparedDate?.endDate ?? poreparedDate} />
+        <input className="end-task end-task-time" type="time" />
       </div>
       <Dropdown.Divider className='delimiter'/>
       <Dropdown.Item as="button" id="add-check-list">Save</Dropdown.Item>
