@@ -1,15 +1,15 @@
 import "./main.css";
-import Aside from "../Aside";
 
-const Main = ({ children }) => (
-  <>
-    <Aside />
-    <main className="main">
-      <div id="main" className="main__container">
+
+const Main = ({ 0: extraClass, children }) => {
+  return (
+    <main className={extraClass ? `main ${extraClass}` : "main"}>
+      <div id="main" className={"main__container"}>
         {children}
       </div>
     </main>
-  </>
-);
+  );
+};
+
 
 export default Main;
