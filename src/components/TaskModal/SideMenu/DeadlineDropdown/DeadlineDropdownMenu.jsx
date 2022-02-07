@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react';
-import { useState, useEffect } from 'react';
-import { Dropdown } from 'react-bootstrap';
+import React from 'react';
+import { Dropdown, Button } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
@@ -19,6 +18,14 @@ function DeadlineDropdownMenu({ dateValue, changeDeadline, setDeadlineView, useD
     setDeadlineView(true);
   }
 
+  const removeDeadline = () => 
+  {
+    setDeadlineView(false);
+    changeDeadlineTime('');
+    changeDeadline(new Date());
+    setDeadlineRange(false);
+  }
+
   return (
     <Dropdown.Menu>
       <p className='deadline-text'>Deadline</p>
@@ -28,6 +35,7 @@ function DeadlineDropdownMenu({ dateValue, changeDeadline, setDeadlineView, useD
           selectRange={useDeadlineRange}
           onChange={changeDeadline}
           className='calendar'
+          locale='en-En'
         />
       </div>
       <p className='deadline-text'>Start date</p>
@@ -40,7 +48,12 @@ function DeadlineDropdownMenu({ dateValue, changeDeadline, setDeadlineView, useD
         <input className="end-task end-task-time" type="time" value={deadlineTime} onChange={addDeadlineTime}/>
       </div>
       <Dropdown.Divider className='delimiter'/>
-      <Dropdown.Item as="button" onClick={addDeadline}>Save</Dropdown.Item>
+      <Dropdown.Item as="button" id='save-deadline' onClick={addDeadline}>
+        Save
+      </Dropdown.Item>
+      <Dropdown.Item as="button" id='delete-deadline' onClick={removeDeadline}>
+        Delete
+      </Dropdown.Item>
     </Dropdown.Menu>
   )
 }

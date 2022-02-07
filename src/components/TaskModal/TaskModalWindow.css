@@ -70,7 +70,7 @@
   width: 100%;
 }
 
-#add-check-list {
+#add-check-list, #delete-deadline, #save-deadline {
   margin: auto;
   display: block !important;
   width: 80%;
@@ -79,6 +79,12 @@
   border-radius: 5px;
   color: #fff;
   background-color: #6c757d;
+}
+
+#save-deadline {
+  border: 1px solid #0074d9;
+  background-color: #0074d9;
+  margin-bottom: 10px;
 }
 
 /* sidebar-buttons */
