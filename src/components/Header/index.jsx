@@ -1,16 +1,16 @@
-import { Link } from "react-router-dom";
-import { useAuth } from "../../contexts/Auth";
-import { Auth, Typography, Button } from "@supabase/ui";
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/Auth';
+import { Auth, Typography, Button } from '@supabase/ui';
 
-import "./header.css";
+import './header.css';
 
 const basicStyles = {
-  color: "#fff",
-  margin: "0 10px 0 10px",
+  color: '#fff',
+  margin: '0 10px 0 10px'
 };
 
 const Header = () => {
-  const { authState, signOut } = useAuth();
+  const { signOut, user } = useAuth();
 
   return (
     <header className="header">
@@ -20,7 +20,7 @@ const Header = () => {
           <button className="nav_button__trello">Crello</button>
         </Link>
         <div className="nav__button__sign-in">
-          {authState === "authenticated" ? (
+          {user ? (
             <>
               <Link to="/profile" style={basicStyles}>
                 Profile
@@ -32,7 +32,7 @@ const Header = () => {
             </>
           ) : null}
 
-          {authState === "non-authenticated" ? (
+          {!user ? (
             <Link to="/sign-in" style={basicStyles}>
               Sign In
             </Link>

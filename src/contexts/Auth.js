@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { supabase } from "../client";
+import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { supabase } from '../client';
 
 //TODO: password restore
 /**
@@ -16,14 +16,10 @@ import { supabase } from "../client";
 
 const AuthContext = React.createContext();
 
-// const getDate = ()=> {
-//   // 2022-02-04T07:09:03+03:00
-// }
-
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 }
@@ -31,7 +27,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   let history = useHistory();
   const [user, setUser] = useState();
-  const [authState, setAuthState] = useState("non-authenticated");
+  const [authState, setAuthState] = useState('non-authenticated');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,29 +40,29 @@ export function AuthProvider({ children }) {
         setUser(session?.user ?? null);
         setLoading(false);
         console.log(`event`, event);
-        if (event === "SIGNED_IN") {
+        if (event === 'SIGNED_IN') {
           supabase
-            .from("profiles")
+            .from('profiles')
             .upsert({
               id: supabase.auth.user().id,
-              username: supabase.auth.user().email,
+              username: supabase.auth.user().email
             })
             .then((_data, error) => {
               if (!error) {
-                setAuthState("authenticated");
-                history.push("/");
+                setAuthState('authenticated');
+                history.push('/');
               }
             });
-        } else if (event === "SIGNED_OUT") {
-          setAuthState("non-authenticated");
-          history.push("/");
+        } else if (event === 'SIGNED_OUT') {
+          setAuthState('non-authenticated');
+          history.push('/');
         }
       }
     );
     return () => {
       listener?.unsubscribe();
     };
-  }, [history]);
+  }, [history, user, authState]);
 
   const value = {
     signIn: (data) => supabase.auth.signIn(data),
@@ -74,7 +70,7 @@ export function AuthProvider({ children }) {
     userProfile: () => supabase.auth.user(),
     client: supabase,
     user,
-    authState,
+    authState
     // listenTable: (table) =>
     //   realtimeSupabaseClient.channel(`realtime:public:${table}`),
   };
