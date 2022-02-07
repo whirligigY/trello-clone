@@ -1,10 +1,28 @@
 .navbar_container {
+  grid-area: navbar_container;
   margin: 0 10px;
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 
-.bg_opacity {
-  background-color: rgba(255, 255, 255, 0.15) !important;
+.navigation {
   border: none !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.link {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  padding: 12px 30px !important;
+  border-radius: 4px;
+}
+
+.rightIndent {
+  margin-right: 20px;
+}
+
+.rightIconIndent {
+  margin-right: 10px;
 }

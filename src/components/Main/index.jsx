@@ -1,5 +1,6 @@
 import "./main.css";
 
+
 const Main = ({ 0: extraClass, children }) => {
   return (
     <main className={extraClass ? `main ${extraClass}` : "main"}>
@@ -9,5 +10,6 @@ const Main = ({ 0: extraClass, children }) => {
     </main>
   );
 };
+
 
 export default Main;
