@@ -3,6 +3,7 @@ import IMG from "./abstract1.jpeg";
 import { Card } from "react-bootstrap";
 import styles from "./BoardCard.module.css";
 import { TaskModalWindow } from '../TaskModal/TaskModal';
+import moment from 'moment';
 
 const BoardCard = ({ columnId, card, columnTitile }) => {
   function closeHandle() {
@@ -15,6 +16,23 @@ const BoardCard = ({ columnId, card, columnTitile }) => {
 
   const [visible, setVisible] = useState(false);
 
+  /* deadline states */
+  const [value, onChange] = useState(new Date());
+  const [showDeadline, setShowDeadline] = useState(false)
+  const [isActiveRange, setIsActiveRange] = useState(false);
+  const [deadlineTime, setDeadlineTime] = useState('');
+  const changeDeadlineView = (value) => {
+    setShowDeadline(value);
+  }
+  const setDeadlineRange = (value) => {
+    setIsActiveRange(value);
+  }
+  const changeDeadlineTime = (value) => {
+    setDeadlineTime(value);
+  }
+
+  /* end of deadline states */
+
   return (
     <div>
       {<TaskModalWindow 
@@ -22,6 +40,14 @@ const BoardCard = ({ columnId, card, columnTitile }) => {
       closeHandle={closeHandle} 
       title={card.title}
       column={columnTitile}
+      dateValue={value}
+      changeDeadline={onChange}
+      showDeadline={showDeadline}
+      setDeadlineView={changeDeadlineView}
+      useDeadlineRange={isActiveRange}
+      setDeadlineRange={setDeadlineRange}
+      deadlineTime={deadlineTime}
+      changeDeadlineTime={changeDeadlineTime}
       />}
       {Number(card.columnId) === columnId && (
         <Card
@@ -37,10 +63,12 @@ const BoardCard = ({ columnId, card, columnTitile }) => {
           <Card.Img variant="top" src={IMG} />
           <Card.Body>
             <Card.Text>{card.title}</Card.Text>
-            <Card.Link href="#" className="p-1 btn btn-secondary">
+            {showDeadline && <Card.Link href="#" className="p-1 btn btn-secondary">
               <i className="bi bi-clock-fill"></i>
-              <span className={styles.ml}>23 jan</span>
-            </Card.Link>
+              <span className={styles.ml}>
+                {Array.isArray(value) ? moment(value[1]).format('DD MMM') : moment(value).format('DD MMM')}
+              </span>
+            </Card.Link>}
             <Card.Link href="#" className={"card-link " + styles.descrip}>
               <i className="bi bi-justify-left btn-light"></i>
             </Card.Link>

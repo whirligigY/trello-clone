@@ -2,7 +2,7 @@ import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { DeadlineDropdownMenu } from './DeadlineDropdownMenu'
 
-const DeadlineDropdown = () => {
+const DeadlineDropdown = ({ dateValue, changeDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime }) => {
 
   return (
     <Dropdown>
@@ -12,7 +12,14 @@ const DeadlineDropdown = () => {
       >
         Dedline
       </Dropdown.Toggle>
-      <DeadlineDropdownMenu/>
+      <DeadlineDropdownMenu 
+      dateValue={dateValue} 
+      changeDeadline={changeDeadline}
+      setDeadlineView={setDeadlineView}
+      useDeadlineRange={useDeadlineRange}
+      setDeadlineRange={setDeadlineRange}
+      deadlineTime={deadlineTime}
+      changeDeadlineTime={changeDeadlineTime}/>
     </Dropdown>
   )
 }

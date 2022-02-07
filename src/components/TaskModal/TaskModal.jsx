@@ -1,11 +1,10 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-// import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { TaskModalBody } from './TaskModalBody'
 import './TaskModalWindow.css'
 
-const TaskModalWindow = ({ visible, closeHandle, title, column }) => {
-
+const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime }) => {
   return (
     <Modal show={visible}
     size="lg"
@@ -23,7 +22,16 @@ const TaskModalWindow = ({ visible, closeHandle, title, column }) => {
         </p>
       </div>
       </Modal.Header>
-      <TaskModalBody/>
+      <TaskModalBody 
+      dateValue={dateValue} 
+      changeDeadline={changeDeadline}
+      showDeadline={showDeadline}
+      setDeadlineView={setDeadlineView}
+      useDeadlineRange={useDeadlineRange}
+      setDeadlineRange={setDeadlineRange}
+      deadlineTime={deadlineTime}
+      changeDeadlineTime={changeDeadlineTime}
+      />
     </Modal>
   )
 }
