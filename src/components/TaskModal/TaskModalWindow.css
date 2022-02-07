@@ -70,7 +70,7 @@
   width: 100%;
 }
 
-#add-check-list, #delete-deadline, #save-deadline {
+#add-check-list, #delete-deadline, #save-deadline, #add-new-label {
   margin: auto;
   display: block !important;
   width: 80%;
@@ -81,7 +81,7 @@
   background-color: #6c757d;
 }
 
-#save-deadline {
+#save-deadline, #add-new-label {
   border: 1px solid #0074d9;
   background-color: #0074d9;
   margin-bottom: 10px;
@@ -148,12 +148,39 @@
 #yellow {
   background-color: yellow;
 }
+
 #red {
   background-color: red;
 }
+
 #green {
   background-color: green;
 }
+
+#darkorchid {
+  background-color: darkorchid;
+}
+
+#orange {
+  background-color: orange;
+}
+
+#deepskyblue {
+  background-color: deepskyblue;
+}
+
+#sandybrown {
+  background-color: sandybrown;
+}
+
+#plum {
+  background-color: plum;
+}
+
+#khaki {
+  background-color: khaki;
+}
+
 
 .search-input {
   width: 90%;
@@ -171,6 +198,34 @@
   background-size: 25px;
   background-repeat: no-repeat;
   background-position: right center;
+}
+
+.label-name-input {
+  width: 90%;
+  margin-left: 5%;
+  border-radius: 5px;
+  border: 1px solid rgb(202, 202, 202);
+}
+
+#add-new-label::after {
+  content: none;
+}
+
+.labels-colors {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.rectangle {
+  width: 45px;
+  height:20px;
+  border-radius: 3px;
+  background:blue;
 }
 
 /* current labels styles */

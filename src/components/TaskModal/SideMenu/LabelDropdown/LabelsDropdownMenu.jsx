@@ -1,4 +1,6 @@
+import React from 'react';
 import { Dropdown, Button } from "react-bootstrap";
+import { AddLabelMenu } from './AddLabelMenu'
 import "../../TaskModalWindow.css";
 
 const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
@@ -46,13 +48,22 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
         </div>;
       })}
       </div>
-      <Button
-        className="dropdown-item"
-        variant="outline-secondary"
-        id="add-label"
-      >
-        Add new label
-      </Button>
+      <Dropdown.Divider />
+      <Dropdown>
+        <Dropdown.Toggle
+          className="dropdown-item"
+          variant="primary"
+          id="add-new-label"
+          >
+          Add new label
+        </Dropdown.Toggle>
+        <AddLabelMenu 
+          activeLabels={activeLabels}
+          changeActiveLabels={changeActiveLabels}
+          labels={labels}
+          changeLabels={changeLabels}
+          remove={remove}/>
+      </Dropdown>
     </Dropdown.Menu>
   );
 }
