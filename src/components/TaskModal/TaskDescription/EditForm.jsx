@@ -12,7 +12,7 @@ const EditForm = ({ activeStatus, setActiveState, description, setDescription, s
         className={`description-text ${activeStatus ? "" : "hover"}`} 
         rows={activeStatus ? 3 : 2} 
         placeholder="Add task description" 
-        onFocus={() => setActiveState(true)} 
+        onFocus={() => setActiveState(true)}
         onKeyUp={setHeigth}
         onChange={(value) => {
           setDescription(value.target.value);

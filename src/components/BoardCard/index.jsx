@@ -16,6 +16,7 @@ const BoardCard = ({ columnId, card, columnTitile }) => {
 
   const [visible, setVisible] = useState(false);
 
+  /* task modal window state */
   /* deadline states */
   const [value, onChange] = useState(new Date());
   const [showDeadline, setShowDeadline] = useState(false)
@@ -30,7 +31,6 @@ const BoardCard = ({ columnId, card, columnTitile }) => {
   const changeDeadlineTime = (value) => {
     setDeadlineTime(value);
   }
-
   /* end of deadline states */
 
   return (
