@@ -24,4 +24,15 @@
   "rules": {
   }
 }*/
-{}
+{
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "parser": "eslint-parser",
+  "plugins": ["react", "prettier"],
+  "rules": {}
+}
