@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { Modal, Button, Form, FloatingLabel } from "react-bootstrap";
-import { useAuth } from "../../contexts/Auth";
+import { useState, useEffect } from 'react';
+import { Modal, Button, Form, FloatingLabel } from 'react-bootstrap';
+import { useAuth } from '../../contexts/Auth';
 
 export default function WorkspaceBoarModal(props) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
 
@@ -14,7 +14,7 @@ export default function WorkspaceBoarModal(props) {
     event.preventDefault();
     // props.saveModalData(title);
     const { error } = await client
-      .from("boards")
+      .from('boards')
       .upsert([{ title, description, user_id: user.id }]);
     setIsLoading(true);
     if (error) {
@@ -93,11 +93,11 @@ export default function WorkspaceBoarModal(props) {
             >
               {isLoading ? (
                 <>
-                  <span class="spinner-border spinner-border-sm"></span>{" "}
+                  <span className="spinner-border spinner-border-sm"></span>{' '}
                   Saving...
                 </>
               ) : (
-                "Save"
+                'Save'
               )}
             </Button>
           </Form.Group>
