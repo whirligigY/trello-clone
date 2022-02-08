@@ -14,8 +14,8 @@ const EditForm = ({ activeStatus, setActiveState, description, setDescription, s
         placeholder="Add task description" 
         onFocus={() => setActiveState(true)}
         onKeyUp={setHeigth}
-        onChange={(value) => {
-          setDescription(value.target.value);
+        onChange={(e) => {
+          setDescription(e.target.value);
         }}
         value={ description }
       />

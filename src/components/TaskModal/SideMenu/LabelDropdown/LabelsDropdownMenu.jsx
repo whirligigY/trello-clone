@@ -26,7 +26,7 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
           }
         });
       }
-      const color = target.id;
+      const color = target.dataset.color;
       const { value } = target;
       const newItem = { id, value, status: active, color };
       changeLabels(newItem);
@@ -43,8 +43,19 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
       <div className="labels-list" onClick={addLabel}>
       {labels.map((item, i) => {
         return <div className="label-item dropdown-item" id={`${item.id}`} key={i}>
-          <input className={`label ${item.status ? "active" : ""}`} id={`${item.color}`} disabled value={`${item.value}`}/>
-          <Button className="edit-button" variant="outline-secondary" />
+          <input className={`label ${item.status ? "active" : ""} ${item.color}`} disabled value={`${item.value}`} data-color={`${item.color}`}/>
+          <Dropdown>
+            <Dropdown.Toggle
+              className="edit-button"
+              >
+            </Dropdown.Toggle>
+            <AddLabelMenu
+              activeLabels={activeLabels}
+              changeActiveLabels={changeActiveLabels}
+              labels={labels}
+              changeLabels={changeLabels}
+              remove={remove}/>
+          </Dropdown>
         </div>;
       })}
       </div>
@@ -57,7 +68,7 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
           >
           Add new label
         </Dropdown.Toggle>
-        <AddLabelMenu 
+        <AddLabelMenu
           activeLabels={activeLabels}
           changeActiveLabels={changeActiveLabels}
           labels={labels}

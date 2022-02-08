@@ -1,49 +1,56 @@
-import React from 'react';
-import { Dropdown, Button } from "react-bootstrap";
+import React, { useState, useEffect } from 'react';
+import { Dropdown, Button, ToggleButtonGroup, ToggleButton } from "react-bootstrap";
 import "../../TaskModalWindow.css";
 
-const AddLabelMenu = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
+const AddLabelMenu = ({ activeLabels, changeActiveLabels, labels, changeLabels }) => {
 
-  const addNewLabel = (e) => {
-    const { target } = e;
-    if (target.classList.contains("label")) {
-      let active = true;
-      const { id }= target.closest(".label-item");
-      if (target.classList.contains("active")) {
-        active = false;
-        activeLabels.forEach((item) => {
-          if (item.id === id) {
-            const index = activeLabels.indexOf(item);
-            remove(index);
-          }
-        });
-      }
-      const color = target.id;
-      const { value } = target;
-      const newItem = { id, value, status: active, color };
-      changeLabels(newItem);
-      if (!target.classList.contains("active")) {
-        changeActiveLabels(newItem);
-      }
-    }
+  const [newLabel, setNewLabel] = useState({id: '', color: '', value: '', status: false});
+  const [labelTitle, setLabelTitle] = useState('');
+  const [value, setValue] = useState('blue')
+
+  useEffect (
+    () => {
+    setNewLabel({...newLabel, id: labels.length});
+    }, [labels]
+  )
+
+  const addColor = (val) => {
+    setValue(val);
+    setNewLabel({...newLabel, color: val});
+  }
+
+  const addTitle = (e) => {
+    setNewLabel({...newLabel, value: e.target.value});
+    setLabelTitle(e.target.value);
+  }
+
+  const addNewLabel = () => {
+    changeLabels(newLabel);
+    setNewLabel({ id: '', color: '', value: '', status: false });
+    setLabelTitle('');
   };
 
   return (
     <Dropdown.Menu>
-      <input className="label-name-input" type="text" placeholder="Label name" />
+      <input className="label-name-input" type="text" placeholder="Label name" value={labelTitle} onChange={addTitle}/>
       <Dropdown.Divider />
-      <div className='labels-colors'>
-        <div className={`rectangle`} id='blue'/>
-        <div className={`rectangle`} id='yellow'/>
-        <div className={`rectangle`} id='red'/>
-        <div className={`rectangle`} id='green'/>
-        <div className={`rectangle`} id='darkorchid'/>
-        <div className={`rectangle`} id='orange'/>
-        <div className={`rectangle`} id='deepskyblue'/>
-        <div className={`rectangle`} id='sandybrown'/>
-        <div className={`rectangle`} id='plum'/>
-        <div className={`rectangle`} id='khaki'/>
-      </div>
+      <ToggleButtonGroup className='labels-colors' type="radio" name="options" value={value} onChange={addColor}>
+        <ToggleButton className='rectangle blue' id="tbg-radio-1" value={'blue'}/>
+        <ToggleButton className='rectangle yellow' id="tbg-radio-2" value={'yellow'}/>
+        <ToggleButton className='rectangle red' id="tbg-radio-3" value={'red'}/>
+        <ToggleButton className='rectangle green' id="tbg-radio-4" value={'green'}/>
+        <ToggleButton className='rectangle darkorchid' id="tbg-radio-5" value={'darkorchid'}/>
+        <ToggleButton className='rectangle orange' id="tbg-radio-6" value={'orange'}/>
+        <ToggleButton className='rectangle deepskyblue' id="tbg-radio-7" value={'deepskyblue'}/>
+        <ToggleButton className='rectangle sandybrown' id="tbg-radio-8" value={'sandybrown'}/>
+        <ToggleButton className='rectangle plum' id="tbg-radio-9" value={'plum'}/>
+        <ToggleButton className='rectangle khaki' id="tbg-radio-10" value={'khaki'}>
+        </ToggleButton>
+      </ToggleButtonGroup>
+      <Dropdown.Divider />
+      <Dropdown.Item as="button" className='save-label' id='save-label' onClick={addNewLabel}>
+        Save
+      </Dropdown.Item>
     </Dropdown.Menu>
   );
 }

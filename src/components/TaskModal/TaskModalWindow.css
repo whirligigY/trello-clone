@@ -106,7 +106,23 @@
   width: 10px;
   height: 25px;
   background-image: url('../../assets/edit.png');
+  background-color: #fff !important;
   border: none !important;
+}
+
+.edit-button::after {
+  content: none !important;
+}
+
+#save-label {
+  margin: auto;
+  display: block !important;
+  width: 30%;
+  text-align: center;
+  border-radius: 5px;
+  color: #fff;
+  border: 1px solid #0074d9;
+  background-color: #0074d9;
 }
 
 /* labels */
@@ -141,46 +157,45 @@
   width: 100%;
 }
 
-#blue {
-  background-color: blue;
+.blue {
+  background-color: blue !important;
 }
 
-#yellow {
-  background-color: yellow;
+.yellow {
+  background-color: yellow !important;
 }
 
-#red {
-  background-color: red;
+.red {
+  background-color: red !important;
 }
 
-#green {
-  background-color: green;
+.green {
+  background-color: green !important;
 }
 
-#darkorchid {
-  background-color: darkorchid;
+.darkorchid {
+  background-color: darkorchid !important;
 }
 
-#orange {
-  background-color: orange;
+.orange {
+  background-color: orange !important;
 }
 
-#deepskyblue {
-  background-color: deepskyblue;
+.deepskyblue {
+  background-color: deepskyblue !important;
 }
 
-#sandybrown {
-  background-color: sandybrown;
+.sandybrown {
+  background-color: sandybrown !important;
 }
 
-#plum {
-  background-color: plum;
+.plum {
+  background-color: plum !important;
 }
 
-#khaki {
-  background-color: khaki;
+.khaki {
+  background-color: khaki !important;
 }
-
 
 .search-input {
   width: 90%;
@@ -207,14 +222,18 @@
   border: 1px solid rgb(202, 202, 202);
 }
 
+#add-new-label {
+  width: 90%;
+}
+
 #add-new-label::after {
   content: none;
 }
 
 .labels-colors {
   width: 90%;
-  margin: auto;
-  display: flex;
+  margin: 15px auto !important;
+  display: flex !important;
   flex-direction: row;
   flex-wrap: wrap;
   column-gap: 10px;
@@ -224,8 +243,13 @@
 .rectangle {
   width: 45px;
   height:20px;
-  border-radius: 3px;
-  background:blue;
+  border-radius: 3px !important;
+  cursor: pointer;
+  border: none !important;
+}
+
+.btn-check:checked + label {
+  box-shadow: 0px 0px 0px 4px #5f99cc;
 }
 
 /* current labels styles */
