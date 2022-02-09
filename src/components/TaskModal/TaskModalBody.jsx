@@ -14,15 +14,24 @@ import { CurrentMembers } from './ServicesPanel/CurrentMembers';
 const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime }) => {
 
   const [activeLabels, setActiveLabels] = useState([]);
-  const [labels, setLabels] = useState([{id: 1, value: '', status: false, color: 'blue'}, {id: 2, value: '', status: false, color: 'red'}, {id: 3, value: '', status: false, color: 'yellow'}, {id: 4, value: '', status: false, color: 'green'}]);
+  const [labels, setLabels] = useState([{id: 1, value: 'a', status: false, color: 'blue'}, {id: 2, value: '', status: false, color: 'red'}, {id: 3, value: '', status: false, color: 'yellow'}, {id: 4, value: '', status: false, color: 'green'}]);
   const [checkLists, setCheckList] = useState([]);
 
   const changeCheckList = (value) => {
     setCheckList([...checkLists, value])
   }
 
+
+  useEffect(
+    () => {
+      console.log(labels);
+    }, [labels]
+  )
   const changeLabels = (value) => {
-    if (Number(value.id) < Number(labels.length)) {
+    console.log('value = ', value);
+    if (!value.id) 
+      value.id = labels.length + 1;
+    if (Number(value.id) <= Number(labels.length)) {
       setLabels((prevState) => {
         return prevState.map((item) => {
           if (Number(value.id) === Number(item.id)) {
@@ -41,6 +50,7 @@ const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineVie
   const changeActiveLabels = (value) => {
     setActiveLabels([...activeLabels, value]);
   }
+
   const removeLabel = (value) => {
     setActiveLabels([
       ...activeLabels.slice(0, value),

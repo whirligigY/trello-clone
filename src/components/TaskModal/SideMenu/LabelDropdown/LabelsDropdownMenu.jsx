@@ -50,6 +50,10 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
               >
             </Dropdown.Toggle>
             <AddLabelMenu
+              id={item.id}
+              title={item.value}
+              itemColor={item.color}
+              itemStatus={item.status}
               activeLabels={activeLabels}
               changeActiveLabels={changeActiveLabels}
               labels={labels}
@@ -69,6 +73,10 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
           Add new label
         </Dropdown.Toggle>
         <AddLabelMenu
+          id={''}
+          title={''}
+          itemColor={''}
+          itemStatus={false}
           activeLabels={activeLabels}
           changeActiveLabels={changeActiveLabels}
           labels={labels}
