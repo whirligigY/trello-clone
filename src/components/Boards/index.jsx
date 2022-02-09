@@ -1,9 +1,9 @@
-import { Row, Button } from "react-bootstrap";
-import "./boards.css";
-import { useState, useEffect } from "react";
-import WorkspaceBoards from "../Workspace";
-import { useAuth } from "../../contexts/Auth";
-import WorkspaceBoarModal from "../WorkspaceBoardModal";
+import { Row, Button } from 'react-bootstrap';
+import './boards.css';
+import { useState, useEffect } from 'react';
+import WorkspaceBoards from '../Workspace';
+import { useAuth } from '../../contexts/Auth';
+import WorkspaceBoarModal from '../WorkspaceBoardModal';
 
 const Boards = () => {
   const [boards, setBoards] = useState([]);
@@ -14,10 +14,10 @@ const Boards = () => {
   useEffect(() => {
     if (user) {
       client
-        .from("boards")
-        .select("*")
-        .eq("user_id", user?.id)
-        .order("id", { ascending: true })
+        .from('boards')
+        .select('*')
+        .eq('user_id', user?.id)
+        .order('id', { ascending: true })
         .then(({ data, error }) => {
           if (!error) {
             console.log(`user`, user);
@@ -46,7 +46,7 @@ const Boards = () => {
     <>
       <WorkspaceBoards>
         <Row className="workspace__boards board__list">
-          {console.log(`boards`, boards)}
+          {console.log(`workspace boards`, boards)}
           {user ? (
             boards.map((item) => (
               <div className="board__list__board card" key={item.id}>
