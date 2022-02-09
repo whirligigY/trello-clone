@@ -7,6 +7,7 @@
 
 .main.main_center {
   justify-content: center;
+  grid-area: 2 / 1 / span 1 / span 3;
 }
 
 .sbui-auth .sbui-btn-primary {

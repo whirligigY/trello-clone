@@ -17,7 +17,8 @@ const LabelsDropdown = ({ activeLabels, changeActiveLabels, labels, changeLabels
         changeActiveLabels={changeActiveLabels}
         labels={labels}
         changeLabels={changeLabels}
-        remove={remove}/>
+        remove={remove}
+        />
     </Dropdown>
   )
 }

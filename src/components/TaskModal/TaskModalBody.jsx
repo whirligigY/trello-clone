@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Container, Row, Col } from 'react-bootstrap';
 import { TaskDescription } from './TaskDescription/TaskDescription';
 import { CheckList } from './CheckList/CheckList';
@@ -11,37 +11,7 @@ import { CurrentLabels } from './ServicesPanel/CurrentLabels';
 import { CurrentDeadline } from './ServicesPanel/CurrentDeadline';
 import { CurrentMembers } from './ServicesPanel/CurrentMembers';
 
-const TaskModalBody = () => {
-  const [activeLabels, setActiveLabels] = useState([]);
-  const [labels, setLabels] = useState([{id: 1, value: '', status: false, color: 'blue'}, {id: 2, value: '', status: false, color: 'red'}, {id: 3, value: '', status: false, color: 'yellow'}, {id: 4, value: '', status: false, color: 'green'}]);
-  const [checkLists, setCheckList] = useState([]);
-  const [deadline, setDeadline] = useState(true);
-
-  const changeCheckList = (value) => {
-    setCheckList([...checkLists, value])
-  }
-  const changeLabels = (value) => {
-    setLabels((prevState)=>{
-      return prevState.map((item) => {
-        if (Number(value.id) === Number(item.id)) {
-          item.id = value.id;
-          item.status = value.status;
-          item.color = value.color;
-          item.value = value.value;
-        }
-        return item;
-      });
-    });
-  }
-  const changeActiveLabels = (value) => {
-    setActiveLabels([...activeLabels, value]);
-  }
-  const removeLabel = (value) => {
-    setActiveLabels([
-      ...activeLabels.slice(0, value),
-      ...activeLabels.slice(value + 1)
-    ]);
-  }
+const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime, activeLabels, changeActiveLabels, labels, changeLabels, remove, changeCheckList, checkLists }) => {
 
   return (
     <Modal.Body>
@@ -49,7 +19,7 @@ const TaskModalBody = () => {
         <Row className='content'>
           <Col xs={14} md={10} className='main-content'>
           <div className='services-content'>
-            {deadline && (
+            {showDeadline && (
               <CurrentMembers/>
             )}
             {activeLabels.length > 0 && (
@@ -58,10 +28,18 @@ const TaskModalBody = () => {
               changeActiveLabels={changeActiveLabels}
               labels={labels}
               changeLabels={changeLabels}
-              remove={removeLabel}/>
+              remove={remove}/>
             )}
-            {deadline && (
-              <CurrentDeadline/>
+            {showDeadline && (
+              <CurrentDeadline 
+              dateValue={dateValue}
+              changeDeadline={changeDeadline}
+              setDeadlineView={setDeadlineView}
+              useDeadlineRange={useDeadlineRange}
+              setDeadlineRange={setDeadlineRange}
+              deadlineTime={deadlineTime}
+              changeDeadlineTime={changeDeadlineTime}
+              />
             )}
           </div>
           <TaskDescription/>
@@ -76,9 +54,17 @@ const TaskModalBody = () => {
               changeActiveLabels={changeActiveLabels}
               labels={labels}
               changeLabels={changeLabels}
-              remove={removeLabel}/>
+              remove={remove}/>
             <CheckListDropdown changeCheckList={changeCheckList}/>
-            <DeadlineDropdown/>
+            <DeadlineDropdown 
+              dateValue={dateValue}
+              changeDeadline={changeDeadline}
+              setDeadlineView={setDeadlineView}
+              useDeadlineRange={useDeadlineRange}
+              setDeadlineRange={setDeadlineRange}
+              deadlineTime={deadlineTime}
+              changeDeadlineTime={changeDeadlineTime}
+            />
             <CoversDropdown/>
           </Col>
         </Row>

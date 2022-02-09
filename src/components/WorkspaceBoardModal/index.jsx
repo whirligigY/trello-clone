@@ -1,53 +1,54 @@
-import { useState, useEffect } from 'react'
-import { Modal, Button, Form, FloatingLabel } from 'react-bootstrap'
-import { useAuth } from '../../contexts/Auth'
-import { Redirect } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { Modal, Button, Form, FloatingLabel } from 'react-bootstrap';
+import { useAuth } from '../../contexts/Auth';
+import { Redirect } from 'react-router-dom';
 
 export default function WorkspaceBoarModal({ ...props }) {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [isComplete, setIsComplete] = useState(false)
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
-  const { user, client } = useAuth()
+  const { user, client } = useAuth();
 
   async function submitHandler(event) {
-    event.preventDefault()
+    event.preventDefault();
     // props.saveModalData(title);
+
     const res = await client
       .from('boards')
-      .upsert([{ title, description, user_id: user.id }])
+      .upsert([{ title, description, user_id: user.id }]);
 
-    setIsLoading(true)
+    setIsLoading(true);
     if (res) {
-      props.handleBoardIdChange(res.data[0].id)
+      props.handleBoardIdChange(res.data[0].id);
     }
 
     if (res.error) {
     } else {
-      closeHandler()
+      closeHandler();
     }
   }
 
   const closeHandler = () => {
-    setIsComplete(false)
-  }
+    setIsComplete(false);
+  };
 
   function Delay() {
     return new Promise((res, rej) => {
-      console.log(`delay start`)
-      setTimeout(() => res(), 500)
-    })
+      console.log(`delay start`);
+      setTimeout(() => res(), 500);
+    });
   }
 
   useEffect(() => {
     if (isLoading) {
       Delay().then(() => {
-        console.log(`delay end`)
-        setIsLoading(false)
-      })
+        console.log(`delay end`);
+        setIsLoading(false);
+      });
     }
-  }, [isLoading])
+  }, [isLoading]);
 
   return (
     <Modal
@@ -111,5 +112,5 @@ export default function WorkspaceBoarModal({ ...props }) {
         </Modal.Footer>
       </Form>
     </Modal>
-  )
+  );
 }
