@@ -2,9 +2,10 @@ import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { DeadlineDropdownMenu } from '../SideMenu/DeadlineDropdown/DeadlineDropdownMenu'
 import '../TaskModalWindow.css'
+import moment from 'moment';
 
-const CurrentDeadline = ( ) => {
-
+const CurrentDeadline = ({ dateValue, changeDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime }) => {
+  console.log(deadlineTime)
   return (
     <div>
       <p className="service-title">Dedline</p>
@@ -13,9 +14,16 @@ const CurrentDeadline = ( ) => {
         variant='secondary'
         className="current-deadline"
         >
-          02 Feb, 21:00
+          {Array.isArray(dateValue) ? `${moment(dateValue[1]).format('DD MMM')} ${deadlineTime}` : `${moment(dateValue).format('DD MMM')} ${deadlineTime}`}
         </Dropdown.Toggle>
-        <DeadlineDropdownMenu/>
+        <DeadlineDropdownMenu
+        dateValue={dateValue} 
+        changeDeadline={changeDeadline}
+        setDeadlineView={setDeadlineView}
+        useDeadlineRange={useDeadlineRange}
+        setDeadlineRange={setDeadlineRange}
+        deadlineTime={deadlineTime}
+        changeDeadlineTime={changeDeadlineTime}/>
       </Dropdown>
     </div>
   )
