@@ -21,14 +21,7 @@ const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineVie
     setCheckList([...checkLists, value])
   }
 
-
-  useEffect(
-    () => {
-      console.log(labels);
-    }, [labels]
-  )
   const changeLabels = (value) => {
-    console.log('value = ', value);
     if (!value.id) 
       value.id = labels.length + 1;
     if (Number(value.id) <= Number(labels.length)) {
@@ -36,8 +29,8 @@ const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineVie
         return prevState.map((item) => {
           if (Number(value.id) === Number(item.id)) {
             item.id = value.id;
-            item.status = value.status;
             item.color = value.color;
+            item.status = value.status
             item.value = value.value;
           }
           return item;
@@ -47,8 +40,30 @@ const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineVie
       setLabels([...labels, value]);
     }
   }
+  
   const changeActiveLabels = (value) => {
-    setActiveLabels([...activeLabels, value]);
+    let index = -1;
+    activeLabels.map((item) => {
+      if (Number(value.id) === Number(item.id))
+      {
+        index = activeLabels.indexOf(item)
+      }
+      return item;
+    })
+    if (index !== -1) {
+    setActiveLabels((prevState) => {
+        return prevState.map((item) => {
+          if (Number(value.id) === Number(item.id)) {
+            item.id = value.id;
+            item.color = value.color;
+            item.value = value.value;
+          }
+          return item;
+        });
+      });
+    } else {
+      setActiveLabels([...activeLabels, value]);
+    }
   }
 
   const removeLabel = (value) => {
@@ -99,7 +114,8 @@ const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineVie
               changeActiveLabels={changeActiveLabels}
               labels={labels}
               changeLabels={changeLabels}
-              remove={removeLabel}/>
+              remove={removeLabel}
+              filterLabels={filterLabels}/>
             <CheckListDropdown changeCheckList={changeCheckList}/>
             <DeadlineDropdown 
               dateValue={dateValue}

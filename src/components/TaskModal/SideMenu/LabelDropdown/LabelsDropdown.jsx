@@ -2,7 +2,7 @@ import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { LabelsDropdownMenu } from './LabelsDropdownMenu'
 
-const LabelsDropdown = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
+const LabelsDropdown = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove, filterLabels }) => {
 
   return (
     <Dropdown>
@@ -17,7 +17,8 @@ const LabelsDropdown = ({ activeLabels, changeActiveLabels, labels, changeLabels
         changeActiveLabels={changeActiveLabels}
         labels={labels}
         changeLabels={changeLabels}
-        remove={remove}/>
+        remove={remove}
+        filterLabels={filterLabels}/>
     </Dropdown>
   )
 }

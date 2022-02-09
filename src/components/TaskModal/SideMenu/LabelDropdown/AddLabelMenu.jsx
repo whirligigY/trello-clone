@@ -2,18 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown, Button, ToggleButtonGroup, ToggleButton } from "react-bootstrap";
 import "../../TaskModalWindow.css";
 
-const AddLabelMenu = ({ activeLabels, changeActiveLabels, labels, changeLabels, id, title, itemColor, itemStatus }) => {
+const AddLabelMenu = ({ changeActiveLabels, labels, changeLabels, id, title, itemColor, itemStatus }) => {
 
-  const [newLabel, setNewLabel] = useState({id: id, color: itemColor, value: title, status: itemStatus});
+  const [newLabel, setNewLabel] = useState({id: id, color: itemColor, value: title, status: ''});
   const [labelTitle, setLabelTitle] = useState(title || '');
   const [value, setValue] = useState(itemColor || '');
 
-  const addColor = (e) => {
-    console.log('check = ', e.target.value)
-    //e.stopPropagation();
-    setValue(e.target.value);
-    setNewLabel({...newLabel, color: e.target.value});
+  const addColor = (val) => {
+    setValue(val);
+    setNewLabel({...newLabel, color: val});
   }
+
+  useEffect (()=>{
+    if (itemStatus) {
+      setNewLabel({...newLabel, status: true});
+    } else {
+      setNewLabel({...newLabel, status: false});
+    }
+  }, [itemStatus]
+  )
 
   const addTitle = (e) => {
     setNewLabel({...newLabel, value: e.target.value});
@@ -27,6 +34,9 @@ const AddLabelMenu = ({ activeLabels, changeActiveLabels, labels, changeLabels, 
       setNewLabel({...newLabel, id: labels.length + 1});
     }
     changeLabels(newLabel);
+    if (itemStatus) {
+      changeActiveLabels(newLabel);
+    }
   };
 
   return (
