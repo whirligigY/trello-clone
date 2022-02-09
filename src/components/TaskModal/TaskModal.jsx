@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { TaskModalBody } from './TaskModalBody'
 import './TaskModalWindow.css'
 
-const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime }) => {
+const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime, activeLabels, changeActiveLabels, labels, changeLabels, removeLabel, changeCheckList, checkLists }) => {
   return (
     <Modal show={visible}
     size="lg"
@@ -23,14 +23,21 @@ const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, chang
       </div>
       </Modal.Header>
       <TaskModalBody 
-      dateValue={dateValue} 
-      changeDeadline={changeDeadline}
-      showDeadline={showDeadline}
-      setDeadlineView={setDeadlineView}
-      useDeadlineRange={useDeadlineRange}
-      setDeadlineRange={setDeadlineRange}
-      deadlineTime={deadlineTime}
-      changeDeadlineTime={changeDeadlineTime}
+        dateValue={dateValue} 
+        changeDeadline={changeDeadline}
+        showDeadline={showDeadline}
+        setDeadlineView={setDeadlineView}
+        useDeadlineRange={useDeadlineRange}
+        setDeadlineRange={setDeadlineRange}
+        deadlineTime={deadlineTime}
+        changeDeadlineTime={changeDeadlineTime}
+        activeLabels={activeLabels}
+        changeActiveLabels={changeActiveLabels}
+        labels={labels}
+        changeLabels={changeLabels}
+        remove={removeLabel}
+        checkLists={checkLists}
+        changeCheckList={changeCheckList}
       />
     </Modal>
   )

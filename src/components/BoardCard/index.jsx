@@ -43,6 +43,73 @@ const BoardCard = ({
   }
   /* end of deadline states */
 
+  /* labels states */
+  const [activeLabels, setActiveLabels] = useState([]);
+  const [labels, setLabels] = useState([{id: 1, value: 'a', status: false, color: 'blue'}, {id: 2, value: '', status: false, color: 'red'}, {id: 3, value: '', status: false, color: 'yellow'}, {id: 4, value: '', status: false, color: 'green'}]);
+
+  const changeLabels = (value) => {
+    if (!value.id) 
+      value.id = labels.length + 1;
+    if (Number(value.id) <= Number(labels.length)) {
+      setLabels((prevState) => {
+        return prevState.map((item) => {
+          if (Number(value.id) === Number(item.id)) {
+            item.id = value.id;
+            item.color = value.color;
+            item.status = value.status
+            item.value = value.value;
+          }
+          return item;
+        });
+      });
+    } else {
+      setLabels([...labels, value]);
+    }
+  }
+  
+  const changeActiveLabels = (value) => {
+    let index = -1;
+    activeLabels.map((item) => {
+      if (Number(value.id) === Number(item.id))
+      {
+        index = activeLabels.indexOf(item)
+      }
+      return item;
+    })
+    if (index !== -1) {
+    setActiveLabels((prevState) => {
+        return prevState.map((item) => {
+          if (Number(value.id) === Number(item.id)) {
+            item.id = value.id;
+            item.color = value.color;
+            item.value = value.value;
+          }
+          return item;
+        });
+      });
+    } else {
+      setActiveLabels([...activeLabels, value]);
+    }
+  }
+
+  const removeActiveLabel = (value) => {
+    setActiveLabels([
+      ...activeLabels.slice(0, value),
+      ...activeLabels.slice(value + 1)
+    ]);
+  }
+  /* end of labels states */
+
+  /* checklists states */
+  const [checkLists, setCheckList] = useState([]);
+
+  const changeCheckList = (value) => {
+    setCheckList([...checkLists, value])
+  }
+  /* end checklists state */
+
+  /*end task modal states*/
+
   return (
     <div>
       {<TaskModalWindow 
@@ -58,6 +125,13 @@ const BoardCard = ({
       setDeadlineRange={setDeadlineRange}
       deadlineTime={deadlineTime}
       changeDeadlineTime={changeDeadlineTime}
+      activeLabels={activeLabels}
+      changeActiveLabels={changeActiveLabels}
+      labels={labels}
+      changeLabels={changeLabels}
+      removeLabel={removeActiveLabel}
+      checkLists={checkLists}
+      changeCheckList={changeCheckList}
       />}
       {Number(card.columnId) === columnId && (
         <Card

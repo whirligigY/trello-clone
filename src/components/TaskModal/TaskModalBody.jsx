@@ -11,67 +11,7 @@ import { CurrentLabels } from './ServicesPanel/CurrentLabels';
 import { CurrentDeadline } from './ServicesPanel/CurrentDeadline';
 import { CurrentMembers } from './ServicesPanel/CurrentMembers';
 
-const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime }) => {
-
-  const [activeLabels, setActiveLabels] = useState([]);
-  const [labels, setLabels] = useState([{id: 1, value: 'a', status: false, color: 'blue'}, {id: 2, value: '', status: false, color: 'red'}, {id: 3, value: '', status: false, color: 'yellow'}, {id: 4, value: '', status: false, color: 'green'}]);
-  const [checkLists, setCheckList] = useState([]);
-
-  const changeCheckList = (value) => {
-    setCheckList([...checkLists, value])
-  }
-
-  const changeLabels = (value) => {
-    if (!value.id) 
-      value.id = labels.length + 1;
-    if (Number(value.id) <= Number(labels.length)) {
-      setLabels((prevState) => {
-        return prevState.map((item) => {
-          if (Number(value.id) === Number(item.id)) {
-            item.id = value.id;
-            item.color = value.color;
-            item.status = value.status
-            item.value = value.value;
-          }
-          return item;
-        });
-      });
-    } else {
-      setLabels([...labels, value]);
-    }
-  }
-  
-  const changeActiveLabels = (value) => {
-    let index = -1;
-    activeLabels.map((item) => {
-      if (Number(value.id) === Number(item.id))
-      {
-        index = activeLabels.indexOf(item)
-      }
-      return item;
-    })
-    if (index !== -1) {
-    setActiveLabels((prevState) => {
-        return prevState.map((item) => {
-          if (Number(value.id) === Number(item.id)) {
-            item.id = value.id;
-            item.color = value.color;
-            item.value = value.value;
-          }
-          return item;
-        });
-      });
-    } else {
-      setActiveLabels([...activeLabels, value]);
-    }
-  }
-
-  const removeLabel = (value) => {
-    setActiveLabels([
-      ...activeLabels.slice(0, value),
-      ...activeLabels.slice(value + 1)
-    ]);
-  }
+const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime, activeLabels, changeActiveLabels, labels, changeLabels, remove, changeCheckList, checkLists }) => {
 
   return (
     <Modal.Body>
@@ -88,7 +28,7 @@ const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineVie
               changeActiveLabels={changeActiveLabels}
               labels={labels}
               changeLabels={changeLabels}
-              remove={removeLabel}/>
+              remove={remove}/>
             )}
             {showDeadline && (
               <CurrentDeadline 
@@ -114,8 +54,7 @@ const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineVie
               changeActiveLabels={changeActiveLabels}
               labels={labels}
               changeLabels={changeLabels}
-              remove={removeLabel}
-              filterLabels={filterLabels}/>
+              remove={remove}/>
             <CheckListDropdown changeCheckList={changeCheckList}/>
             <DeadlineDropdown 
               dateValue={dateValue}
