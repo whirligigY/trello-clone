@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Modal, Container, Row, Col } from 'react-bootstrap';
 import { TaskDescription } from './TaskDescription/TaskDescription';
 import { CheckList } from './CheckList/CheckList';
@@ -11,52 +11,67 @@ import { CurrentLabels } from './ServicesPanel/CurrentLabels';
 import { CurrentDeadline } from './ServicesPanel/CurrentDeadline';
 import { CurrentMembers } from './ServicesPanel/CurrentMembers';
 
-const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime, activeLabels, changeActiveLabels, labels, changeLabels, remove, changeCheckList, checkLists }) => {
-
+const TaskModalBody = ({
+  dateValue,
+  changeDeadline,
+  showDeadline,
+  setDeadlineView,
+  useDeadlineRange,
+  setDeadlineRange,
+  deadlineTime,
+  changeDeadlineTime,
+  activeLabels,
+  changeActiveLabels,
+  labels,
+  changeLabels,
+  remove,
+  changeCheckList,
+  checkLists
+}) => {
   return (
     <Modal.Body>
       <Container>
-        <Row className='content'>
-          <Col xs={14} md={10} className='main-content'>
-          <div className='services-content'>
-            {showDeadline && (
-              <CurrentMembers/>
-            )}
-            {activeLabels.length > 0 && (
-              <CurrentLabels 
-              activeLabels={activeLabels}
-              changeActiveLabels={changeActiveLabels}
-              labels={labels}
-              changeLabels={changeLabels}
-              remove={remove}/>
-            )}
-            {showDeadline && (
-              <CurrentDeadline 
-              dateValue={dateValue}
-              changeDeadline={changeDeadline}
-              setDeadlineView={setDeadlineView}
-              useDeadlineRange={useDeadlineRange}
-              setDeadlineRange={setDeadlineRange}
-              deadlineTime={deadlineTime}
-              changeDeadlineTime={changeDeadlineTime}
-              />
-            )}
-          </div>
-          <TaskDescription/>
-          { checkLists.map((item, i) => 
+        <Row className="content">
+          <Col xs={14} md={10} className="main-content">
+            <div className="services-content">
+              {showDeadline && <CurrentMembers />}
+              {activeLabels.length > 0 && (
+                <CurrentLabels
+                  activeLabels={activeLabels}
+                  changeActiveLabels={changeActiveLabels}
+                  labels={labels}
+                  changeLabels={changeLabels}
+                  remove={remove}
+                />
+              )}
+              {showDeadline && (
+                <CurrentDeadline
+                  dateValue={dateValue}
+                  changeDeadline={changeDeadline}
+                  setDeadlineView={setDeadlineView}
+                  useDeadlineRange={useDeadlineRange}
+                  setDeadlineRange={setDeadlineRange}
+                  deadlineTime={deadlineTime}
+                  changeDeadlineTime={changeDeadlineTime}
+                />
+              )}
+            </div>
+            <TaskDescription />
+            {checkLists.map((item, i) => (
               <CheckList key={i} id={`${i}`} title={item} />
-            )}
+            ))}
           </Col>
           <Col className="side-buttons" xs={4} md={2}>
-            <MembersDropdown/>
-            <LabelsDropdown 
+            <MembersDropdown />
+            <LabelsDropdown
               activeLabels={activeLabels}
               changeActiveLabels={changeActiveLabels}
               labels={labels}
               changeLabels={changeLabels}
-              remove={remove}/>
-            <CheckListDropdown changeCheckList={changeCheckList}/>
-            <DeadlineDropdown 
+              remove={remove}
+            />
+            <CheckListDropdown changeCheckList={changeCheckList} />
+            <DeadlineDropdown
               dateValue={dateValue}
               changeDeadline={changeDeadline}
               setDeadlineView={setDeadlineView}
@@ -65,12 +80,12 @@ const TaskModalBody = ({ dateValue, changeDeadline, showDeadline, setDeadlineVie
               deadlineTime={deadlineTime}
               changeDeadlineTime={changeDeadlineTime}
             />
-            <CoversDropdown/>
+            <CoversDropdown />
           </Col>
         </Row>
       </Container>
     </Modal.Body>
-  )
-}
+  );
+};
 
 export { TaskModalBody };
