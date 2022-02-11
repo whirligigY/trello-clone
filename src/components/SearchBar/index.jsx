@@ -65,32 +65,53 @@ export default function SearchBar(props) {
     if (!searchQuery) setSearchDataDB([]);
   }, [searchQuery]);
 
-  //TODO: implement user input sanitization
+  //TODO: implement user input sanitization ?
   /**
    *
    **/
-
   const sanitize = (query) => {
-    if (user) {
-      client
-        .from('boards')
-        .select('*')
-        .eq('user_id', user?.id)
-        .eq('description', query)
-        .order('id', { ascending: true })
-        .then(({ data, error }) => {
-          if (!error) {
-            console.log(data);
-            setSearchDataDB(data);
-          }
-        });
-    }
+    const cleanedQuery = query.trim().toLowerCase();
+    return cleanedQuery;
   };
 
-  const searchDB = () => {
+  const filterDubs = (arr) => {
+    const set = new Set();
+    const unique = arr.filter((item) => {
+      const isInSet = set.has(item.id);
+      set.add(item.id);
+
+      return !isInSet;
+    });
+    return unique;
+  };
+
+  const searchDB = async () => {
     if (!searchQuery || searchQuery.trim() === '') return;
     setLoading(true);
-    sanitize(searchQuery);
+    const searchItems = [];
+    if (user) {
+      await client
+        .from(`boards`)
+        .select('*')
+        .like('title', `%${sanitize(searchQuery)}%`)
+        .then(({ data, error }) => {
+          if (!error) {
+            searchItems.push(...data);
+          }
+        });
+
+      await client
+        .from(`boards`)
+        .select('*')
+        .like('description', `%${sanitize(searchQuery)}%`)
+        .then(({ data, error }) => {
+          if (!error) {
+            searchItems.push(...data);
+          }
+        });
+
+      setSearchDataDB(filterDubs(searchItems));
+    }
     setLoading(false);
     return true;
   };
