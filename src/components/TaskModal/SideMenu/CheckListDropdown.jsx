@@ -3,7 +3,7 @@ import { Dropdown, DropdownButton } from 'react-bootstrap';
 import '../TaskModalWindow.css'
 
 const CheckListDropdown = ({ changeCheckList }) => {
-  const addCheckList = (e) => {
+  const addCheckList = () => {
     const input = document.querySelector('.check-list-name-input');
     const name = input.value;
     changeCheckList(name);
