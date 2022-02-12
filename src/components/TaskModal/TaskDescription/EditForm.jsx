@@ -3,32 +3,19 @@ import { Form, Button } from 'react-bootstrap';
 import { useAuth } from '../../../contexts/Auth';
 import '../TaskModalWindow.css';
 
-const EditForm = ({ setHeigth, cardId }) => {
+const EditForm = ({ setHeigth, taskDescription, setTaskDescription, cardId }) => {
+  
   const [isTextAreaActive, setIsTextAreaActive] = useState(false);
   const [isTextareaVisible, setIsTextareaVisible] = useState(true);
-  const [description, setDescription] = useState('');
-  const [tempDescription, setTempDescription] = useState(description);
-
+  const [tempDescription, setTempDescription] = useState(taskDescription);
   const { user, client } = useAuth();
-  useEffect(() => {
-      client
-        .from('tsk_cards')
-        .select('crd_description')
-        .eq('crd_id', cardId)
-        .then(({ data, error }) => {
-          if (!error) {
-            console.log(`data = `, data[0].crd_description);
-            setDescription(data[0].crd_description);
-          }
-          else {
-            console.log('error = ', error);
-          }
-        })
-  }, [client])
 
   useEffect(() => {
-    setTempDescription(description);
-  }, [description])
+    if (taskDescription) {
+      setIsTextareaVisible(false)
+    }
+    setTempDescription(taskDescription);
+  }, [taskDescription])
 
   const onSave = () => {
     if (!tempDescription) {
@@ -36,10 +23,16 @@ const EditForm = ({ setHeigth, cardId }) => {
     } else {
       setIsTextareaVisible(false);
     }
-
     setTaskDescription(tempDescription);
     setIsTextAreaActive(false);
-  };
+    saveCompleted(tempDescription);
+  }
+  const saveCompleted = async (savedDescription) => {
+    const { data, error } = await client
+      .from('tsk_cards')
+      .update({ crd_description: savedDescription })
+      .eq('crd_id', cardId)
+};
 
   const onEdit = () => {
     setIsTextareaVisible(true);
@@ -47,11 +40,10 @@ const EditForm = ({ setHeigth, cardId }) => {
   };
 
   const onClose = () => {
-    if (description) {
+    if (taskDescription) {
       setIsTextareaVisible(false);
-      setTempDescription(description);
+      setTempDescription(taskDescription);
     }
-
     setIsTextAreaActive(false);
   };
 
@@ -86,7 +78,7 @@ const EditForm = ({ setHeigth, cardId }) => {
           <p>{taskDescription}</p>
         </div>
       )}
-      {!isTextAreaActive && description && (
+      {!isTextAreaActive && taskDescription && (
         <Button
           className="edit-task-description"
           variant="outline-secondary"

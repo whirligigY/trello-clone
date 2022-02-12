@@ -27,6 +27,8 @@ const TaskModalBody = ({
   remove,
   changeCheckList,
   checkLists,
+  taskDescription,
+  setTaskDescription,
   cardId
 }) => {
   return (
@@ -58,6 +60,8 @@ const TaskModalBody = ({
               )}
             </div>
             <TaskDescription
+            taskDescription={taskDescription}
+            setTaskDescription={setTaskDescription}
               cardId={cardId}
             />
             {checkLists.map((item, i) => (
