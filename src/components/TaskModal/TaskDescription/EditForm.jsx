@@ -27,12 +27,13 @@ const EditForm = ({ setHeigth, taskDescription, setTaskDescription, cardId }) =>
     setIsTextAreaActive(false);
     saveCompleted(tempDescription);
   }
+  
   const saveCompleted = async (savedDescription) => {
     const { data, error } = await client
       .from('tsk_cards')
       .update({ crd_description: savedDescription })
       .eq('crd_id', cardId)
-};
+  };
 
   const onEdit = () => {
     setIsTextareaVisible(true);
