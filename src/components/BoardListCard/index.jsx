@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
-import styles from "./BoardListCard.module.css";
-import { BoardCard } from "../BoardCard";
-import { AddButton } from "../AddButton";
-import { BoardTitleTextarea } from "../BoardTitleTextarea";
-import { useDragDropCards } from "../../pages/DashboardPage/hooks";
+import React, { useState, useEffect } from 'react'
+import styles from './BoardListCard.module.css'
+import { BoardCard } from '../BoardCard'
+import { AddButton } from '../AddButton'
+import { BoardTitleTextarea } from '../BoardTitleTextarea'
+import { useDragDropCards } from '../../pages/DashboardPage/hooks'
 
 const BoardListCard = ({
-  title,
-  id,
-  order,
-  dataSet,
+  col_title,
+  col_id,
+  col_order,
   dropBoardHandler,
   dragStartBoardHandler,
   dragOverBoardHandler,
@@ -18,19 +17,18 @@ const BoardListCard = ({
   getNewCardState,
   cards,
   AddTask,
-  changeDropComponent,
+  changeDropComponent
 }) => {
   const {
     dragStartCardHandler,
     dragOverCardHandler,
     dragEndCardHandler,
-    dropCardHandler,
-  } = useDragDropCards(
-    changeCurrentValue,
-    getNewCardState,
-    changeDropComponent
-  );
-
+    dropCardHandler
+  } = useDragDropCards(changeCurrentValue, getNewCardState, changeDropComponent)
+  const title = col_title
+  const id = col_id
+  const order = col_order
+  if (cards.length) console.log(cards)
   return (
     <div
       className={styles.container}
@@ -44,28 +42,29 @@ const BoardListCard = ({
     >
       <h4>{title}</h4>
       {/* <BoardTitleTextarea title={title} /> */}
-      {cards.map((card, index) => (
-        <BoardCard
-          columnId={id}
-          card={card}
-          key={card.id}
-          columnTitle={title}
-          dragStartCardHandler={dragStartCardHandler}
-          dragOverCardHandler={dragOverCardHandler}
-          dragEndCardHandler={dragEndCardHandler}
-          dropCardHandler={dropCardHandler}
-        />
-      ))}
+      {cards.length &&
+        cards.map((card, index) => (
+          <BoardCard
+            key={card.id}
+            columnId={id}
+            card={card}
+            columnTitle={title}
+            dragStartCardHandler={dragStartCardHandler}
+            dragOverCardHandler={dragOverCardHandler}
+            dragEndCardHandler={dragEndCardHandler}
+            dropCardHandler={dropCardHandler}
+          />
+        ))}
       <AddButton
-        text={"task"}
-        type={"card"}
+        text={'task'}
+        type={'card'}
         listId={id}
-        placeholder={"Enter a title for this card"}
-        textBtn={"task"}
+        placeholder={'Enter a title for this card'}
+        textBtn={'task'}
         onClick={(text) => AddTask(text, id)}
       />
     </div>
-  );
-};
+  )
+}
 
-export { BoardListCard };
+export { BoardListCard }

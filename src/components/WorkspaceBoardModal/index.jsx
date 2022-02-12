@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Modal, Button, Form, FloatingLabel } from 'react-bootstrap';
 import { useAuth } from '../../contexts/Auth';
+import { Redirect } from 'react-router-dom';
 
-export default function WorkspaceBoarModal(props) {
+export default function WorkspaceBoarModal({ ...props }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -13,11 +14,17 @@ export default function WorkspaceBoarModal(props) {
   async function submitHandler(event) {
     event.preventDefault();
     // props.saveModalData(title);
-    const { error } = await client
+
+    const res = await client
       .from('boards')
       .upsert([{ title, description, user_id: user.id }]);
+
     setIsLoading(true);
-    if (error) {
+    if (res) {
+      props.handleBoardIdChange(res.data[0].id);
+    }
+
+    if (res.error) {
     } else {
       closeHandler();
     }
@@ -95,6 +102,7 @@ export default function WorkspaceBoarModal(props) {
                 <>
                   <span className="spinner-border spinner-border-sm"></span>{' '}
                   Saving...
+                  <Redirect to={`/dashboard`} />
                 </>
               ) : (
                 'Save'
