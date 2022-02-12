@@ -107,7 +107,6 @@ const BoardCard = ({
     setCheckList([...checkLists, value])
   }
   /* end checklists state */
-
   /*end task modal states*/
 
   return (
@@ -132,6 +131,7 @@ const BoardCard = ({
       removeLabel={removeActiveLabel}
       checkLists={checkLists}
       changeCheckList={changeCheckList}
+      cardId={card.id}
       />}
       {Number(card.columnId) === columnId && (
         <Card

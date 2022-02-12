@@ -26,7 +26,8 @@ const TaskModalBody = ({
   changeLabels,
   remove,
   changeCheckList,
-  checkLists
+  checkLists,
+  cardId
 }) => {
   return (
     <Modal.Body>
@@ -56,7 +57,9 @@ const TaskModalBody = ({
                 />
               )}
             </div>
-            <TaskDescription />
+            <TaskDescription
+              cardId={cardId}
+            />
             {checkLists.map((item, i) => (
               <CheckList key={i} id={`${i}`} title={item} />
             ))}

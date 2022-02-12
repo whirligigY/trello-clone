@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import { TaskModalBody } from './TaskModalBody'
+import { useAuth } from '../../contexts/Auth';
 import './TaskModalWindow.css'
 
-const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime, activeLabels, changeActiveLabels, labels, changeLabels, removeLabel, changeCheckList, checkLists }) => {
+const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime, activeLabels, changeActiveLabels, labels, changeLabels, removeLabel, changeCheckList, checkLists, cardId }) => {
+
+  //const [taskDescription, setTaskDescription] = useState();
+
   return (
     <Modal show={visible}
     size="lg"
@@ -37,6 +41,7 @@ const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, chang
         remove={removeLabel}
         checkLists={checkLists}
         changeCheckList={changeCheckList}
+        cardId={cardId}
       />
     </Modal>
   )

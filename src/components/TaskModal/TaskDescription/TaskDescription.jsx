@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { EditForm } from './EditForm';
 import '../TaskModalWindow.css';
 
-const TaskDescription = () => {
+const TaskDescription = ({ cardId}) => {
   const setHeigth = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -13,7 +13,10 @@ const TaskDescription = () => {
       <div className="task-description-header">
         <h3>Task description</h3>
       </div>
-      <EditForm setHeigth={setHeigth} />
+      <EditForm 
+        setHeigth={setHeigth}
+        cardId={cardId}
+      />
     </div>
   );
 };
