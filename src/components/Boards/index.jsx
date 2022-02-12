@@ -1,3 +1,4 @@
+
 import { Row, Button } from 'react-bootstrap'
 import './boards.css'
 import { useState, useEffect } from 'react'
@@ -5,6 +6,7 @@ import WorkspaceBoards from '../Workspace'
 import { useAuth } from '../../contexts/Auth'
 import WorkspaceBoarModal from '../WorkspaceBoardModal'
 import { Link } from 'react-router-dom'
+
 
 const Boards = ({ handleBoardIdChange, ...props }) => {
   const [boards, setBoards] = useState([])
@@ -47,7 +49,7 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
     <>
       <WorkspaceBoards>
         <Row className="workspace__boards board__list">
-          {console.log(`boards`, boards)}
+          {console.log(`workspace boards`, boards)}
           {user ? (
             boards.map((item) => (
               <Link

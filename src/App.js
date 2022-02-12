@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import './App.css'
 
@@ -19,16 +20,17 @@ import Profile from './components/Profile'
 import { AuthProvider } from './contexts/Auth'
 import { supabase } from './client'
 
+
 //TODO: change switch to route with history
 /**
  *
  **/
 
-const App = () => {
+const App = (props) => {
   // const newHistory = createBrowserHistory();
+
   const [boardId, setBoardId] = useState(null)
   const handleBoardIdChange = (id) => {
-    console.log('ID in app.js', id)
     setBoardId(id)
   }
   return (
@@ -38,6 +40,7 @@ const App = () => {
           <Header />
           {/* <Router history={newHistory}> */}
           <Switch>
+
             <Route
               exact
               path="/"
@@ -56,6 +59,7 @@ const App = () => {
             <Route path="/sign-in" component={SignIn} />
             <Route path="/profile" component={Profile} />
             {/* <Redirect from="/dashboard" to="/dashboard/:dashboardId" /> */}
+
           </Switch>
           <Footer />
         </div>
