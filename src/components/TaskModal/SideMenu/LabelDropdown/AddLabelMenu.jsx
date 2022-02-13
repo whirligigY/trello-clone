@@ -3,7 +3,6 @@ import { Dropdown, Button, ToggleButtonGroup, ToggleButton } from "react-bootstr
 import "../../TaskModalWindow.css";
 
 const AddLabelMenu = ({ changeActiveLabels, labels, changeLabels, id, title, itemColor, itemStatus }) => {
-  console.log('id = ', typeof id);
   const [newLabel, setNewLabel] = useState({id: id, color: itemColor, value: title, status: ''});
   const [labelTitle, setLabelTitle] = useState(title || '');
   const [value, setValue] = useState(itemColor || '');
@@ -33,7 +32,6 @@ const AddLabelMenu = ({ changeActiveLabels, labels, changeLabels, id, title, ite
     } else {
       setNewLabel((prevState) => {return {...prevState, id: Number(labels.length + 1)}});
     }
-    console.log('id = ', typeof id);
     changeLabels(newLabel);
     if (itemStatus) {
       changeActiveLabels(newLabel);

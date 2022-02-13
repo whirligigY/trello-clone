@@ -16,7 +16,6 @@ const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, chang
       .eq('crd_id', cardId)
       .then(({ data, error }) => {
         if (!error) {
-          console.log(`data = `, data[0].crd_description);
           setTaskDescription(data[0].crd_description);
         }
       })

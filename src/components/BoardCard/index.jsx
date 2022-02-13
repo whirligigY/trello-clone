@@ -5,6 +5,7 @@ import IMG_3 from "./abstract3.jpeg";
 import { Card } from "react-bootstrap";
 import styles from "./BoardCard.module.css";
 import { TaskModalWindow } from '../TaskModal/TaskModal';
+import { CardLabel } from '../CardLabel';
 import moment from 'moment';
 
 const BoardCard = ({
@@ -189,6 +190,17 @@ const BoardCard = ({
               <i className="bi bi-check2-square btn-light"></i>
               <span className={"btn-light " + styles.ml}>2/2</span>
             </Card.Link>
+            {activeLabels.length > 0 && (
+                <div className={styles.card_labels}>
+                  { activeLabels.map((item, i) => {
+                    if (item.status) {
+                      return <CardLabel item={item} key={i}/>
+                    }
+                    return '';
+                  }
+                  )}
+                </div>
+              )}
           </Card.Body>
         </Card>
       )}
