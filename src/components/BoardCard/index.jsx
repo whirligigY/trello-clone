@@ -6,18 +6,11 @@ import { Card } from 'react-bootstrap';
 import styles from './BoardCard.module.css';
 import { TaskModalWindow } from '../TaskModal/TaskModal';
 import moment from 'moment';
+import { Draggable } from 'react-beautiful-dnd';
 
-const BoardCard = ({
-  columnId,
-  card,
-  columnTitle,
-  dragStartCardHandler,
-  dragOverCardHandler,
-  dragEndCardHandler,
-  dropCardHandler
-}) => {
+const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const [visible, setVisible] = useState(false);
-  console.log(card);
+
   function closeHandle() {
     setVisible(false);
   }
@@ -28,6 +21,7 @@ const BoardCard = ({
 
   /* task modal window state */
   /* deadline states */
+
   const [value, onChange] = useState(new Date());
   const [showDeadline, setShowDeadline] = useState(false);
   const [isActiveRange, setIsActiveRange] = useState(false);
@@ -115,94 +109,92 @@ const BoardCard = ({
   /*end task modal states*/
 
   return (
-    <div>
-      {
-        <TaskModalWindow
-          visible={visible}
-          closeHandle={closeHandle}
-          title={card.title}
-          column={columnTitle}
-          dateValue={value}
-          changeDeadline={onChange}
-          showDeadline={showDeadline}
-          setDeadlineView={changeDeadlineView}
-          useDeadlineRange={isActiveRange}
-          setDeadlineRange={setDeadlineRange}
-          deadlineTime={deadlineTime}
-          changeDeadlineTime={changeDeadlineTime}
-          activeLabels={activeLabels}
-          changeActiveLabels={changeActiveLabels}
-          labels={labels}
-          changeLabels={changeLabels}
-          removeLabel={removeActiveLabel}
-          checkLists={checkLists}
-          changeCheckList={changeCheckList}
-        />
-      }
-      {Number(card.crd_columnid) === columnId && (
-        <Card
-          style={{ width: '19rem' }}
-          className={styles.card}
-          onClick={openHandle}
-          draggable={true}
-          onDragStart={(e) => {
-            dragStartCardHandler(e, card);
-          }}
-          onDragLeave={dragEndCardHandler}
-          onDragEnd={dragEndCardHandler}
-          onDragOver={dragOverCardHandler}
-          onDrop={(e) => {
-            dropCardHandler(e, card, columnId);
-          }}
+    <Draggable draggableId={`${cardId}`} index={cardIndex}>
+      {(provided) => (
+        <div
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
         >
-          <div className={styles.bd_clipboard}>
-            <i
-              className={'bi bi-pencil btn-secondary ' + styles.btn_clipboard}
-            ></i>
-          </div>
-          {card.crd_id === 0 && (
-            <Card.Img variant="top" src={IMG_1} draggable={false} />
-          )}
-          {card.crd_id === 1 && (
-            <Card.Img variant="top" src={IMG_3} draggable={false} />
-          )}
-          {card.crd_id === 3 && (
-            <Card.Img variant="top" src={IMG_2} draggable={false} />
-          )}
-          <Card.Body>
-            <Card.Text draggable={false}>{card.crd_title}</Card.Text>
-            {showDeadline && (
-              <Card.Link
-                href="#"
-                className="p-1 btn btn-secondary"
-                draggable={false}
-              >
-                <i className="bi bi-clock-fill"></i>
-                <span className={styles.ml}>
-                  {Array.isArray(value)
-                    ? moment(value[1]).format('DD MMM')
-                    : moment(value).format('DD MMM')}
-                </span>
-              </Card.Link>
-            )}
-            <Card.Link
-              href="#"
-              className={'card-link ' + styles.descrip}
-              draggable={false}
+          {/* <TaskModalWindow
+            visible={visible}
+            closeHandle={closeHandle}
+            title={card.title}
+            column={columnTitle}
+            dateValue={value}
+            changeDeadline={onChange}
+            showDeadline={showDeadline}
+            setDeadlineView={changeDeadlineView}
+            useDeadlineRange={isActiveRange}
+            setDeadlineRange={setDeadlineRange}
+            deadlineTime={deadlineTime}
+            changeDeadlineTime={changeDeadlineTime}
+            activeLabels={activeLabels}
+            changeActiveLabels={changeActiveLabels}
+            labels={labels}
+            changeLabels={changeLabels}
+            removeLabel={removeActiveLabel}
+            checkLists={checkLists}
+            changeCheckList={changeCheckList}
+          /> */}
+          {Number(card.crd_columnid) === columnId && (
+            <Card
+              style={{ width: '19rem' }}
+              className={styles.card}
+              onClick={openHandle}
             >
-              <i className="bi bi-justify-left btn-light"></i>
-            </Card.Link>
-            <Card.Link href="#" draggable={false}>
-              <i className="bi bi-link-45deg btn-light"></i>
-            </Card.Link>
-            <Card.Link href="#" draggable={false}>
-              <i className="bi bi-check2-square btn-light"></i>
-              <span className={'btn-light ' + styles.ml}>2/2</span>
-            </Card.Link>
-          </Card.Body>
-        </Card>
+              <div className={styles.bd_clipboard}>
+                <i
+                  className={
+                    'bi bi-pencil btn-secondary ' + styles.btn_clipboard
+                  }
+                ></i>
+              </div>
+              {card.crd_id === 0 && (
+                <Card.Img variant="top" src={IMG_1} draggable={false} />
+              )}
+              {card.crd_id === 1 && (
+                <Card.Img variant="top" src={IMG_3} draggable={false} />
+              )}
+              {card.crd_id === 3 && (
+                <Card.Img variant="top" src={IMG_2} draggable={false} />
+              )}
+              <Card.Body>
+                <Card.Text draggable={false}>{card.crd_title}</Card.Text>
+                {showDeadline && (
+                  <Card.Link
+                    href="#"
+                    className="p-1 btn btn-secondary"
+                    draggable={false}
+                  >
+                    <i className="bi bi-clock-fill"></i>
+                    <span className={styles.ml}>
+                      {Array.isArray(value)
+                        ? moment(value[1]).format('DD MMM')
+                        : moment(value).format('DD MMM')}
+                    </span>
+                  </Card.Link>
+                )}
+                <Card.Link
+                  href="#"
+                  className={'card-link ' + styles.descrip}
+                  draggable={false}
+                >
+                  <i className="bi bi-justify-left btn-light"></i>
+                </Card.Link>
+                <Card.Link href="#" draggable={false}>
+                  <i className="bi bi-link-45deg btn-light"></i>
+                </Card.Link>
+                <Card.Link href="#" draggable={false}>
+                  <i className="bi bi-check2-square btn-light"></i>
+                  <span className={'btn-light ' + styles.ml}>2/2</span>
+                </Card.Link>
+              </Card.Body>
+            </Card>
+          )}
+        </div>
       )}
-    </div>
+    </Draggable>
   );
 };
 

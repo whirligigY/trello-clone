@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
-import './App.css'
+import React, { useState } from 'react';
+import './App.css';
 
-import Header from './components/Header'
+import Header from './components/Header';
 
-import Footer from './components/Footer'
+import Footer from './components/Footer';
 import {
   BrowserRouter,
   Route,
   Router,
   Switch,
   Redirect
-} from 'react-router-dom'
-import { DashboardPage } from './pages/DashboardPage'
-import { HomePage } from './pages/HomePage'
-import { createBrowserHistory } from 'history'
-import SignIn from './components/SignIn'
-import Profile from './components/Profile'
-import { AuthProvider } from './contexts/Auth'
-import { supabase } from './client'
+} from 'react-router-dom';
+import { DashboardPage } from './pages/DashboardPage';
+import { HomePage } from './pages/HomePage';
+import { createBrowserHistory } from 'history';
+import SignIn from './components/SignIn';
+import Profile from './components/Profile';
+import { AuthProvider } from './contexts/Auth';
+import { supabase } from './client';
 
 //TODO: change switch to route with history
 /**
@@ -26,11 +26,10 @@ import { supabase } from './client'
 
 const App = () => {
   // const newHistory = createBrowserHistory();
-  const [boardId, setBoardId] = useState(null)
+  const [boardId, setBoardId] = useState(null);
   const handleBoardIdChange = (id) => {
-    console.log('ID in app.js', id)
-    setBoardId(id)
-  }
+    setBoardId(id);
+  };
   return (
     <BrowserRouter>
       <AuthProvider supabase={supabase}>
@@ -61,7 +60,7 @@ const App = () => {
         </div>
       </AuthProvider>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default App
+export default App;
