@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/Auth';
 import { Auth, Typography, Button } from '@supabase/ui';
 
 import './header.css';
+import SearchBar from '../SearchBar';
 
 const basicStyles = {
   color: '#fff',
@@ -46,20 +47,7 @@ const Header = () => {
       {
         //TODO: use bootstrap search
       }
-      <div className="header__search search__container" id="search-box">
-        <form className="search__container__form" action="#">
-          <input
-            className="search__container__input"
-            id="search-box-input"
-            type="search"
-            autoComplete="off"
-            placeholder="Search"
-            name="search"
-            autoFocus=""
-            onKeyPress={() => this.event.keyCode !== 13}
-          />
-        </form>
-      </div>
+      <SearchBar />
     </header>
   );
 };

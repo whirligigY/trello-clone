@@ -1,35 +1,42 @@
-import { useState, useRef, useEffect } from "react";
 
-export const getNewList = (length, text) => {
+import { useState, useRef, useEffect } from 'react';
+
+
+export const getNewList = (boardId, text, length) => {
   return {
-    id: length,
-    title: text,
-    order: length + 1,
-    cards: [],
+
+    col_boardid: boardId,
+    col_title: text,
+    col_order: length + 1
   };
 };
+
 
 export const getNewTask = (length, text, id) => {
   return {
     id: length,
     title: text,
-    status: "active",
+    status: 'active',
     columnId: id,
-    order: length + 1,
+    order: length + 1
+
   };
 };
 
+
 export const useInput = (initial) => {
-  const [value, setValue] = useState(initial);
+  const [value, setValue] = useState(initial)
 
   const onChange = (ev) => {
-    setValue(ev.target.value);
-  };
+    setValue(ev.target.value)
+  }
   const onClear = () => {
-    setValue("");
+
+    setValue('');
   };
   return { value, onChange, onClear };
 };
+
 
 export const useDragDrop = (
   swapColumnIndex,
@@ -38,57 +45,65 @@ export const useDragDrop = (
   changeDropComponent,
   getNewCardState
 ) => {
-  const [order, setOrder] = useState(null);
+  const [order, setOrder] = useState(null)
   const dragStartBoardHandler = (e, order) => {
+
     setOrder(order);
-    changeDropComponent("column");
+    changeDropComponent('column');
   };
+
   const dragOverBoardHandler = (e, newOrder) => {
-    e.preventDefault();
-  };
+    e.preventDefault()
+  }
 
   const dragEndBoardHandler = (e, newOrder) => {
-    console.log(e.target);
-  };
+    console.log(e.target)
+  }
   const dropBoardHandler = (e, newOrder, columnId) => {
-    e.preventDefault();
+    e.preventDefault()
+
 
     const dataType = dropComponent;
-    if (dataType === "column") {
+    if (dataType === 'column') {
       swapColumnIndex(order, newOrder);
+
     } else {
       if (cards.find((el) => el.columnId === columnId) === undefined)
-        getNewCardState(columnId);
+        getNewCardState(columnId)
     }
-  };
+  }
   return {
     dragStartBoardHandler,
     dragOverBoardHandler,
     dragEndBoardHandler,
-    dropBoardHandler,
+    dropBoardHandler
+
   };
 };
 
+
 export const useClick = (initialStatus) => {
-  const node = useRef();
-  const [open, setOpen] = useState(initialStatus || false);
+  const node = useRef()
+  const [open, setOpen] = useState(initialStatus || false)
   const toggle = (status) => {
-    if (typeof status === "undefined") {
+    if (typeof status === 'undefined') {
       status = !open;
+
     }
-    setOpen(status);
-  };
+    setOpen(status)
+  }
   const closeMenuHandler = (e) => {
-    toggle(node.current.contains(e.target));
-  };
+    toggle(node.current.contains(e.target))
+  }
   useEffect(() => {
     if (open) {
-      document.addEventListener("mousedown", closeMenuHandler);
+
+      document.addEventListener('mousedown', closeMenuHandler);
     } else {
-      document.removeEventListener("mousedown", closeMenuHandler);
+      document.removeEventListener('mousedown', closeMenuHandler);
     }
     return () => {
-      document.removeEventListener("mousedown", closeMenuHandler);
+      document.removeEventListener('mousedown', closeMenuHandler);
     };
   }, [open]);
   return [node, open, toggle];
@@ -98,3 +113,21 @@ export const sortColumns = (a, b) => {
   if (a.order > b.order) return 1;
   else return -1;
 };
+
+export const debauncer = (value, timeout, callback) => {
+  const [timer, setTimer] = useState(null);
+
+  const clearTimer = () => {
+    if (timer) clearTimeout(timer);
+  };
+
+  useEffect(() => {
+    clearTimer();
+
+    if (value && callback) {
+      const newTimer = setTimeout(callback, timeout);
+      setTimer(newTimer);
+    }
+  }, [value]);
+};
+

@@ -3,7 +3,44 @@
     "id": 0,
     "title": "Task one",
     "status": "active",
-    "columnId": 0
+    "columnId": 0,
+    "description": "",
+    "activeLabels": [
+      {
+        "id": "",
+        "status": "",
+        "color": "",
+        "value": "",
+        "state": ""
+      },
+      {}
+    ],
+    "labels": [
+      {
+        "id": "",
+        "status": "",
+        "color": "",
+        "value": "",
+        "state": ""
+      },
+      {}
+    ],
+
+    "deadline": {
+      "startdate": null,
+      "enddate": null,
+      "time": null
+    },
+    "checklist": [
+      {
+        "id": "",
+        "title": "",
+        "color": "",
+        "value": "",
+        "state": ""
+      },
+      {}
+    ]
   },
   {
     "id": 1,
