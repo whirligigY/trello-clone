@@ -116,7 +116,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          {/* <TaskModalWindow
+          <TaskModalWindow
             visible={visible}
             closeHandle={closeHandle}
             title={card.title}
@@ -136,7 +136,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
             removeLabel={removeActiveLabel}
             checkLists={checkLists}
             changeCheckList={changeCheckList}
-          /> */}
+          />
           {Number(card.crd_columnid) === columnId && (
             <Card
               style={{ width: '19rem' }}
