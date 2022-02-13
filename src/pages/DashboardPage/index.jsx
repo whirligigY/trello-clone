@@ -1,25 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
+
 import styles from './DashboardPage.module.css';
+
 import { BoardListCard } from '../../components/BoardListCard';
 import { AddButton } from '../../components/AddButton';
-import { getNewList, useDragDrop, sortColumns } from '../../utils';
+import { useDragDrop, sortColumns } from '../../utils';
 import { BoardNavigation } from '../../components/BoardNavigation';
-import { getNewTask } from '../../utils';
 import { BoardAside } from '../../components/BoardAside';
 import { useAuth } from '../../contexts/Auth';
-import { createStoreHook } from 'react-redux';
 
-// TODO: Объект задачи отдельная сущность, массив с досками отдельная сущность. Когда открываем страницу Dashboard мы должны сделать фетч всех досок
-// TODO: Колонка это отдельный компонент который должен сделать фетч всех задач и отрендерить в себе только те которые привязаны к ней
-const DashboardPage = ({ boardId }) => {
+// TODO: Объект задачи отдельная сущность, массив с досками о
+//  тдельная сущность. Когда открываем страницу Dashboard мы должны сделать фетч всех досок
+
+// TODO: Колонка это отдельный компонент который должен сделать
+//  фетч всех задач и отрендерить в себе только те которые привязаны к ней
+
+// TODO: Постоянный перерендер. Исправить срочно!!!
+const DashboardPage = () => {
   const [columns, setColumns] = useState([]);
   const [currentCard, setCurrentCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [dropComponent, setDropComponent] = useState(null);
   const { user, client } = useAuth();
+  const { boardId } = useParams();
 
-  const getData = async (type, id) => {
+  const getData = useCallback(async (type, id) => {
     if (type === 'columns') {
+
       const res = await client
         .from('tsk_columns')
         .select('*')
@@ -29,10 +37,9 @@ const DashboardPage = ({ boardId }) => {
       }
     } else {
       const res = await client.from('tsk_cards').select('*');
-      console.log('columns.length', columns.length);
+
       if (columns.length) {
         const arrColumns = columns.map((el) => el.col_id);
-        console.log(res.data, columns, arrColumns);
 
         const updatedRes = await res.data.filter(
           (el) =>
@@ -44,7 +51,7 @@ const DashboardPage = ({ boardId }) => {
         }
       }
     }
-  };
+  }, [client, columns]);
 
   const addColumn = async (text) => {
     const res = await client
@@ -56,7 +63,8 @@ const DashboardPage = ({ boardId }) => {
     if (res.count) {
       length = res.count + 1;
     }
-    const data = await client.from('tsk_columns').insert({
+
+    await client.from('tsk_columns').insert({
       col_boardid: boardId,
       col_title: text,
       col_order: length
@@ -64,9 +72,7 @@ const DashboardPage = ({ boardId }) => {
     getData('columns', boardId);
   };
   const swapColumnIndex = (dragOrder, dropOrder) => {
-    const getColumn = (col, pos) => {
-      return { ...col, order: pos };
-    };
+    const getColumn = (col, pos) => ({ ...col, order: pos });
     setColumns(
       columns.map((column) => {
         if (column.order === dragOrder) return getColumn(column, dropOrder);
@@ -78,7 +84,7 @@ const DashboardPage = ({ boardId }) => {
 
   const getNewCardState = (columnID, card) => {
     currentCard.columnId = columnID;
-    let newCards = cards.filter((el) => el.id !== currentCard.id);
+    const newCards = cards.filter((el) => el.id !== currentCard.id);
     if (!card) {
       newCards.push(currentCard);
     } else {
@@ -113,7 +119,7 @@ const DashboardPage = ({ boardId }) => {
   };
 
   const AddTask = async (text, id) => {
-    const data = await client.from('tsk_cards').insert({
+    await client.from('tsk_cards').insert({
       crd_columnid: id,
       crd_title: text,
       crd_description: '',
@@ -121,22 +127,14 @@ const DashboardPage = ({ boardId }) => {
       crd_dateend: new Date(),
       crd_labels: JSON.stringify('')
     });
+
     getData('cards', id);
-    // const newTask = getNewTask(cards.length, text, id)
-    // setCards([...cards, newTask])
   };
 
   useEffect(() => {
     getData('columns', boardId);
-    //if (columns.length) {
-    // console.log('columns.length', columns.length);
     getData('cards', null);
-    //}
-  }, []);
-
-  useEffect(() => {
-    getData('cards', null);
-  }, [columns]);
+  }, [boardId, getData]);
 
   return (
     <div className={styles.container}>
@@ -153,7 +151,6 @@ const DashboardPage = ({ boardId }) => {
                   key={column.col_id}
                   dropBoardHandler={dropBoardHandler}
                   dragStartBoardHandler={dragStartBoardHandler}
-                  dropBoardHandler={dropBoardHandler}
                   dragOverBoardHandler={dragOverBoardHandler}
                   dragEndBoardHandler={dragEndBoardHandler}
                   changeCurrentValue={changeCurrentValue}
@@ -168,11 +165,11 @@ const DashboardPage = ({ boardId }) => {
             <p>The board is empty </p>
           )}
           <AddButton
-            text={'another column'}
-            type={'list'}
-            placeholder={'Enter column title'}
+            text="another column"
+            type="list"
+            placeholder="Enter column title"
             onClick={addColumn}
-            textBtn={'column'}
+            textBtn="column"
           />
         </div>
       </div>

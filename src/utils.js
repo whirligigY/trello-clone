@@ -23,21 +23,6 @@ export const getNewTask = (length, text, id) => {
   };
 };
 
-
-export const useInput = (initial) => {
-  const [value, setValue] = useState(initial)
-
-  const onChange = (ev) => {
-    setValue(ev.target.value)
-  }
-  const onClear = () => {
-
-    setValue('');
-  };
-  return { value, onChange, onClear };
-};
-
-
 export const useDragDrop = (
   swapColumnIndex,
   cards,
@@ -52,13 +37,14 @@ export const useDragDrop = (
     changeDropComponent('column');
   };
 
-  const dragOverBoardHandler = (e, newOrder) => {
+  const dragOverBoardHandler = (e) => {
     e.preventDefault()
   }
 
-  const dragEndBoardHandler = (e, newOrder) => {
+  const dragEndBoardHandler = (e) => {
     console.log(e.target)
   }
+
   const dropBoardHandler = (e, newOrder, columnId) => {
     e.preventDefault()
 
@@ -77,7 +63,6 @@ export const useDragDrop = (
     dragOverBoardHandler,
     dragEndBoardHandler,
     dropBoardHandler
-
   };
 };
 
@@ -111,7 +96,8 @@ export const useClick = (initialStatus) => {
 
 export const sortColumns = (a, b) => {
   if (a.order > b.order) return 1;
-  else return -1;
+
+  return -1;
 };
 
 export const debauncer = (value, timeout, callback) => {
@@ -128,6 +114,6 @@ export const debauncer = (value, timeout, callback) => {
       const newTimer = setTimeout(callback, timeout);
       setTimer(newTimer);
     }
-  }, [value]);
+  }, [callback, clearTimer, timeout, value]);
 };
 

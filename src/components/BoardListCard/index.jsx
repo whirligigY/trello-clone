@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import styles from './BoardListCard.module.css'
-import { BoardCard } from '../BoardCard'
-import { AddButton } from '../AddButton'
-import { BoardTitleTextarea } from '../BoardTitleTextarea'
-import { useDragDropCards } from '../../pages/DashboardPage/hooks'
+import React from 'react';
+import styles from './BoardListCard.module.css';
+import { BoardCard } from '../BoardCard';
+import { AddButton } from '../AddButton';
+
+import { useDragDropCards } from '../../pages/DashboardPage/hooks';
 
 const BoardListCard = ({
   col_title,
@@ -24,26 +24,30 @@ const BoardListCard = ({
     dragOverCardHandler,
     dragEndCardHandler,
     dropCardHandler
-  } = useDragDropCards(changeCurrentValue, getNewCardState, changeDropComponent)
-  const title = col_title
-  const id = col_id
-  const order = col_order
-  if (cards.length) console.log(cards)
+  } = useDragDropCards(
+    changeCurrentValue,
+    getNewCardState,
+    changeDropComponent
+  );
+  const title = col_title;
+  const id = col_id;
+  const order = col_order;
+
   return (
     <div
       className={styles.container}
-      draggable={true}
+      draggable
       onDragStart={(e) => dragStartBoardHandler(e, order)}
       onDragLeave={(e) => dragEndBoardHandler(e, order)}
       onDragEnd={(e) => dragEndBoardHandler(e, order)}
       onDragOver={(e) => dragOverBoardHandler(e, order)}
       onDrop={(e) => dropBoardHandler(e, order, id)}
-      capture={true}
+      capture
     >
       <h4>{title}</h4>
       {/* <BoardTitleTextarea title={title} /> */}
       {cards.length &&
-        cards.map((card, index) => (
+        cards.map((card) => (
           <BoardCard
             key={card.id}
             columnId={id}
@@ -56,15 +60,15 @@ const BoardListCard = ({
           />
         ))}
       <AddButton
-        text={'task'}
-        type={'card'}
+        text="task"
+        type="card"
         listId={id}
-        placeholder={'Enter a title for this card'}
-        textBtn={'task'}
+        placeholder="Enter a title for this card"
+        textBtn="task"
         onClick={(text) => AddTask(text, id)}
       />
     </div>
-  )
-}
+  );
+};
 
-export { BoardListCard }
+export { BoardListCard };
