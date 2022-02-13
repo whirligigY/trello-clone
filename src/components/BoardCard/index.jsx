@@ -5,6 +5,7 @@ import IMG_3 from './abstract3.jpeg';
 import { Card } from 'react-bootstrap';
 import styles from './BoardCard.module.css';
 import { TaskModalWindow } from '../TaskModal/TaskModal';
+import { CardLabel } from '../CardLabel';
 import moment from 'moment';
 
 const BoardCard = ({
@@ -111,35 +112,34 @@ const BoardCard = ({
     setCheckList([...checkLists, value]);
   };
   /* end checklists state */
-
   /*end task modal states*/
 
   return (
     <div>
-      {
-        <TaskModalWindow
-          visible={visible}
-          closeHandle={closeHandle}
-          title={card.title}
-          column={columnTitle}
-          dateValue={value}
-          changeDeadline={onChange}
-          showDeadline={showDeadline}
-          setDeadlineView={changeDeadlineView}
-          useDeadlineRange={isActiveRange}
-          setDeadlineRange={setDeadlineRange}
-          deadlineTime={deadlineTime}
-          changeDeadlineTime={changeDeadlineTime}
-          activeLabels={activeLabels}
-          changeActiveLabels={changeActiveLabels}
-          labels={labels}
-          changeLabels={changeLabels}
-          removeLabel={removeActiveLabel}
-          checkLists={checkLists}
-          changeCheckList={changeCheckList}
-        />
-      }
-      {Number(card.crd_columnid) === columnId && (
+      {<TaskModalWindow 
+      visible={visible} 
+      closeHandle={closeHandle} 
+      title={card.title}
+      column={columnTitle}
+      dateValue={value}
+      changeDeadline={onChange}
+      showDeadline={showDeadline}
+      setDeadlineView={changeDeadlineView}
+      useDeadlineRange={isActiveRange}
+      setDeadlineRange={setDeadlineRange}
+      deadlineTime={deadlineTime}
+      changeDeadlineTime={changeDeadlineTime}
+      activeLabels={activeLabels}
+      changeActiveLabels={changeActiveLabels}
+      labels={labels}
+      changeLabels={changeLabels}
+      removeLabel={removeActiveLabel}
+      checkLists={checkLists}
+      changeCheckList={changeCheckList}
+      cardId={card.id}
+      />}
+      {Number(card.columnId) === columnId && (
+
         <Card
           style={{ width: '19rem' }}
           className={styles.card}
@@ -199,6 +199,17 @@ const BoardCard = ({
               <i className="bi bi-check2-square btn-light"></i>
               <span className={'btn-light ' + styles.ml}>2/2</span>
             </Card.Link>
+            {activeLabels.length > 0 && (
+                <div className={styles.card_labels}>
+                  { activeLabels.map((item, i) => {
+                    if (item.status) {
+                      return <CardLabel item={item} key={i}/>
+                    }
+                    return '';
+                  }
+                  )}
+                </div>
+              )}
           </Card.Body>
         </Card>
       )}

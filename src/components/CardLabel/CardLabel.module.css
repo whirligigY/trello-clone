@@ -1,0 +1,9 @@
+.card_label {
+  color: white;
+  text-align: center;
+  min-width: 40px;
+  min-height: 16px;
+  border-radius: 5px;
+  padding: 0px !important;
+  margin-right: 5px;
+}
