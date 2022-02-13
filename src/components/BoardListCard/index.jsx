@@ -6,9 +6,9 @@ import { AddButton } from '../AddButton';
 import { useDragDropCards } from '../../pages/DashboardPage/hooks';
 
 const BoardListCard = ({
-  col_title,
-  col_id,
-  col_order,
+  colTitle,
+  colId,
+  colOrder,
   dropBoardHandler,
   dragStartBoardHandler,
   dragOverBoardHandler,
@@ -29,30 +29,27 @@ const BoardListCard = ({
     getNewCardState,
     changeDropComponent
   );
-  const title = col_title;
-  const id = col_id;
-  const order = col_order;
 
   return (
     <div
       className={styles.container}
       draggable
-      onDragStart={(e) => dragStartBoardHandler(e, order)}
-      onDragLeave={(e) => dragEndBoardHandler(e, order)}
-      onDragEnd={(e) => dragEndBoardHandler(e, order)}
-      onDragOver={(e) => dragOverBoardHandler(e, order)}
-      onDrop={(e) => dropBoardHandler(e, order, id)}
+      onDragStart={(e) => dragStartBoardHandler(e, colOrder)}
+      onDragLeave={(e) => dragEndBoardHandler(e, colOrder)}
+      onDragEnd={(e) => dragEndBoardHandler(e, colOrder)}
+      onDragOver={(e) => dragOverBoardHandler(e, colOrder)}
+      onDrop={(e) => dropBoardHandler(e, colOrder, colId)}
       capture
     >
-      <h4>{title}</h4>
+      <h4>{colTitle}</h4>
       {/* <BoardTitleTextarea title={title} /> */}
       {cards.length &&
         cards.map((card) => (
           <BoardCard
             key={card.id}
-            columnId={id}
+            columnId={colId}
             card={card}
-            columnTitle={title}
+            columnTitle={colTitle}
             dragStartCardHandler={dragStartCardHandler}
             dragOverCardHandler={dragOverCardHandler}
             dragEndCardHandler={dragEndCardHandler}
@@ -62,10 +59,10 @@ const BoardListCard = ({
       <AddButton
         text="task"
         type="card"
-        listId={id}
+        listId={colId}
         placeholder="Enter a title for this card"
         textBtn="task"
-        onClick={(text) => AddTask(text, id)}
+        onClick={(text) => AddTask(text, colId)}
       />
     </div>
   );
