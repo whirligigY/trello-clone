@@ -7,6 +7,7 @@ import IMG_2 from './abstract2.jpeg';
 import IMG_3 from './abstract3.jpeg';
 import styles from './BoardCard.module.css';
 import { TaskModalWindow } from '../TaskModal/TaskModal';
+import { CardLabel } from '../CardLabel';
 
 const BoardCard = ({
   columnId,
@@ -117,8 +118,6 @@ const BoardCard = ({
   };
   /* end checklists state */
 
-  /* end task modal states */
-
   return (
     <div>
       <TaskModalWindow
@@ -202,6 +201,11 @@ const BoardCard = ({
               <i className="bi bi-check2-square btn-light" />
               <span className={`btn-light ${styles.ml}`}>2/2</span>
             </Card.Link>
+            {activeLabels.length > 0 && (
+                <div className={styles.card_labels}>
+                  {activeLabels.map((item) => item.status && (<CardLabel item={item} />))}
+                </div>
+              )}
           </Card.Body>
         </Card>
       )}
