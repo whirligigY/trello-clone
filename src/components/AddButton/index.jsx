@@ -1,18 +1,18 @@
-import { useInput } from "../../utils";
-import { RenderFormAddButton } from "../RenderFormAddButton";
-import { RenderAddButton } from "../RenderAddButton";
-import { useClick } from "../../utils";
+import { useInput } from '../../utils';
+import { RenderFormAddButton } from '../RenderFormAddButton';
+import { RenderAddButton } from '../RenderAddButton';
+import { useClick } from './ hooks/useClick';
 
 const AddButton = ({ type, placeholder, textBtn, onClick }) => {
   const handleAddActivity = (text) => {
-    if (typeof onClick === "function") {
+    if (typeof onClick === 'function') {
       setIsFormActive(false);
       if (text) onClick(text);
     }
   };
 
   const [formRef, isFormActive, setIsFormActive] = useClick(false);
-  const input = useInput("");
+  const input = useInput('');
 
   const onChangeState = (value) => {
     setIsFormActive(value);

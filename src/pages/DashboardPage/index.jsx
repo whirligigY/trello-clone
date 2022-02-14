@@ -3,7 +3,12 @@ import styles from './DashboardPage.module.css';
 import { BoardListCard } from '../../components/BoardListCard';
 import { AddButton } from '../../components/AddButton';
 import { BoardNavigation } from '../../components/BoardNavigation';
-import { sortCards, getCardsAfterDragAndDrop } from '../../utils';
+import {
+  sortCards,
+  sortColumns,
+  getCardsAfterDragAndDrop,
+  getColumnsAfterDragAndDrop
+} from '../../utils';
 import { BoardAside } from '../../components/BoardAside';
 import { useAuth } from '../../contexts/Auth';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -21,8 +26,10 @@ const DashboardPage = ({ boardId }) => {
         .from('tsk_columns')
         .select('*')
         .eq('col_boardid', id);
+      let data = res.data;
       if (!res.error) {
-        setColumns(res.data);
+        data.sort(sortColumns);
+        setColumns(data);
       }
     } else {
       const res = await client.from('tsk_cards').select('*');
@@ -78,8 +85,8 @@ const DashboardPage = ({ boardId }) => {
   };
 
   useEffect(() => {
-    getData('columns', boardId);
     getData('cards', null);
+    getData('columns', boardId);
   }, []);
 
   useEffect(() => {
@@ -92,10 +99,9 @@ const DashboardPage = ({ boardId }) => {
       await client.from('tsk_cards').upsert(updatedCards);
       getData('cards', null);
     } else {
-      console.log(result);
-      console.log(columns);
-      //const updatedColumns
-      //await client.from('tsk_columns').upsert(updatedColumns);
+      const updatedColumns = getColumnsAfterDragAndDrop(result, columns);
+      await client.from('tsk_columns').upsert(updatedColumns);
+      getData('columns', updatedColumns[0].col_boardid);
     }
   };
 
@@ -117,7 +123,7 @@ const DashboardPage = ({ boardId }) => {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {user ? (
+                {user && cards.length ? (
                   columns.map((column, index) => (
                     <BoardListCard
                       {...column}
