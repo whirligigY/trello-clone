@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { TaskModalBody } from './TaskModalBody'
+import { useAuth } from '../../contexts/Auth';
 import './TaskModalWindow.css'
 
-const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime, activeLabels, changeActiveLabels, labels, changeLabels, removeLabel, changeCheckList, checkLists }) => {
+const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime, activeLabels, changeActiveLabels, labels, changeLabels, removeLabel, changeCheckList, checkLists, cardId }) => {
+  const { user, client } = useAuth();
+
+  const [taskDescription, setTaskDescription] = useState();
+  useEffect(() => {
+    if (visible) {
+    client
+      .from('tsk_cards')
+      .select('crd_description')
+      .eq('crd_id', cardId)
+      .then(({ data, error }) => {
+        if (!error) {
+          setTaskDescription(data[0].crd_description);
+        }
+      })
+    }
+  }, [visible])
+
+
+
   return (
     <Modal show={visible}
     size="lg"
@@ -38,6 +57,9 @@ const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, chang
         remove={removeLabel}
         checkLists={checkLists}
         changeCheckList={changeCheckList}
+        taskDescription={taskDescription}
+        setTaskDescription={setTaskDescription}
+        cardId={cardId}
       />
     </Modal>
   )
