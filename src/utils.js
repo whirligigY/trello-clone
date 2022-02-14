@@ -12,67 +12,9 @@ export const useInput = (initial) => {
   return { value, onChange, onClear };
 };
 
-export const useDragDrop = (
-  swapColumnIndex,
-  cards,
-  dropComponent,
-  changeDropComponent,
-  getNewCardState
-) => {
-  const [order, setOrder] = useState(null);
-  const dragStartBoardHandler = (e, order) => {
-    setOrder(order);
-    changeDropComponent('column');
-  };
-  const dragOverBoardHandler = (e, newOrder) => {
-    e.preventDefault();
-  };
-
-  const dragEndBoardHandler = (e, newOrder) => {
-    console.log(e.target);
-  };
-  const dropBoardHandler = (e, newOrder, columnId) => {
-    e.preventDefault();
-
-    const dataType = dropComponent;
-    if (dataType === 'column') {
-      swapColumnIndex(order, newOrder);
-    } else {
-      if (cards.find((el) => el.columnId === columnId) === undefined)
-        getNewCardState(columnId);
-    }
-  };
-  return {
-    dragStartBoardHandler,
-    dragOverBoardHandler,
-    dragEndBoardHandler,
-    dropBoardHandler
-  };
-};
-
-export const useClick = (initialStatus) => {
-  const node = useRef();
-  const [open, setOpen] = useState(initialStatus || false);
-  const toggle = (status) => {
-    if (typeof status === 'undefined') {
-      status = !open;
-    }
-    setOpen(status);
-  };
-  const closeMenuHandler = (e) => {
-    toggle(node.current.contains(e.target));
-  };
-  useEffect(() => {
-    if (open) {
-      document.addEventListener('mousedown', closeMenuHandler);
-    } else {
-      document.removeEventListener('mousedown', closeMenuHandler);
-    }
-    return () => {
-      document.removeEventListener('mousedown', closeMenuHandler);
-    };
-  }, [open]);
-  return [node, open, toggle];
+export const sortCards = (a, b) => {
+  if (a.crd_order > b.crd_order) return 1;
+  else return -1;
 };
 
 export const sortColumns = (a, b) => {
@@ -80,9 +22,27 @@ export const sortColumns = (a, b) => {
   else return -1;
 };
 
-export const sortCards = (a, b) => {
-  if (a.crd_order > b.crd_order) return 1;
-  else return -1;
+const getNewOrderArray = (arr, field, prevOrder, nextOrder) => {
+  return arr.map((el) => {
+    if (el[field] === prevOrder) {
+      return { ...el, [field]: nextOrder };
+    }
+    if (
+      nextOrder > prevOrder &&
+      el[field] > prevOrder &&
+      el[field] <= nextOrder
+    ) {
+      return { ...el, [field]: el[field] - 1 };
+    }
+    if (
+      prevOrder > nextOrder &&
+      el[field] < prevOrder &&
+      el[field] >= nextOrder
+    ) {
+      return { ...el, [field]: el[field] + 1 };
+    }
+    return el;
+  });
 };
 
 export const getCardsAfterDragAndDrop = (result, cards) => {
@@ -96,26 +56,7 @@ export const getCardsAfterDragAndDrop = (result, cards) => {
   //within the same column
   if (nextColumn === prevColumn) {
     const cardsUp = cards.filter((el) => el.crd_columnid === prevColumn);
-    return cardsUp.map((el) => {
-      if (el.crd_order === prevOrder) {
-        return { ...el, crd_order: nextOrder };
-      }
-      if (
-        nextOrder > prevOrder &&
-        el.crd_order > prevOrder &&
-        el.crd_order <= nextOrder
-      ) {
-        return { ...el, crd_order: el.crd_order - 1 };
-      }
-      if (
-        prevOrder > nextOrder &&
-        el.crd_order < prevOrder &&
-        el.crd_order >= nextOrder
-      ) {
-        return { ...el, crd_order: el.crd_order + 1 };
-      }
-      return el;
-    });
+    return getNewOrderArray(cardsUp, 'crd_order', prevOrder, nextOrder);
   } else {
     //Different сolumns
     return cards.map((el) => {
@@ -130,5 +71,14 @@ export const getCardsAfterDragAndDrop = (result, cards) => {
       }
       return el;
     });
+  }
+};
+
+export const getColumnsAfterDragAndDrop = (result, columns) => {
+  const { destination, source } = result;
+  const nextOrder = destination.index + 1;
+  const prevOrder = source.index + 1;
+  if (nextOrder !== prevOrder) {
+    return getNewOrderArray(columns, 'col_order', prevOrder, nextOrder);
   }
 };

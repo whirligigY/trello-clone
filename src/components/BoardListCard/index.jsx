@@ -3,7 +3,6 @@ import styles from './BoardListCard.module.css';
 import { BoardCard } from '../BoardCard';
 import { AddButton } from '../AddButton';
 import { BoardTitleTextarea } from '../BoardTitleTextarea';
-import { useDragDropCards } from '../../pages/DashboardPage/hooks';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 const BoardListCard = ({

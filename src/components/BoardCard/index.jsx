@@ -10,7 +10,6 @@ import { Draggable } from 'react-beautiful-dnd';
 
 const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const [visible, setVisible] = useState(false);
-
   function closeHandle() {
     setVisible(false);
   }
