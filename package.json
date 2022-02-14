@@ -17,6 +17,7 @@
     "framer-motion": "^6.2.4",
     "moment": "^2.29.1",
     "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
     "react-bootstrap": "^2.1.1",
     "react-calendar": "^3.6.0",
     "react-click-outside-hook": "^1.1.1",
