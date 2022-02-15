@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styles from './DashboardPage.module.css';
+
 import { BoardListCard } from '../../components/BoardListCard';
 import { AddButton } from '../../components/AddButton';
+
 import { BoardNavigation } from '../../components/BoardNavigation';
 import {
   sortCards,
@@ -11,55 +15,63 @@ import {
 } from '../../utils';
 import { BoardAside } from '../../components/BoardAside';
 import { useAuth } from '../../contexts/Auth';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
-// TODO: Объект задачи отдельная сущность, массив с досками отдельная сущность. Когда открываем страницу Dashboard мы должны сделать фетч всех досок
-// TODO: Колонка это отдельный компонент который должен сделать фетч всех задач и отрендерить в себе только те которые привязаны к ней
-const DashboardPage = ({ boardId }) => {
+// TODO: Объект задачи отдельная сущность, массив с досками о
+//  тдельная сущность. Когда открываем страницу Dashboard мы должны сделать фетч всех досок
+
+// TODO: Колонка это отдельный компонент который должен сделать
+//  фетч всех задач и отрендерить в себе только те которые привязаны к ней
+
+// TODO: Постоянный перерендер. Исправить срочно!!!
+const DashboardPage = () => {
   const [columns, setColumns] = useState([]);
   const [cards, setCards] = useState([]);
   const { user, client } = useAuth();
+  const { boardId } = useParams();
 
-  const getData = async (type, id) => {
-    if (type === 'columns') {
-      const res = await client
-        .from('tsk_columns')
-        .select('*')
-        .eq('col_boardid', id);
-      let data = res.data;
-      if (!res.error) {
-        data.sort(sortColumns);
-        setColumns(data);
+  const getData = useCallback(
+    async (type, id) => {
+      if (type === 'columns') {
+        const res = await client
+          .from('tsk_columns')
+          .select('*')
+          .eq('col_boardid', id);
+        const { data, error } = res;
+        if (!error) {
+          data.sort(sortColumns);
+          setColumns(data);
+        }
+      } else {
+        const res = await client.from('tsk_cards').select('*');
+
+        const arrColumns = columns.map((el) => el.col_id);
+
+        if (columns.length) {
+          const updatedRes = await res.data.filter(
+            (el) =>
+              el.crd_columnid ===
+              arrColumns.find((item) => el.crd_columnid === item)
+          );
+          updatedRes.sort(sortCards);
+          setCards(updatedRes);
+        }
       }
-    } else {
-      const res = await client.from('tsk_cards').select('*');
-      const arrColumns = columns.map((el) => el.col_id);
-
-      if (columns.length) {
-        let updatedRes = await res.data.filter(
-          (el) =>
-            el.crd_columnid ===
-            arrColumns.find((item) => el.crd_columnid === item)
-        );
-        updatedRes.sort(sortCards);
-        setCards(updatedRes);
-      }
-    }
-  };
-
+    },
+    [client, columns]
+  );
+  /* eslint-disable */
   const getOrderForColumnOrCard = async (id, type) => {
     const res = await client
       .from(type === 'columns' ? 'tsk_columns' : 'tsk_cards')
       .select('*')
       .eq(type === 'columns' ? 'col_boardid' : 'crd_columnid', id);
     if (res.data) return res.data.length;
-    return;
   };
 
   const addColumn = async (text) => {
     const length = await getOrderForColumnOrCard(boardId, 'columns');
     if (length >= 0) {
-      const data = await client.from('tsk_columns').insert({
+      await client.from('tsk_columns').insert({
         col_boardid: boardId,
         col_title: text,
         col_order: length + 1
@@ -71,7 +83,7 @@ const DashboardPage = ({ boardId }) => {
   const AddTask = async (text, id) => {
     const length = await getOrderForColumnOrCard(id, 'cards');
     if (length >= 0) {
-      const data = await client.from('tsk_cards').insert({
+      await client.from('tsk_cards').insert({
         crd_columnid: id,
         crd_title: text,
         crd_description: '',
@@ -139,11 +151,11 @@ const DashboardPage = ({ boardId }) => {
                   <p>The board is empty </p>
                 )}
                 <AddButton
-                  text={'another column'}
-                  type={'list'}
-                  placeholder={'Enter column title'}
+                  text="another column"
+                  type="list"
+                  placeholder="Enter column title"
                   onClick={addColumn}
-                  textBtn={'column'}
+                  textBtn="column"
                 />
                 {provided.placeholder}
               </div>

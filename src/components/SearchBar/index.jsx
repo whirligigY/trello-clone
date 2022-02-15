@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import './searchBar.css';
 import { motion } from 'framer-motion';
 import { useClickOutside } from 'react-click-outside-hook';
-import { debauncer } from '../../utils';
+import { useDebauncer } from '../../utils';
 import { useAuth } from '../../contexts/Auth';
 import { SearchContentDB } from '../SearchBarContent';
 
@@ -116,7 +116,7 @@ export default function SearchBar(props) {
     return true;
   };
 
-  debauncer(searchQuery, 500, searchDB);
+  useDebauncer(searchQuery, 500, searchDB);
 
   return (
     <motion.div

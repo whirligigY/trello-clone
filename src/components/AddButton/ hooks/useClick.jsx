@@ -1,8 +1,11 @@
+import { useRef, useState, useEffect } from 'react';
+
 const useClick = (initialStatus) => {
   const node = useRef();
   const [open, setOpen] = useState(initialStatus || false);
   const toggle = (status) => {
     if (typeof status === 'undefined') {
+      /* eslint-disable */
       status = !open;
     }
     setOpen(status);

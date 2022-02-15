@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './BoardListCard.module.css';
 import { BoardCard } from '../BoardCard';
 import { AddButton } from '../AddButton';
-import { BoardTitleTextarea } from '../BoardTitleTextarea';
+//import { BoardTitleTextarea } from '../BoardTitleTextarea';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 const BoardListCard = ({
