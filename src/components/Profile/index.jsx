@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 
 import { Container, Button, Row, Col } from 'react-bootstrap';
-import { Auth, Button as ButtonAuth } from '@supabase/ui';
-import { supabase } from '../../client';
+import { Button as ButtonAuth } from '@supabase/ui';
 import Main from '../Main';
 import { useAuth } from '../../contexts/Auth';
-import { UploadAvatar } from '../UploadAvatar/UploadAvatar'
+import './profile.css';
 
-export default function Profile() {
-  const navigate = useNavigate();
+const Profile = () => {
   const { user, client, signOut } = useAuth();
   const [nameEdit, setNameEdit] = useState(false);
   const [surnameEdit, setSurnameEdit] = useState(false);
   const [birthdateEdit, setBirthdateEdit] = useState(false);
   const [phoneEdit, setPhoneEdit] = useState(false);
   const [emailEdit, setEmailEdit] = useState(false);
+  const [nicknameEdit, setNicknameEdit] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [birthdate, setBirthdate] = useState('');
@@ -23,12 +22,6 @@ export default function Profile() {
   const [email, setEmail] = useState(user.email);
   const [avatar, setAvatar] = useState('');
   const [nickname, setNickname] = useState('');
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/sign-in');
-    }
-  }, [navigate, user]);
 
   useEffect(() => {
     client
@@ -55,7 +48,6 @@ export default function Profile() {
         }
       });
   }, [client, user.email, user.id]);
-
 
   const saveName = async (value) => {
     await client.from('profiles').update({ name: value }).eq('id', user.id);
@@ -116,7 +108,6 @@ export default function Profile() {
   if (user) {
     return (
       <Main>
-        <UploadAvatar/>
           <div className="profile">
             <Container>
             <Row className="profile__content content">
@@ -224,7 +215,6 @@ export default function Profile() {
                 </div>
                 <hr/>
                 <h2 className="h2">Account management</h2>
-                <p>Change password</p>
                 <ButtonAuth onClick={() => signOut()}>
                   Sign out
                 </ButtonAuth>
@@ -239,3 +229,5 @@ export default function Profile() {
     return null;
   }
 }
+
+export { Profile };
