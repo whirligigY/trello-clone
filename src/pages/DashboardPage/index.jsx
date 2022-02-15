@@ -11,7 +11,7 @@ import {
   sortCards,
   sortColumns,
   getCardsAfterDragAndDrop,
-  getColumnsAfterDragAndDrop
+  getColumnsAfterDragAndDrop,
 } from '../../utils';
 import { BoardAside } from '../../components/BoardAside';
 import { useAuth } from '../../contexts/Auth';
@@ -74,7 +74,7 @@ const DashboardPage = () => {
       await client.from('tsk_columns').insert({
         col_boardid: boardId,
         col_title: text,
-        col_order: length + 1
+        col_order: length + 1,
       });
     }
     getData('columns', boardId);
@@ -90,7 +90,7 @@ const DashboardPage = () => {
         crd_datestart: new Date(),
         crd_dateend: new Date(),
         crd_labels: JSON.stringify(''),
-        crd_order: length + 1
+        crd_order: length + 1,
       });
       getData('cards', id);
     }
@@ -140,9 +140,9 @@ const DashboardPage = () => {
                     <BoardListCard
                       title={column['col_title']}
                       id={column['col_id']}
-                      key={column.col_id}
+                      key={column['col_id']}
                       cards={cards.filter(
-                        (el) => el.crd_columnid === column.col_id
+                        (el) => el.crd_columnid === column['col_id']
                       )}
                       AddTask={AddTask}
                       index={index}
