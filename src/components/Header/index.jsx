@@ -1,13 +1,14 @@
+import React from 'react';
+import { Auth, Typography, Button } from '@supabase/ui';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
-import { Auth, Typography, Button } from '@supabase/ui';
 
 import './header.css';
-import SearchBar from '../SearchBar';
+import { SearchBar } from '../SearchBar';
 
 const basicStyles = {
   color: '#fff',
-  margin: '0 10px 0 10px'
+  margin: '0 10px 0 10px',
 };
 
 const Header = () => {
@@ -16,9 +17,9 @@ const Header = () => {
   return (
     <header className="header">
       <nav className="header__nav nav__button">
-        <button className="nav_button__more"></button>
+        <Button className="nav_button__more" aria-label="More" />
         <Link to="/">
-          <button className="nav_button__trello">Crello</button>
+          <Button className="nav_button__trello">Crell</Button>
         </Link>
         <div className="nav__button__sign-in">
           {user ? (
@@ -45,7 +46,7 @@ const Header = () => {
         </div>
       </nav>
       {
-        //TODO: use bootstrap search
+        //  TODO: use bootstrap search
       }
       <SearchBar />
     </header>

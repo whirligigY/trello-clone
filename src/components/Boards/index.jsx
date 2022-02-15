@@ -41,14 +41,14 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
         <Row className="workspace__boards board__list">
           {user ? (
             boards.map((item) => (
-              /* eslint-disable */
               <div
                 key={item.id}
                 className="board__list__board card"
                 onClick={() => {
-                  //handleBoardIdChange(item.id);
+                  //  handleBoardIdChange(item.id);
                   navigate(`/dashboard/${item.id}`);
                 }}
+                role="none"
               >
                 <div>
                   <p>{item.title}</p>

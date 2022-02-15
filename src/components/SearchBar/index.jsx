@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './searchBar.css';
 import { motion } from 'framer-motion';
 import { useClickOutside } from 'react-click-outside-hook';
@@ -9,21 +9,21 @@ import { SearchContentDB } from '../SearchBarContent';
 const containerVariants = {
   expanded: {
     height: '30em',
-    zIndex: '10'
+    zIndex: '10',
   },
   collapsed: {
     height: '1.8em',
-    zIndex: '10'
-  }
+    zIndex: '10',
+  },
 };
 
 const containerTransition = {
   type: 'spring',
   damping: 22,
-  stiffness: 150
+  stiffness: 150,
 };
 
-export default function SearchBar(props) {
+export const SearchBar = (props) => {
   const [isExpanded, setExpanded] = useState(false);
   const [parentRef, isClickOutside] = useClickOutside();
   const inputRef = useRef();
@@ -55,20 +55,22 @@ export default function SearchBar(props) {
     if (isClickOutside) collapseSearchBar();
   }, [isClickOutside]);
 
-  const SearchSeparator = () => <span className="search__separator"></span>;
+  const SearchSeparator = useCallback(
+    () => <span className="search__separator" />,
+    []
+  );
 
-  const SearchContent = ({ children }) => (
-    <div className="search__content">{children}</div>
+  const SearchContent = useCallback(
+    ({ children }) => <div className="search__content">{children}</div>,
+    []
   );
 
   useEffect(() => {
     if (!searchQuery) setSearchDataDB([]);
   }, [searchQuery]);
 
-  //TODO: implement user input sanitization ?
-  /**
-   *
-   **/
+  //  TODO: implement user input sanitization ?
+
   const sanitize = (query) => {
     const cleanedQuery = query.trim().toLowerCase();
     return cleanedQuery;
@@ -113,7 +115,6 @@ export default function SearchBar(props) {
       setSearchDataDB(filterDubs(searchItems));
     }
     setLoading(false);
-    return true;
   };
 
   useDebauncer(searchQuery, 500, searchDB);
@@ -128,21 +129,18 @@ export default function SearchBar(props) {
       ref={parentRef}
     >
       <form className="search__input __container">
-        <i className="bi bi-search"></i>
+        <i className="bi bi-search" />
         <input
           className="search__input"
           type="search"
           placeholder="Search"
           name="header-search"
-          autoFocus=""
           onFocus={expandSearchBar}
           ref={inputRef}
           value={searchQuery}
           onChange={changeHandler}
-        ></input>
-        {isExpanded && (
-          <i className="bi bi-x-circle" onClick={collapseSearchBar}></i>
-        )}
+        />
+        {isExpanded && <i className="bi bi-x-circle" />}
       </form>
       {isExpanded && <SearchSeparator />}
       {isExpanded && (
@@ -163,4 +161,4 @@ export default function SearchBar(props) {
       )}
     </motion.div>
   );
-}
+};

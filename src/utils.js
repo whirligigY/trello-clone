@@ -87,5 +87,5 @@ export const useDebauncer = (value, timeout, callback) => {
       const newTimer = setTimeout(callback, timeout);
       setTimer(newTimer);
     }
-  }, [callback, clearTimer, timeout, value]);
+  }, [value]);
 };
