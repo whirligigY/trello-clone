@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, FloatingLabel } from 'react-bootstrap';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
-import { Redirect } from 'react-router-dom';
 
-export default function WorkspaceBoarModal({ ...props }) {
+const WorkspaceBoarModal = ({ ...props }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -11,9 +11,12 @@ export default function WorkspaceBoarModal({ ...props }) {
 
   const { user, client } = useAuth();
 
-  async function submitHandler(event) {
+  const closeHandler = () => {
+    setIsComplete(false);
+  };
+
+  const submitHandler = async (event) => {
     event.preventDefault();
-    // props.saveModalData(title);
 
     const res = await client
       .from('boards')
@@ -24,19 +27,11 @@ export default function WorkspaceBoarModal({ ...props }) {
       props.handleBoardIdChange(res.data[0].id);
     }
 
-    if (res.error) {
-    } else {
-      closeHandler();
-    }
+    if (!res.error) closeHandler();
   }
 
-  const closeHandler = () => {
-    setIsComplete(false);
-  };
-
   function Delay() {
-    return new Promise((res, rej) => {
-      console.log(`delay start`);
+    return new Promise((res) => {
       setTimeout(() => res(), 500);
     });
   }
@@ -44,7 +39,6 @@ export default function WorkspaceBoarModal({ ...props }) {
   useEffect(() => {
     if (isLoading) {
       Delay().then(() => {
-        console.log(`delay end`);
         setIsLoading(false);
       });
     }
@@ -100,9 +94,9 @@ export default function WorkspaceBoarModal({ ...props }) {
             >
               {isLoading ? (
                 <>
-                  <span className="spinner-border spinner-border-sm"></span>{' '}
+                  <span className="spinner-border spinner-border-sm" />{' '}
                   Saving...
-                  <Redirect to={`/dashboard`} />
+                  <Navigate to="/dashboard" />
                 </>
               ) : (
                 'Save'
@@ -114,3 +108,5 @@ export default function WorkspaceBoarModal({ ...props }) {
     </Modal>
   );
 }
+
+export { WorkspaceBoarModal };

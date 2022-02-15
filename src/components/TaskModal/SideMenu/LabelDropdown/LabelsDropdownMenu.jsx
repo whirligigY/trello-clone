@@ -13,7 +13,6 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
   }) : labels;
 
   useEffect(() => {
-    console.log(search)
     const preparedLables = search ? labels.filter((el) => {
       const searchReg = new RegExp(`${search}`, 'i');
       return String(el.value).match(searchReg)
@@ -83,7 +82,7 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
               >
             </Dropdown.Toggle>
             <AddLabelMenu
-              id={item.id}
+              id={Number(item.id)}
               title={item.value}
               itemColor={item.color}
               itemStatus={item.status}
@@ -106,7 +105,7 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
           Add new label
         </Dropdown.Toggle>
         <AddLabelMenu
-          id={''}
+          id={0}
           title={''}
           itemColor={''}
           itemStatus={false}

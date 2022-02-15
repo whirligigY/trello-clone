@@ -42,3 +42,13 @@
 a {
   text-decoration: none !important;
 }
+
+.card_labels {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.card_label {
+  min-width: 30px;
+  min-height: 10px;
+}

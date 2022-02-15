@@ -2,15 +2,22 @@
 
 # dependencies
 package-lock.json
+./package-lock.json
+/package-lock.json
 /node_modules
 /.pnp
 .pnp.js
+.env
+./.env
+/.env
 
 # testing
 /coverage
 
 # production
 /build
+
+*.xml
 
 #vscode
 .vscode
@@ -29,3 +36,4 @@ personal
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
