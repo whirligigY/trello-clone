@@ -5,6 +5,7 @@ import { Container, Button, Row, Col } from 'react-bootstrap';
 import { Button as ButtonAuth } from '@supabase/ui';
 import Main from '../Main';
 import { useAuth } from '../../contexts/Auth';
+import { UploadAvatar } from '../UploadAvatar/UploadAvatar'
 import './profile.css';
 
 const Profile = () => {
@@ -74,7 +75,12 @@ const Profile = () => {
   };
 
   const saveData = async (e) => {
-    const dataType = e.target.closest('.personal_item').dataset.type;
+    let dataType = '';
+    if (!e.target.dataset.type) {
+      dataType = e.target.closest('.personal_item').dataset.type;
+    } else {
+      dataType = e.target.dataset.type;
+    }
     switch (dataType) {
       case 'name':
         setName(e.target.value)
@@ -108,11 +114,12 @@ const Profile = () => {
   if (user) {
     return (
       <Main>
+        <UploadAvatar/>
           <div className="profile">
             <Container>
             <Row className="profile__content content">
               <Col xs={6} md={4} className="side-content">
-              <img
+                <img
                   className="profile__avatar"
                   src={avatar}
                   alt=''
@@ -133,101 +140,133 @@ const Profile = () => {
               <Col className="main-content" xs={12} md={8}>
                 <h2 className="h2">User inform</h2>
                 <div className="personal_item" data-type="name">
-                  <div className="user_data">
-                    <label htmlFor="name">Name</label>
-                    <input className='profile-input' 
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Your name"
-                    disabled={!nameEdit}
-                    onBlur={() => setNameEdit(false)}
-                    value={name}
-                    onChange={saveData}/>
-                  </div>
-                  <Button variant="outline-secondary" className="edit-user-data" onClick={() => setNameEdit(!nameEdit)}>Edit</Button>
+                    <label className="user_data" htmlFor="name">
+                      <span>Name</span>
+                      <input
+                        className="profile-input"
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Your name"
+                        disabled={!nameEdit}
+                        onBlur={() => setNameEdit(false)}
+                        value={name}
+                        onChange={saveData}
+                      />
+                    </label>
+                  <Button
+                    variant="outline-secondary"
+                    className="edit-user-data"
+                    onClick={() => setNameEdit(!nameEdit)}
+                  >
+                    Edit
+                  </Button>
                 </div>
                 <div className="personal_item" data-type="surname">
-                  <div className="user_data">
-                    <label htmlFor="surname">Surname</label>
-                    <input className='profile-input' 
-                    type="text"
-                    id="surname"
-                    name="surname"
-                    placeholder="Your surname"
-                    disabled={!surnameEdit}
-                    onBlur={() => setSurnameEdit(false)}
-                    value={surname}
-                    onChange={saveData}
+                  <label className="user_data" htmlFor="surname">
+                    Surname
+                    <input
+                      className="profile-input"
+                      type="text"
+                      id="surname"
+                      name="surname"
+                      placeholder="Your surname"
+                      disabled={!surnameEdit}
+                      onBlur={() => setSurnameEdit(false)}
+                      value={surname}
+                      onChange={saveData}
                     />
-                  </div>
-                  <Button variant="outline-secondary" className="edit-user-data" onClick={() => setSurnameEdit(!surnameEdit)}>Edit</Button>
+                  </label>
+                  <Button
+                    variant="outline-secondary"
+                    className="edit-user-data"
+                    onClick={() => setSurnameEdit(!surnameEdit)}
+                  >
+                    Edit
+                  </Button>
                 </div>
                 <div className="personal_item" data-type="birthdate">
-                  <div className="user_data">
-                    <label htmlFor="surname">Birthdate</label>
-                    <input className='profile-input' 
-                    type="date"
-                    id="birthdate"
-                    name="birthdate"
-                    placeholder="Your birthdate"
-                    disabled={!birthdateEdit}
-                    onBlur={() => setBirthdateEdit(false)}
-                    value={birthdate}
-                    onChange={saveData}
+                  <label className="user_data" htmlFor="surname">
+                    Birthdate
+                    <input
+                      className="profile-input"
+                      type="date"
+                      id="birthdate"
+                      name="birthdate"
+                      placeholder="Your birthdate"
+                      disabled={!birthdateEdit}
+                      onBlur={() => setBirthdateEdit(false)}
+                      value={birthdate}
+                      onChange={saveData}
                     />
-                  </div>
-                  <Button variant="outline-secondary" className="edit-user-data" onClick={() => setBirthdateEdit(!birthdateEdit)}>Edit</Button>
+                  </label>
+                  <Button
+                    variant="outline-secondary"
+                    className="edit-user-data"
+                    onClick={() => setBirthdateEdit(!birthdateEdit)}
+                  >
+                    Edit
+                  </Button>
                 </div>
-                <hr/>
+                <hr />
                 <h2 className="h2">Contact inform</h2>
                 <div className="personal_item" data-type="phone">
-                  <div className="user_contact">
-                    <label htmlFor="phone">Phone</label>
-                    <input className='profile-input' 
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    placeholder="Your phone"
-                    disabled={!phoneEdit}
-                    onBlur={() => setPhoneEdit(false)}
-                    value={phone}
-                    onChange={saveData}
+                  <label className="user_contact" htmlFor="phone">
+                    Phone
+                    <input
+                      className="profile-input"
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      placeholder="Your phone"
+                      disabled={!phoneEdit}
+                      onBlur={() => setPhoneEdit(false)}
+                      value={phone}
+                      onChange={saveData}
                     />
-                  </div>
-                  <Button variant="outline-secondary" className="edit-user-data" onClick={() => setPhoneEdit(!phoneEdit)}>Edit</Button>
+                  </label>
+                  <Button
+                    variant="outline-secondary"
+                    className="edit-user-data"
+                    onClick={() => setPhoneEdit(!phoneEdit)}
+                  >
+                    Edit
+                  </Button>
                 </div>
                 <div className="personal_item" data-type="email">
-                  <div className="user_contact">
-                    <label htmlFor="email">E-mail</label>
-                    <input className='profile-input' 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    placeholder="Your e-mail" 
-                    disabled={!emailEdit}
-                    onBlur={() => setEmailEdit(false)}
-                    value={email}
-                    onChange={saveData}
+                  <label className="user_contact" htmlFor="email">
+                    E-mail
+                    <input
+                      className="profile-input"
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Your e-mail"
+                      disabled={!emailEdit}
+                      onBlur={() => setEmailEdit(false)}
+                      value={email}
+                      onChange={saveData}
                     />
-                  </div>
-                  <Button variant="outline-secondary" className="edit-user-data" onClick={() => setEmailEdit(!emailEdit)}>Edit</Button>
+                  </label>
+                  <Button
+                    variant="outline-secondary"
+                    className="edit-user-data"
+                    onClick={() => setEmailEdit(!emailEdit)}
+                  >
+                    Edit
+                  </Button>
                 </div>
-                <hr/>
+                <hr />
                 <h2 className="h2">Account management</h2>
-                <ButtonAuth onClick={() => signOut()}>
-                  Sign out
-                </ButtonAuth>
+                <ButtonAuth onClick={() => signOut()}>Sign out</ButtonAuth>
               </Col>
-              </Row>
-            </Container>
-          </div>
+            </Row>
+          </Container>
+        </div>
       </Main>
     );
-  } else {
-    history.push("/sign-in");
-    return null;
-  }
+  } 
+  return null;
 }
 
 export { Profile };

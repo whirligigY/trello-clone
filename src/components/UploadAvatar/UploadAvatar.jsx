@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/Auth';
 import "./uploadAvatar.css";
 
 const UploadAvatar = () => {
+  const [vision ,setVision] = useState(false) 
   const [file, setFile] = useState(null);
   const fileTypes = ["JPEG", "PNG", "GIF", "JPG"];
   const { user, client } = useAuth();
@@ -26,10 +27,10 @@ const UploadAvatar = () => {
     console.log(f[0]);
   };
   return (
-    <Modal className="upload_modal" show={false}>
+    <Modal className="upload_modal" show={vision}>
       <Modal.Body className="upload_modal_content" >
           <FileUploader
-            multiple={true}
+            multiple={!vision}
             handleChange={handleChange}
             name="file"
             types={fileTypes}
