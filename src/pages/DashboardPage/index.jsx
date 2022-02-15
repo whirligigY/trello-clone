@@ -138,7 +138,8 @@ const DashboardPage = () => {
                 {user && cards.length ? (
                   columns.map((column, index) => (
                     <BoardListCard
-                      {...column}
+                      title={column['col_title']}
+                      id={column['col_id']}
                       key={column.col_id}
                       cards={cards.filter(
                         (el) => el.crd_columnid === column.col_id

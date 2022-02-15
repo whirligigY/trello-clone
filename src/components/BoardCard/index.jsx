@@ -12,7 +12,7 @@ import { CardLabel } from '../CardLabel';
 
 const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const [visible, setVisible] = useState(false);
-
+  console.log('card', card);
   function closeHandle() {
     setVisible(false);
   }
@@ -151,21 +151,11 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
               cardId={card.id}
             />
           }
-          {Number(card.columnId) === columnId && (
+          {Number(card.crd_columnid) === columnId && (
             <Card
               style={{ width: '19rem' }}
               className={styles.card}
               onClick={openHandle}
-              draggable={true}
-              onDragStart={(e) => {
-                dragStartCardHandler(e, card);
-              }}
-              onDragLeave={dragEndCardHandler}
-              onDragEnd={dragEndCardHandler}
-              onDragOver={dragOverCardHandler}
-              onDrop={(e) => {
-                dropCardHandler(e, card, columnId);
-              }}
             >
               <div className={styles.bd_clipboard}>
                 <i
