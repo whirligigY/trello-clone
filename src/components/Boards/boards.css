@@ -7,6 +7,7 @@
   background-color: darkviolet;
   color: white;
   padding: 5px;
+  cursor: pointer;
 }
 
 .board__list__board.card.card_add-new-board {

@@ -11,15 +11,15 @@ const basicStyles = {
   margin: '0 10px 0 10px',
 };
 
-const Header = () => {
+export const Header = () => {
   const { signOut, user } = useAuth();
 
   return (
     <header className="header">
       <nav className="header__nav nav__button">
-        <Button className="nav_button__more" aria-label="More" />
-        <Link to="/">
-          <Button className="nav_button__trello">Crell</Button>
+        <div className="nav_button__more" aria-label="More" role="button" />
+        <Link to="/" className="nav_button__trello">
+          Crello
         </Link>
         <div className="nav__button__sign-in">
           {user ? (
@@ -52,5 +52,3 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;
