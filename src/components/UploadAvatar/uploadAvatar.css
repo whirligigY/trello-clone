@@ -1,0 +1,16 @@
+.upload_modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload_modal_content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+label {
+  width: 350px;
+  box-sizing: border-box;
+}

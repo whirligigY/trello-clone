@@ -6,6 +6,7 @@ import { Auth, Button as ButtonAuth } from '@supabase/ui';
 import { supabase } from '../../client';
 import Main from '../Main';
 import { useAuth } from '../../contexts/Auth';
+import { UploadAvatar } from '../UploadAvatar/UploadAvatar'
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -23,7 +24,11 @@ export default function Profile() {
   const [avatar, setAvatar] = useState('');
   const [nickname, setNickname] = useState('');
 
-  let history = useHistory();
+  useEffect(() => {
+    if (!user) {
+      navigate('/sign-in');
+    }
+  }, [navigate, user]);
 
   useEffect(() => {
     client
@@ -111,13 +116,28 @@ export default function Profile() {
   if (user) {
     return (
       <Main>
-        <Auth.UserContextProvider supabaseClient={supabase}>
+        <UploadAvatar/>
           <div className="profile">
             <Container>
             <Row className="profile__content content">
               <Col xs={6} md={4} className="side-content">
-                <img className="profile__avatar" src={require('../../assets/A_r2u6uZhnxA_x.jpg')}/>
-                <h1 className="h3 user_nickname">{user.user_metadata.user_name ? user.user_metadata.user_name : user.username}</h1>
+              <img
+                  className="profile__avatar"
+                  src={avatar}
+                  alt=''
+                />
+                {nicknameEdit && <input
+                  className="user_nickname user_nickname_input"
+                  type="text"
+                  placeholder="Your nickname"
+                  disabled={!nicknameEdit}
+                  onBlur={() => setNicknameEdit(false)}
+                  value={nickname}
+                  onChange={saveData}
+                  data-type="nickname"
+                />}
+                {!nicknameEdit &&
+                <Button className="change_user_nickname" onClick={() => setNicknameEdit(true)}><h3 className='h3 user_nickname'>{nickname}</h3></Button>}
               </Col>
               <Col className="main-content" xs={12} md={8}>
                 <h2 className="h2">User inform</h2>
@@ -212,7 +232,6 @@ export default function Profile() {
               </Row>
             </Container>
           </div>
-        </Auth.UserContextProvider>
       </Main>
     );
   } else {
