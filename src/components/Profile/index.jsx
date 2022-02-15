@@ -1,13 +1,14 @@
-import "./profile.css";
-import { useState, useEffect } from "react";
-import { Container, Button, Row, Col, Tab, Nav } from 'react-bootstrap';
-import { useHistory } from "react-router-dom";
-import { supabase } from "../../client";
-import Main from "../Main";
-import { Auth, Typography, Button as ButtonAuth } from "@supabase/ui";
-import { useAuth } from "../../contexts/Auth";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { Container, Button, Row, Col } from 'react-bootstrap';
+import { Auth, Button as ButtonAuth } from '@supabase/ui';
+import { supabase } from '../../client';
+import Main from '../Main';
+import { useAuth } from '../../contexts/Auth';
 
 export default function Profile() {
+  const navigate = useNavigate();
   const { user, client, signOut } = useAuth();
   const [nameEdit, setNameEdit] = useState(false);
   const [surnameEdit, setSurnameEdit] = useState(false);
@@ -19,7 +20,8 @@ export default function Profile() {
   const [birthdate, setBirthdate] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState(user.email);
-  
+  const [avatar, setAvatar] = useState('');
+  const [nickname, setNickname] = useState('');
 
   let history = useHistory();
 
@@ -35,39 +37,43 @@ export default function Profile() {
           setBirthdate(() => (data[0].birthdate) ? data[0].birthdate : '');
           setPhone(() => (data[0].phone) ? data[0].phone : '');
           setEmail(() => (data[0].mail) ? data[0].mail : user.email);
+          setAvatar(() => (data[0].avatar_url))
+          let nick = '';
+          if (data[0].nickname) {
+            nick = data[0].nickname;
+          } else if (user.user_metadata.user_name) {
+            nick = user.user_metadata.user_name;
+          } else {
+            [nick] = user.email.split('@');
+          }
+          setNickname(nick);
         }
-      })
-  }, [client])
+      });
+  }, [client, user.email, user.id]);
 
-  const saveName= async (value) => {
-    const { data, error } = await client
-      .from('profiles')
-      .update({ 'name': value })
-      .eq('id', user.id)
+
+  const saveName = async (value) => {
+    await client.from('profiles').update({ name: value }).eq('id', user.id);
   };
+
   const saveSurname = async (value) => {
-    const { data, error } = await client
-      .from('profiles')
-      .update({ 'surname': value })
-      .eq('id', user.id)
+    await client.from('profiles').update({ surname: value }).eq('id', user.id);
   };
+
   const saveBirthdate = async (value) => {
-    const { data, error } = await client
-      .from('profiles')
-      .update({ 'birthdate': value })
-      .eq('id', user.id)
+    await client.from('profiles').update({ birthdate: value }).eq('id', user.id);
   };
+
   const savePhone = async (value) => {
-    const { data, error } = await client
-      .from('profiles')
-      .update({ 'phone': value })
-      .eq('id', user.id)
+    await client.from('profiles').update({ phone: value }).eq('id', user.id);
   };
+
   const saveEmail = async (value) => {
-    const { data, error } = await client
-      .from('profiles')
-      .update({ 'mail': value })
-      .eq('id', user.id)
+    await client.from('profiles').update({ mail: value }).eq('id', user.id);
+  };
+
+  const saveNickname = async (value) => {
+    await client.from('profiles').update({ nickname: value }).eq('id', user.id);
   };
 
   const saveData = async (e) => {
@@ -93,8 +99,12 @@ export default function Profile() {
         setEmail(e.target.value)
         saveEmail(e.target.value)
         break;
+      case 'nickname':
+        setNickname(e.target.value);
+        saveNickname(e.target.value);
+        break;
       default:
-        setEmail( "Нет таких значений" );
+        console.log('nothing');
     }
   };
 
