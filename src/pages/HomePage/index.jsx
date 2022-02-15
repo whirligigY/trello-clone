@@ -3,12 +3,12 @@ import Boards from '../../components/Boards';
 import Main from '../../components/Main';
 import Aside from '../../components/Aside';
 
-const HomePage = () => {
+const HomePage = ({ ...props }) => {
   return (
     <>
       <Aside />
       <Main>
-        <Boards />
+        <Boards {...props} />
       </Main>
     </>
   );

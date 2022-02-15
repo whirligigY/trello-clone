@@ -7,7 +7,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: rgba(2, 106, 167, 0.75);
-  padding: 0 10px;
+  padding: 0 1em;
 }
 
 /* Navigation Styles */
@@ -25,7 +25,7 @@
 .nav__button .nav_button__more {
   width: 24px;
   height: 24px;
-  background-image: url("../../assets/more.svg");
+  background-image: url('../../assets/more.svg');
   background-color: transparent;
 }
 .nav__button .nav_button__trello {
@@ -47,18 +47,4 @@
 
 .header__nav .sbui-btn-primary:hover {
   background-color: #00c2e0;
-}
-
-/* Search Input Styles */
-
-/* Style the input container */
-
-.search__container .search__container__input {
-  padding: 6px;
-  border: none;
-  border-radius: 5px;
-}
-
-.search__container button:hover {
-  background: #ccc;
 }

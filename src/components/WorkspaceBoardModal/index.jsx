@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, FloatingLabel } from 'react-bootstrap';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
 
-export default function WorkspaceBoarModal(props) {
+const WorkspaceBoarModal = ({ ...props }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -10,26 +11,27 @@ export default function WorkspaceBoarModal(props) {
 
   const { user, client } = useAuth();
 
-  async function submitHandler(event) {
-    event.preventDefault();
-    // props.saveModalData(title);
-    const { error } = await client
-      .from('boards')
-      .upsert([{ title, description, user_id: user.id }]);
-    setIsLoading(true);
-    if (error) {
-    } else {
-      closeHandler();
-    }
-  }
-
   const closeHandler = () => {
     setIsComplete(false);
   };
 
+  const submitHandler = async (event) => {
+    event.preventDefault();
+
+    const res = await client
+      .from('boards')
+      .upsert([{ title, description, user_id: user.id }]);
+
+    setIsLoading(true);
+    if (res) {
+      props.handleBoardIdChange(res.data[0].id);
+    }
+
+    if (!res.error) closeHandler();
+  }
+
   function Delay() {
-    return new Promise((res, rej) => {
-      console.log(`delay start`);
+    return new Promise((res) => {
       setTimeout(() => res(), 500);
     });
   }
@@ -37,7 +39,6 @@ export default function WorkspaceBoarModal(props) {
   useEffect(() => {
     if (isLoading) {
       Delay().then(() => {
-        console.log(`delay end`);
         setIsLoading(false);
       });
     }
@@ -93,8 +94,9 @@ export default function WorkspaceBoarModal(props) {
             >
               {isLoading ? (
                 <>
-                  <span className="spinner-border spinner-border-sm"></span>{' '}
+                  <span className="spinner-border spinner-border-sm" />{' '}
                   Saving...
+                  <Navigate to="/dashboard" />
                 </>
               ) : (
                 'Save'
@@ -106,3 +108,5 @@ export default function WorkspaceBoarModal(props) {
     </Modal>
   );
 }
+
+export { WorkspaceBoarModal };

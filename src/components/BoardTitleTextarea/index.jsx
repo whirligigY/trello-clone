@@ -1,9 +1,10 @@
-import { FloatingLabel, Form } from "react-bootstrap";
-import styles from "./BoardTitleTextarea.module.css";
-import { useInput } from "../../utils";
+import React from 'react';
+import {  Form } from 'react-bootstrap';
+import styles from './BoardTitleTextarea.module.css';
+import { useInput } from '../../hooks/useInput';
 
 const BoardTitleTextarea = ({ title }) => {
-  const { value, onChange, onClear } = useInput(title);
+  const { value } = useInput(title);
 
   const handleClear = (e) => {
     e.preventDefault();
@@ -11,7 +12,7 @@ const BoardTitleTextarea = ({ title }) => {
   return (
     <Form>
       <Form.Group
-        className={"mb-3 " + styles.title}
+        className={`mb-3 ${styles.title}`}
         controlId="formColumnTitle"
       >
         <Form.Label

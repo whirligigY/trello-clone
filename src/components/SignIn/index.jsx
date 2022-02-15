@@ -1,9 +1,10 @@
+import React from 'react';
 import './signIn.css';
-import Main from '../Main';
 import { Auth } from '@supabase/ui';
+import Main from '../Main';
 import { supabase } from '../../client';
 
-export default function SignIn() {
+const SignIn = () => {
   const signinClass = 'main_center';
 
   return (
@@ -13,4 +14,6 @@ export default function SignIn() {
       </Auth.UserContextProvider>
     </Main>
   );
-}
+};
+
+export { SignIn };
