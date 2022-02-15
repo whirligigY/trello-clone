@@ -2,9 +2,14 @@
 
 # dependencies
 package-lock.json
+./package-lock.json
+/package-lock.json
 /node_modules
 /.pnp
 .pnp.js
+.env
+./.env
+/.env
 
 # testing
 /coverage
@@ -20,6 +25,7 @@ package-lock.json
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local

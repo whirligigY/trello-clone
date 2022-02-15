@@ -127,32 +127,45 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <TaskModalWindow
-            visible={visible}
-            closeHandle={closeHandle}
-            title={card.title}
-            column={columnTitle}
-            dateValue={value}
-            changeDeadline={onChange}
-            showDeadline={showDeadline}
-            setDeadlineView={changeDeadlineView}
-            useDeadlineRange={isActiveRange}
-            setDeadlineRange={setDeadlineRange}
-            deadlineTime={deadlineTime}
-            changeDeadlineTime={changeDeadlineTime}
-            activeLabels={activeLabels}
-            changeActiveLabels={changeActiveLabels}
-            labels={labels}
-            changeLabels={changeLabels}
-            removeLabel={removeActiveLabel}
-            checkLists={checkLists}
-            changeCheckList={changeCheckList}
-          />
-          {Number(card.crd_columnid) === columnId && (
+          {
+            <TaskModalWindow
+              visible={visible}
+              closeHandle={closeHandle}
+              title={card.title}
+              column={columnTitle}
+              dateValue={value}
+              changeDeadline={onChange}
+              showDeadline={showDeadline}
+              setDeadlineView={changeDeadlineView}
+              useDeadlineRange={isActiveRange}
+              setDeadlineRange={setDeadlineRange}
+              deadlineTime={deadlineTime}
+              changeDeadlineTime={changeDeadlineTime}
+              activeLabels={activeLabels}
+              changeActiveLabels={changeActiveLabels}
+              labels={labels}
+              changeLabels={changeLabels}
+              removeLabel={removeActiveLabel}
+              checkLists={checkLists}
+              changeCheckList={changeCheckList}
+              cardId={card.id}
+            />
+          }
+          {Number(card.columnId) === columnId && (
             <Card
               style={{ width: '19rem' }}
               className={styles.card}
               onClick={openHandle}
+              draggable={true}
+              onDragStart={(e) => {
+                dragStartCardHandler(e, card);
+              }}
+              onDragLeave={dragEndCardHandler}
+              onDragEnd={dragEndCardHandler}
+              onDragOver={dragOverCardHandler}
+              onDrop={(e) => {
+                dropCardHandler(e, card, columnId);
+              }}
             >
               <div className={styles.bd_clipboard}>
                 <i
@@ -215,3 +228,12 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
 };
 
 export { BoardCard };
+
+/*
+{activeLabels.map((item, i) => {
+                      if (item.status) {
+                        return <CardLabel item={item} key={i} />;
+                      }
+                      return '';
+                    })}
+*/
