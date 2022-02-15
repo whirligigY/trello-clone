@@ -49,7 +49,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
     { id: 1, value: 'a', status: false, color: 'blue' },
     { id: 2, value: '', status: false, color: 'red' },
     { id: 3, value: '', status: false, color: 'yellow' },
-    { id: 4, value: '', status: false, color: 'green' }
+    { id: 4, value: '', status: false, color: 'green' },
   ]);
 
   const changeLabels = (val) => {
@@ -106,7 +106,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const removeActiveLabel = (value) => {
     setActiveLabels([
       ...activeLabels.slice(0, value),
-      ...activeLabels.slice(value + 1)
+      ...activeLabels.slice(value + 1),
     ]);
   };
   /* end of labels states */
@@ -131,7 +131,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
             <TaskModalWindow
               visible={visible}
               closeHandle={closeHandle}
-              title={card.title}
+              title={card.crd_title}
               column={columnTitle}
               dateValue={value}
               changeDeadline={onChange}
@@ -148,7 +148,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
               removeLabel={removeActiveLabel}
               checkLists={checkLists}
               changeCheckList={changeCheckList}
-              cardId={card.id}
+              cardId={card.crd_id}
             />
           }
           {Number(card.crd_columnid) === columnId && (
@@ -162,23 +162,11 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
                   className={`bi bi-pencil btn-secondary ${styles.btn_clipboard}`}
                 />
               </div>
-              {card.crd_id === 0 && (
-                <Card.Img variant="top" src={IMG_1} draggable={false} />
-              )}
-              {card.crd_id === 1 && (
-                <Card.Img variant="top" src={IMG_3} draggable={false} />
-              )}
-              {card.crd_id === 3 && (
-                <Card.Img variant="top" src={IMG_2} draggable={false} />
-              )}
+
               <Card.Body>
-                <Card.Text draggable={false}>{card.crd_title}</Card.Text>
+                <Card.Text>{card.crd_title}</Card.Text>
                 {showDeadline && (
-                  <Card.Link
-                    href="#"
-                    className="p-1 btn btn-secondary"
-                    draggable={false}
-                  >
+                  <Card.Link href="#" className="p-1 btn btn-secondary">
                     <i className="bi bi-clock-fill" />
                     <span className={styles.ml}>
                       {Array.isArray(value)
@@ -187,17 +175,13 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
                     </span>
                   </Card.Link>
                 )}
-                <Card.Link
-                  href="#"
-                  className={`card-link ${styles.descrip}`}
-                  draggable={false}
-                >
+                <Card.Link href="#" className={`card-link ${styles.descrip}`}>
                   <i className="bi bi-justify-left btn-light" />
                 </Card.Link>
-                <Card.Link href="#" draggable={false}>
+                <Card.Link href="#">
                   <i className="bi bi-link-45deg btn-light" />
                 </Card.Link>
-                <Card.Link href="#" draggable={false}>
+                <Card.Link href="#">
                   <i className="bi bi-check2-square btn-light" />
                   <span className={`btn-light ${styles.ml}`}>2/2</span>
                 </Card.Link>
