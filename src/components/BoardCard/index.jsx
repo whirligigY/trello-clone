@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Card } from 'react-bootstrap';
+import moment from 'moment';
+import { Draggable } from 'react-beautiful-dnd';
 import IMG_1 from './abstract1.jpeg';
 import IMG_2 from './abstract2.jpeg';
 import IMG_3 from './abstract3.jpeg';
-import { Card } from 'react-bootstrap';
 import styles from './BoardCard.module.css';
 import { TaskModalWindow } from '../TaskModal/TaskModal';
-import moment from 'moment';
-import { Draggable } from 'react-beautiful-dnd';
+
+import { CardLabel } from '../CardLabel';
 
 const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const [visible, setVisible] = useState(false);
+
   function closeHandle() {
     setVisible(false);
   }
@@ -25,15 +28,19 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const [showDeadline, setShowDeadline] = useState(false);
   const [isActiveRange, setIsActiveRange] = useState(false);
   const [deadlineTime, setDeadlineTime] = useState('');
-  const changeDeadlineView = (value) => {
-    setShowDeadline(value);
+
+  const changeDeadlineView = (val) => {
+    setShowDeadline(val);
   };
-  const setDeadlineRange = (value) => {
-    setIsActiveRange(value);
+
+  const setDeadlineRange = (val) => {
+    setIsActiveRange(val);
   };
-  const changeDeadlineTime = (value) => {
-    setDeadlineTime(value);
+
+  const changeDeadlineTime = (val) => {
+    setDeadlineTime(val);
   };
+
   /* end of deadline states */
 
   /* labels states */
@@ -45,22 +52,29 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
     { id: 4, value: '', status: false, color: 'green' }
   ]);
 
-  const changeLabels = (value) => {
-    if (!value.id) value.id = labels.length + 1;
-    if (Number(value.id) <= Number(labels.length)) {
-      setLabels((prevState) => {
-        return prevState.map((item) => {
-          if (Number(value.id) === Number(item.id)) {
-            item.id = value.id;
-            item.color = value.color;
-            item.status = value.status;
-            item.value = value.value;
+  const changeLabels = (val) => {
+    if (!val.id) {
+      /* eslint-disable */
+      val.id = labels.length + 1;
+    }
+    if (Number(val.id) <= Number(labels.length)) {
+      setLabels((prevState) =>
+        prevState.map((item) => {
+          if (Number(val.id) === Number(item.id)) {
+            /* eslint-disable */
+            item.id = val.id;
+            /* eslint-disable */
+            item.color = val.color;
+            /* eslint-disable */
+            item.status = val.status;
+            /* eslint-disable */
+            item.value = val.value;
           }
           return item;
-        });
-      });
+        })
+      );
     } else {
-      setLabels([...labels, value]);
+      setLabels([...labels, val]);
     }
   };
 
@@ -74,16 +88,16 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
       return item;
     });
     if (index !== -1) {
-      setActiveLabels((prevState) => {
-        return prevState.map((item) => {
+      setActiveLabels((prevState) =>
+        prevState.map((item) => {
           if (Number(value.id) === Number(item.id)) {
             item.id = value.id;
             item.color = value.color;
             item.value = value.value;
           }
           return item;
-        });
-      });
+        })
+      );
     } else {
       setActiveLabels([...activeLabels, value]);
     }
@@ -104,8 +118,6 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
     setCheckList([...checkLists, value]);
   };
   /* end checklists state */
-
-  /*end task modal states*/
 
   return (
     <Draggable draggableId={`${cardId}`} index={cardIndex}>
@@ -144,10 +156,8 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
             >
               <div className={styles.bd_clipboard}>
                 <i
-                  className={
-                    'bi bi-pencil btn-secondary ' + styles.btn_clipboard
-                  }
-                ></i>
+                  className={`bi bi-pencil btn-secondary ${styles.btn_clipboard}`}
+                />
               </div>
               {card.crd_id === 0 && (
                 <Card.Img variant="top" src={IMG_1} draggable={false} />
@@ -166,7 +176,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
                     className="p-1 btn btn-secondary"
                     draggable={false}
                   >
-                    <i className="bi bi-clock-fill"></i>
+                    <i className="bi bi-clock-fill" />
                     <span className={styles.ml}>
                       {Array.isArray(value)
                         ? moment(value[1]).format('DD MMM')
@@ -176,18 +186,25 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
                 )}
                 <Card.Link
                   href="#"
-                  className={'card-link ' + styles.descrip}
+                  className={`card-link ${styles.descrip}`}
                   draggable={false}
                 >
-                  <i className="bi bi-justify-left btn-light"></i>
+                  <i className="bi bi-justify-left btn-light" />
                 </Card.Link>
                 <Card.Link href="#" draggable={false}>
-                  <i className="bi bi-link-45deg btn-light"></i>
+                  <i className="bi bi-link-45deg btn-light" />
                 </Card.Link>
                 <Card.Link href="#" draggable={false}>
-                  <i className="bi bi-check2-square btn-light"></i>
-                  <span className={'btn-light ' + styles.ml}>2/2</span>
+                  <i className="bi bi-check2-square btn-light" />
+                  <span className={`btn-light ${styles.ml}`}>2/2</span>
                 </Card.Link>
+                {activeLabels.length > 0 && (
+                  <div className={styles.card_labels}>
+                    {activeLabels.map(
+                      (item) => item.status && <CardLabel item={item} />
+                    )}
+                  </div>
+                )}
               </Card.Body>
             </Card>
           )}

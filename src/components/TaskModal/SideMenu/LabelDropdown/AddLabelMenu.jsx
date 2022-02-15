@@ -3,35 +3,34 @@ import { Dropdown, Button, ToggleButtonGroup, ToggleButton } from "react-bootstr
 import "../../TaskModalWindow.css";
 
 const AddLabelMenu = ({ changeActiveLabels, labels, changeLabels, id, title, itemColor, itemStatus }) => {
-
   const [newLabel, setNewLabel] = useState({id: id, color: itemColor, value: title, status: ''});
   const [labelTitle, setLabelTitle] = useState(title || '');
   const [value, setValue] = useState(itemColor || '');
 
   const addColor = (val) => {
     setValue(val);
-    setNewLabel({...newLabel, color: val});
+    setNewLabel((prevState) => {return {...prevState, color: val}});
   }
 
   useEffect (()=>{
     if (itemStatus) {
-      setNewLabel({...newLabel, status: true});
+      setNewLabel((prevState) => {return {...prevState, status: true}});
     } else {
-      setNewLabel({...newLabel, status: false});
+      setNewLabel((prevState) => {return {...prevState, status: false}});
     }
   }, [itemStatus]
   )
 
   const addTitle = (e) => {
-    setNewLabel({...newLabel, value: e.target.value});
+    setNewLabel((prevState) => {return {...prevState, value: e.target.value}});
     setLabelTitle(e.target.value);
   }
 
   const addNewLabel = () => {
     if (id) {
-      setNewLabel({...newLabel, id: id});
+      setNewLabel((prevState) => {return {...prevState, id: Number(id)}});
     } else {
-      setNewLabel({...newLabel, id: labels.length + 1});
+      setNewLabel((prevState) => {return {...prevState, id: Number(labels.length + 1)}});
     }
     changeLabels(newLabel);
     if (itemStatus) {

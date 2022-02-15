@@ -1,5 +1,6 @@
 .profile {
   width: 100%;
+  min-height: 80vh;
   padding: 15px;
   background: rgba(248, 249, 250, 1);
   border-radius: 5px;
@@ -19,3 +20,57 @@
   display: flex;
   flex-direction: column;
 }
+
+
+/* styles by Igor */
+.profile__avatar {
+  max-width: 150px;
+  border-radius: 50%;
+}
+
+.side-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  border-right: 1px solid rgb(202, 202, 202);
+  padding-left: 50px;
+}
+
+.user_nickname {
+  padding-top: 10px;
+}
+
+.nav-link {
+  padding-left: 0px !important;
+}
+
+.profile-input {
+  margin-top: 5px;
+}
+
+.profile-input:disabled {
+  width: 194px;
+  color: black;
+  font-weight: 600;
+}
+
+.contacts_item, .personal_item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user_contact, .user_data {
+  display: flex;
+  flex-direction: column;
+ }
+
+ .edit-user-data {
+   margin-left: 20px;
+   padding: 0px 10px !important;
+   height: 30px;
+   font-size: 16px;
+   text-align: center;
+ }
