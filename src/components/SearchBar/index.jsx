@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './searchBar.css';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useClickOutside } from 'react-click-outside-hook';
 import { useDebauncer } from '../../utils';
 import { useAuth } from '../../contexts/Auth';
-import { SearchContentDB } from '../SearchBarContent';
+import { SearchContentCard } from '../SearchContentCard';
 
 const containerVariants = {
   expanded: {
@@ -30,6 +31,8 @@ export const SearchBar = (props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [searchDataDB, setSearchDataDB] = useState([]);
+
+  const navigate = useNavigate();
 
   const isEmpty = !searchDataDB || searchDataDB.length === 0;
 
@@ -81,7 +84,6 @@ export const SearchBar = (props) => {
     const unique = arr.filter((item) => {
       const isInSet = set.has(item.id);
       set.add(item.id);
-
       return !isInSet;
     });
     return unique;
@@ -148,12 +150,19 @@ export const SearchBar = (props) => {
           {!isLoading && !isEmpty && (
             <>
               {searchDataDB.map((data) => (
-                <SearchContentDB
-                  title={data.title}
-                  description={data.description}
-                  dataId={data.id}
-                  date={data.insertedat}
-                />
+                <Link
+                  to={`/dashboard/${data.id}`}
+                  onClick={collapseSearchBar}
+                  className="search__content__link"
+                >
+                  <SearchContentCard
+                    key={data.id}
+                    title={data.title}
+                    description={data.description}
+                    dataId={data.id}
+                    date={data.insertedat}
+                  />
+                </Link>
               ))}
             </>
           )}

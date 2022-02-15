@@ -1,0 +1,8 @@
+.search__content .search__content__link {
+  text-decoration: none;
+  color: rgb(23, 43, 77);
+}
+
+.search__content .search__content__link:hover {
+  color: inherit;
+}
