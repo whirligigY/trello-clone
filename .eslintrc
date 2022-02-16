@@ -1,8 +1,16 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
   },
+
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -17,7 +25,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier"],
+  "plugins": ["react", "prettier", "react-hooks"],
 
   "rules": {
     "no-unused-vars": "warn",
