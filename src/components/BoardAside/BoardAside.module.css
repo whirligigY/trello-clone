@@ -6,13 +6,11 @@
   opacity: 1;
 }
 
-.dashboard_container_left.active {
-}
-
 .workspace {
   display: flex;
   border-bottom: 1px solid rgba(255, 255, 255, 0.26);
   justify-content: space-between;
+  margin-left: 20px;
 }
 
 .link_workspace {
@@ -38,6 +36,7 @@
   color: white !important;
   padding-top: 15px !important;
   padding-bottom: 15px !important;
+  margin-left: 20px;
 }
 
 .btn {
@@ -58,4 +57,5 @@
 
 .rightIconIndent {
   margin-right: 10px;
+  margin-left: 20px;
 }

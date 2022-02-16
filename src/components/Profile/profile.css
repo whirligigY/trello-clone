@@ -28,6 +28,11 @@
   border-radius: 50%;
 }
 
+.avatar_img {
+  max-width: 150px;
+  border-radius: 50%;
+}
+
 .side-content {
   display: flex;
   flex-direction: column;
@@ -37,8 +42,33 @@
   padding-left: 50px;
 }
 
+.change_user_nickname {
+  margin-top: 10px !important;
+  max-height: 30px !important;
+  background: none !important;
+  border: none !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.change_user_nickname:hover {
+  background: gray !important;
+}
+
 .user_nickname {
+  max-width: 350px;
   padding-top: 10px;
+  text-align: center;
+  font-size: calc(1.3rem + 0.6vw);
+  font-weight: 600;
+  line-height: 1.2;
+  color: #000;
+  cursor: pointer;
+}
+
+.user_nickname_input {
+  border: 1px solid grey;
 }
 
 .nav-link {
@@ -46,6 +76,7 @@
 }
 
 .profile-input {
+  width: 194px;
   margin-top: 5px;
 }
 

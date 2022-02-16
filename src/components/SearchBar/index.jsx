@@ -1,35 +1,38 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './searchBar.css';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useClickOutside } from 'react-click-outside-hook';
 import { useDebauncer } from '../../utils';
 import { useAuth } from '../../contexts/Auth';
-import { SearchContentDB } from '../SearchBarContent';
+import { SearchContentCard } from '../SearchContentCard';
 
 const containerVariants = {
   expanded: {
     height: '30em',
-    zIndex: '10'
+    zIndex: '10',
   },
   collapsed: {
     height: '1.8em',
-    zIndex: '10'
-  }
+    zIndex: '10',
+  },
 };
 
 const containerTransition = {
   type: 'spring',
   damping: 22,
-  stiffness: 150
+  stiffness: 150,
 };
 
-export default function SearchBar(props) {
+export const SearchBar = (props) => {
   const [isExpanded, setExpanded] = useState(false);
   const [parentRef, isClickOutside] = useClickOutside();
   const inputRef = useRef();
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [searchDataDB, setSearchDataDB] = useState([]);
+
+  const navigate = useNavigate();
 
   const isEmpty = !searchDataDB || searchDataDB.length === 0;
 
@@ -55,20 +58,22 @@ export default function SearchBar(props) {
     if (isClickOutside) collapseSearchBar();
   }, [isClickOutside]);
 
-  const SearchSeparator = () => <span className="search__separator"></span>;
+  const SearchSeparator = useCallback(
+    () => <span className="search__separator" />,
+    []
+  );
 
-  const SearchContent = ({ children }) => (
-    <div className="search__content">{children}</div>
+  const SearchContent = useCallback(
+    ({ children }) => <div className="search__content">{children}</div>,
+    []
   );
 
   useEffect(() => {
     if (!searchQuery) setSearchDataDB([]);
   }, [searchQuery]);
 
-  //TODO: implement user input sanitization ?
-  /**
-   *
-   **/
+  //  TODO: implement user input sanitization ?
+
   const sanitize = (query) => {
     const cleanedQuery = query.trim().toLowerCase();
     return cleanedQuery;
@@ -79,7 +84,6 @@ export default function SearchBar(props) {
     const unique = arr.filter((item) => {
       const isInSet = set.has(item.id);
       set.add(item.id);
-
       return !isInSet;
     });
     return unique;
@@ -113,7 +117,6 @@ export default function SearchBar(props) {
       setSearchDataDB(filterDubs(searchItems));
     }
     setLoading(false);
-    return true;
   };
 
   useDebauncer(searchQuery, 500, searchDB);
@@ -128,21 +131,18 @@ export default function SearchBar(props) {
       ref={parentRef}
     >
       <form className="search__input __container">
-        <i className="bi bi-search"></i>
+        <i className="bi bi-search" />
         <input
           className="search__input"
           type="search"
           placeholder="Search"
           name="header-search"
-          autoFocus=""
           onFocus={expandSearchBar}
           ref={inputRef}
           value={searchQuery}
           onChange={changeHandler}
-        ></input>
-        {isExpanded && (
-          <i className="bi bi-x-circle" onClick={collapseSearchBar}></i>
-        )}
+        />
+        {isExpanded && <i className="bi bi-x-circle" />}
       </form>
       {isExpanded && <SearchSeparator />}
       {isExpanded && (
@@ -150,12 +150,19 @@ export default function SearchBar(props) {
           {!isLoading && !isEmpty && (
             <>
               {searchDataDB.map((data) => (
-                <SearchContentDB
-                  title={data.title}
-                  description={data.description}
-                  dataId={data.id}
-                  date={data.insertedat}
-                />
+                <Link
+                  to={`/dashboard/${data.id}`}
+                  onClick={collapseSearchBar}
+                  className="search__content__link"
+                >
+                  <SearchContentCard
+                    key={data.id}
+                    title={data.title}
+                    description={data.description}
+                    dataId={data.id}
+                    date={data.insertedat}
+                  />
+                </Link>
               ))}
             </>
           )}
@@ -163,4 +170,4 @@ export default function SearchBar(props) {
       )}
     </motion.div>
   );
-}
+};
