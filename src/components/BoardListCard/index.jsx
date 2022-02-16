@@ -6,25 +6,22 @@ import { AddButton } from '../AddButton';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 const BoardListCard = ({
-  col_title,
-  col_id,
-  col_order,
+  title,
+  id,
   cards,
   AddTask,
   index
 }) => {
-  const title = col_title;
-  const id = col_id;
-  const order = col_order;
+  
   return (
-    <Draggable draggableId={`${col_id}`} index={index}>
+    <Draggable draggableId={`${id}`} index={index}>
       {(provided) => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <Droppable droppableId={`${col_id}`} type="cards">
+          <Droppable droppableId={`${id}`} type="cards">
             {(provided) => (
               <div
                 {...provided.droppableProps}
@@ -32,26 +29,25 @@ const BoardListCard = ({
                 className={styles.container}
               >
                 <h4>{title}</h4>
-                {/* <BoardTitleTextarea title={title} /> */}
 
-                {cards.length &&
+                {cards.length>0 &&
                   cards.map((card, index) => (
                     <BoardCard
-                      key={card.crd_id}
+                      key={card["crd_id"]}
                       columnId={id}
                       card={card}
                       columnTitle={title}
-                      cardId={card.crd_id}
+                      cardId={card["crd_id"]}
                       cardIndex={index}
                     />
                   ))}
                 {provided.placeholder}
                 <AddButton
-                  text={'task'}
-                  type={'card'}
+                  text="task"
+                  type="card"
                   listId={id}
-                  placeholder={'Enter a title for this card'}
-                  textBtn={'task'}
+                  placeholder="Enter a title for this card"
+                  textBtn="task"
                   onClick={(text) => AddTask(text, id)}
                 />
               </div>

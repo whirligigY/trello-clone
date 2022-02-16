@@ -135,20 +135,21 @@ const DashboardPage = () => {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {user && cards.length ? (
+                {user ? (
                   columns.map((column, index) => (
                     <BoardListCard
-                      {...column}
-                      key={column.col_id}
+                    title = {column["col_title"]}
+                    id = {column["col_id"]}
+                      key={column["col_id"]}
                       cards={cards.filter(
-                        (el) => el.crd_columnid === column.col_id
+                        (el) => el.crd_columnid === column["col_id"]
                       )}
                       AddTask={AddTask}
                       index={index}
                     />
                   ))
                 ) : (
-                  <p>The board is empty </p>
+                  <p></p>
                 )}
                 <AddButton
                   text="another column"

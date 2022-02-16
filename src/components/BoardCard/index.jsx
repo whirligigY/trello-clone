@@ -148,7 +148,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
             checkLists={checkLists}
             changeCheckList={changeCheckList}
           />
-          {Number(card.crd_columnid) === columnId && (
+          {Number(card["crd_columnid"]) === columnId && (
             <Card
               style={{ width: '19rem' }}
               className={styles.card}
@@ -159,22 +159,14 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
                   className={`bi bi-pencil btn-secondary ${styles.btn_clipboard}`}
                 />
               </div>
-              {card.crd_id === 0 && (
-                <Card.Img variant="top" src={IMG_1} draggable={false} />
-              )}
-              {card.crd_id === 1 && (
-                <Card.Img variant="top" src={IMG_3} draggable={false} />
-              )}
-              {card.crd_id === 3 && (
-                <Card.Img variant="top" src={IMG_2} draggable={false} />
-              )}
+              
               <Card.Body>
-                <Card.Text draggable={false}>{card.crd_title}</Card.Text>
+                <Card.Text >{card["crd_title"]}</Card.Text>
                 {showDeadline && (
                   <Card.Link
                     href="#"
                     className="p-1 btn btn-secondary"
-                    draggable={false}
+                    
                   >
                     <i className="bi bi-clock-fill" />
                     <span className={styles.ml}>
@@ -187,14 +179,14 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
                 <Card.Link
                   href="#"
                   className={`card-link ${styles.descrip}`}
-                  draggable={false}
+                  
                 >
                   <i className="bi bi-justify-left btn-light" />
                 </Card.Link>
-                <Card.Link href="#" draggable={false}>
+                <Card.Link href="#" >
                   <i className="bi bi-link-45deg btn-light" />
                 </Card.Link>
-                <Card.Link href="#" draggable={false}>
+                <Card.Link href="#" >
                   <i className="bi bi-check2-square btn-light" />
                   <span className={`btn-light ${styles.ml}`}>2/2</span>
                 </Card.Link>
