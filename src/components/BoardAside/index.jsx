@@ -33,9 +33,6 @@ const BoardAside = () => (
       <Nav.Link eventKey="disabled" disabled className={styles.link_title}>
         My boards
       </Nav.Link>
-      <Nav.Link eventKey="link-2" className={styles.link}>
-        board1
-      </Nav.Link>
     </Nav>
   </div>
 );
