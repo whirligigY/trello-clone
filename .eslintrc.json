@@ -6,11 +6,10 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-<<<<<<< HEAD
-=======
+
     // "airbnb",
     // "airbnb/hooks",
->>>>>>> origin/main
+
     "prettier"
   ],
   "parserOptions": {
