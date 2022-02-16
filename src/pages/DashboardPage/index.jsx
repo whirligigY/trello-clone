@@ -138,14 +138,16 @@ const DashboardPage = () => {
                 {user ? (
                   columns.map((column, index) => (
                     <BoardListCard
-                    title = {column["col_title"]}
-                    id = {column["col_id"]}
-                      key={column["col_id"]}
+                      title={column['col_title']}
+                      id={column['col_id']}
+                      key={column['col_id']}
                       cards={cards.filter(
-                        (el) => el.crd_columnid === column["col_id"]
+                        (el) => el.crd_columnid === column['col_id']
                       )}
                       AddTask={AddTask}
                       index={index}
+                      boardId={boardId}
+                      getData={getData}
                     />
                   ))
                 ) : (
