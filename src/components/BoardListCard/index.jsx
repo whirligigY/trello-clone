@@ -20,7 +20,6 @@ const BoardListCard = ({
 
   const handleBlur = async (val, idColumn) => {
     setIsEditTitleColum(false);
-    console.log(val);
     await client
       .from('tsk_columns')
       .upsert([{ col_id: idColumn, col_title: val }]);

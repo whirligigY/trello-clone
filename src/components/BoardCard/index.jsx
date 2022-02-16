@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Card } from 'react-bootstrap';
 import moment from 'moment';
 import { Draggable } from 'react-beautiful-dnd';
@@ -12,12 +12,14 @@ import { CardLabel } from '../CardLabel';
 const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const [visible, setVisible] = useState(false);
   const [isEditTitleCard, setIsEditTitleCard] = useState(false);
+  const ref = useRef();
 
   function closeHandle() {
     setVisible(false);
   }
 
-  function openHandle() {
+  function openHandle(e) {
+    console.log(e.nativeEvent.path[0]);
     setVisible(true);
   }
 
@@ -154,13 +156,21 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
             checkLists={checkLists}
             changeCheckList={changeCheckList}
           />
+
           {Number(card['crd_columnid']) === columnId && (
             <Card
               style={{ width: '19rem' }}
               className={styles.card}
               onClick={openHandle}
             >
-              <div className={styles.bd_clipboard}>
+              <div
+                className={styles.bd_clipboard}
+                ref={ref}
+                onClick={() => {
+                  setIsEditTitleCard(true);
+                  setVisible(false);
+                }}
+              >
                 <i
                   className={`bi bi-pencil btn-secondary ${styles.btn_clipboard}`}
                 />
