@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { Card } from 'react-bootstrap';
 import moment from 'moment';
 import { Draggable } from 'react-beautiful-dnd';
-import IMG_1 from './abstract1.jpeg';
-import IMG_2 from './abstract2.jpeg';
-import IMG_3 from './abstract3.jpeg';
+
 import styles from './BoardCard.module.css';
 import { TaskModalWindow } from '../TaskModal/TaskModal';
+import { RenderCardTitle } from '../RenderCardTitle';
 
 import { CardLabel } from '../CardLabel';
 
 const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const [visible, setVisible] = useState(false);
-  console.log('card', card);
+
+  const [isEditTitleCard, setIsEditTitleCard] = useState(false);
+
+
   function closeHandle() {
     setVisible(false);
   }
@@ -21,6 +23,12 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
     setVisible(true);
   }
 
+  const handleCardSave = () => {
+    setIsEditTitleCard(false);
+  };
+  const handleCardClose = () => {
+    setIsEditTitleCard(false);
+  };
   /* task modal window state */
   /* deadline states */
 
@@ -127,6 +135,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
+
           {
             <TaskModalWindow
               visible={visible}
@@ -151,7 +160,8 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
               cardId={card.crd_id}
             />
           }
-          {Number(card.crd_columnid) === columnId && (
+          {Number(card['crd_columnid']) === columnId && (
+
             <Card
               style={{ width: '19rem' }}
               className={styles.card}
@@ -164,7 +174,20 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
               </div>
 
               <Card.Body>
-                <Card.Text>{card.crd_title}</Card.Text>
+
+                <div>
+                  {isEditTitleCard ? (
+                    <RenderCardTitle
+                      title={card.crd_title}
+                      handleCardSave={handleCardSave}
+                      handleCardClose={handleCardClose}
+                    />
+                  ) : (
+                    <Card.Text className="mb-3">{card['crd_title']}</Card.Text>
+                  )}
+                </div>
+
+
                 {showDeadline && (
                   <Card.Link href="#" className="p-1 btn btn-secondary">
                     <i className="bi bi-clock-fill" />

@@ -1,0 +1,8 @@
+.input_titleColumn {
+  width: 100%;
+  border: none;
+  outline-color: blue;
+  border-radius: 3px;
+  margin-bottom: 3px;
+  padding: 5px;
+}
