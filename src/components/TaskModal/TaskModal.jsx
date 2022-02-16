@@ -4,7 +4,7 @@ import { TaskModalBody } from './TaskModalBody'
 import { useAuth } from '../../contexts/Auth';
 import './TaskModalWindow.css'
 
-const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime, activeLabels, changeActiveLabels, labels, changeLabels, removeLabel, changeCheckList, checkLists, cardId }) => {
+const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, changeDeadline, showDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime, activeLabels, changeActiveLabels, labels, changeLabels, removeLabel, changeCheckList, checkLists, cardId, addCheckBox, changeCheckboxTitle, removeCheckBox, changeProgress, removeCheckList, removeCheckListItem, checkboxes, checkedCheckboxes }) => {
   const { user, client } = useAuth();
 
   const [taskDescription, setTaskDescription] = useState();
@@ -40,6 +40,7 @@ const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, chang
         </p>
       </div>
       </Modal.Header>
+<<<<<<< HEAD
       <TaskModalBody
           dateValue={dateValue}
           changeDeadline={changeDeadline}
@@ -59,6 +60,36 @@ const TaskModalWindow = ({ visible, closeHandle, title, column, dateValue, chang
           taskDescription={taskDescription}
           setTaskDescription={setTaskDescription}
           cardId={cardId}
+=======
+      <TaskModalBody 
+        dateValue={dateValue} 
+        changeDeadline={changeDeadline}
+        showDeadline={showDeadline}
+        setDeadlineView={setDeadlineView}
+        useDeadlineRange={useDeadlineRange}
+        setDeadlineRange={setDeadlineRange}
+        deadlineTime={deadlineTime}
+        changeDeadlineTime={changeDeadlineTime}
+        activeLabels={activeLabels}
+        changeActiveLabels={changeActiveLabels}
+        labels={labels}
+        changeLabels={changeLabels}
+        remove={removeLabel}
+        checkLists={checkLists}
+        changeCheckList={changeCheckList}
+        taskDescription={taskDescription}
+        setTaskDescription={setTaskDescription}
+        cardId={cardId}
+
+        addCheckBox={addCheckBox}
+        changeCheckboxTitle={changeCheckboxTitle}
+        removeCheckBox={removeCheckBox}
+        changeProgress={changeProgress}
+        removeCheckList={removeCheckList}
+        removeCheckListItem={removeCheckListItem}
+        checkboxes={checkboxes}
+        checkedCheckboxes={checkedCheckboxes}
+>>>>>>> temp_modal_branch
       />
     </Modal>
   )

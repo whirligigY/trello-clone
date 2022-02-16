@@ -29,7 +29,15 @@ const TaskModalBody = ({
   checkLists,
   taskDescription,
   setTaskDescription,
-  cardId
+  cardId,
+  addCheckBox,
+  changeCheckboxTitle,
+  removeCheckBox,
+  changeProgress,
+  removeCheckList,
+  removeCheckListItem,
+  checkboxes,
+  checkedCheckboxes
 }) => {
   return (
     <Modal.Body>
@@ -64,8 +72,16 @@ const TaskModalBody = ({
             setTaskDescription={setTaskDescription}
               cardId={cardId}
             />
-            {checkLists.map((item, i) => (
-              <CheckList key={i} id={`${i}`} title={item} />
+            {checkLists.map((item) => (
+              <CheckList key={item.id} id={item.id} title={item.title} 
+              addCheckBox={addCheckBox}
+              changeCheckboxTitle={changeCheckboxTitle}
+              removeCheckBox={removeCheckBox}
+              changeProgress={changeProgress}
+              removeCheckList={removeCheckList}
+              removeCheckListItem={removeCheckListItem}
+              checkboxes={checkboxes}
+              checkedCheckboxes={checkedCheckboxes}/>
             ))}
           </Col>
           <Col className="side-buttons" xs={4} md={2}>

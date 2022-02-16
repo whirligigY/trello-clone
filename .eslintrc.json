@@ -6,8 +6,11 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
+<<<<<<< HEAD
+=======
     // "airbnb",
     // "airbnb/hooks",
+>>>>>>> origin/main
     "prettier"
   ],
   "parserOptions": {
@@ -17,7 +20,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier"],
+  "plugins": ["react", "react-hooks", "prettier"],
 
   "rules": {
     "no-unused-vars": "warn",
