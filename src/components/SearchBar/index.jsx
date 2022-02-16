@@ -154,9 +154,9 @@ export const SearchBar = (props) => {
                   to={`/dashboard/${data.id}`}
                   onClick={collapseSearchBar}
                   className="search__content__link"
+                  key={data.id}
                 >
                   <SearchContentCard
-                    key={data.id}
                     title={data.title}
                     description={data.description}
                     dataId={data.id}
