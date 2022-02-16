@@ -31,6 +31,7 @@
 .nav__button .nav_button__trello {
   background: transparent;
   color: white;
+  font-size: large;
 }
 
 .nav__button__sign-in {

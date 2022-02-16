@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import './searchContentCard.css';
 
-export function SearchContentDB(props) {
+export const SearchContentCard = (props) => {
   const { title, description, dataId, date } = props;
 
   const [dateConverted, setDateConverted] = useState('');
@@ -19,4 +20,4 @@ export function SearchContentDB(props) {
       <p>Created at: {dateConverted}</p>
     </div>
   );
-}
+};
