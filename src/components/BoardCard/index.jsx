@@ -7,6 +7,9 @@ import styles from "./BoardCard.module.css";
 import { TaskModalWindow } from '../TaskModal/TaskModal';
 import { CardLabel } from '../CardLabel';
 import moment from 'moment';
+import { useEffect } from "react";
+import { useAuth } from "../../contexts/Auth";
+
 
 const BoardCard = ({
   columnId,
@@ -17,6 +20,7 @@ const BoardCard = ({
   dragEndCardHandler,
   dropCardHandler,
 }) => {
+  const { user, client} = useAuth();
   const [visible, setVisible] = useState(false);
 
   function closeHandle() {
@@ -68,6 +72,7 @@ const BoardCard = ({
     }
   }
   
+  
   const changeActiveLabels = (value) => {
     let index = -1;
     activeLabels.map((item) => {
@@ -103,10 +108,181 @@ const BoardCard = ({
 
   /* checklists states */
   const [checkLists, setCheckList] = useState([]);
+  const [checkboxes, setCheckboxes] = useState([]);
+  const [checkedCheckboxes, setCheckedCheckboxes] = useState([]);
+  const [changes, setChanges] = useState(false);
 
   const changeCheckList = (value) => {
-    setCheckList([...checkLists, value])
+    setCheckList([...checkLists, {title: value, id: checkLists.length + 1, card: card.id}])
   }
+
+  const saveCheckLists= async () => {
+    let savedCardLists = checkLists.filter((list) => list.card == card.id);
+    if (savedCardLists.length === 0)
+      {savedCardLists = []}
+    const { data, error } = await client
+    .from('tsk_checklists')
+    .insert([
+      { 'list_id': card.id, 'lists': JSON.stringify(savedCardLists), 'list_crd_id': card.id}
+    ], { upsert: true })
+  };
+
+  const saveCheckboxes= async () => {
+    let savedCardCheckboxes = checkboxes.filter((checkbox) => checkbox.card == card.id)
+    if (checkboxes.length === 0)
+      {savedCardCheckboxes = []}
+    const { data, error } = await client
+    .from('tsk_checklists')
+    .update({ 'checkboxes': JSON.stringify(savedCardCheckboxes) })
+    .eq('list_crd_id', card.id)
+  };
+
+  useEffect(() => {
+    if(checkLists.length > 0) {
+      saveCheckLists();
+    }
+  }, [checkLists.length])
+
+  useEffect(() => {
+    if (changes) {
+      if(checkLists.length === 0) {
+        saveCheckLists();
+        saveCheckboxes();
+      }
+      setChanges(false);
+    }
+  }, [changes])
+
+  useEffect(() => {
+    if (checkboxes.length >= 1) {
+      saveCheckboxes();
+      }
+  }, [checkboxes])
+
+  useEffect(() => {
+    client
+      .from('tsk_checklists')
+      .select('*')
+      .eq('list_crd_id', card.id)
+      .then(({ data, error }) => {
+        if(data.length > 0) {
+          if (!error) {
+            setCheckList(() => (data[0].lists.length) ? JSON.parse(data[0].lists) : []);
+            setCheckboxes(() => (data[0].checkboxes) ? JSON.parse(data[0].checkboxes) : []);
+            setCheckedCheckboxes(() => (data[0].checkboxes) ? (JSON.parse(data[0].checkboxes)).map((item)=> {
+              return item.status ? {id: item.id, listId: item.listId} : 0}).filter((item) => item !== 0) : []);
+          }
+        }
+      })
+  }, [])
+
+  const addCheckBox = (listId) => {
+    setCheckboxes((prevState)=>{
+      return [...prevState, {title: '', id: prevState[prevState.length-1] ? prevState[prevState.length-1].id + 1 : 1, status: false, listId: listId, card: card.id }];
+    });
+  };
+
+  const onChangeCheckboxTitle = (e) => {
+    const id = e.target.closest('.subtask').id;
+    const value = e.target.value;
+    setCheckboxes((prevState)=>{
+      return prevState.map((item) => {
+        if (Number(id) === Number(item.id)) {
+          item.title = value;
+        }
+        return item;
+      });
+    });
+  }
+
+  const changeProgress = (e) => {
+    const id = Number(e.target.closest('.subtask').id);
+    const listId = Number(e.target.closest('.check-list').dataset.num);
+    const item = {id, listId};
+    if (e.target.checked) {
+      if (checkedCheckboxes.findIndex(x => x.id === id && x.listId === listId) === -1) {
+        setCheckedCheckboxes((prevState)=>{
+          return [...prevState, item]
+        });
+        setCheckboxes((prevState)=>{
+          return prevState.map((item) => {
+            if (Number(id) === Number(item.id)) {
+              item.status = true;
+            }
+            return item;
+          });
+        });
+      }
+    } else {
+      const index = checkedCheckboxes.findIndex(x => x.id === id && x.listId === listId);
+      setCheckedCheckboxes((prevState)=>{
+        if (index === prevState.length-1) {
+          return [...prevState.slice(0, index)]
+        } else if (index === 0) {
+          return [...prevState.slice(index, prevState.length)]
+        }else {
+          return [
+            ...prevState.slice(0, index),
+            ...prevState.slice(index + 1)
+          ]
+        }
+      });
+      setCheckboxes((prevState)=>{
+        return prevState.map((item) => {
+          if (Number(id) === Number(item.id)) {
+            item.status = false;
+          }
+          return item;
+        });
+      });
+    }
+  }
+
+  const removeCheckList = (e) => {
+    const id = e.target.closest('.check-list').dataset.num;
+    const index = checkLists.findIndex(x => Number(x.card) == Number(card.id) && Number(x.id) == Number(id));
+    setCheckList((prevState)=>{
+      if (index === prevState.length-1) {
+        return [...prevState.slice(0, index)]
+      } else if (index === 0) {
+        return [...prevState.slice(index, prevState.length)]
+      }else {
+        return [
+          ...prevState.slice(0, index),
+          ...prevState.slice(index + 1)
+        ]
+      }
+    });
+    setCheckboxes([...checkboxes.filter((item) => item.listId != id).filter((item) => item.card == card.id)]);
+    setChanges(true);
+  }
+
+  const removeCheckListItem = (e) => {
+    const id = e.target.closest('.subtask').id;
+    const listId = e.target.closest('.check-list').dataset.num;
+    const index = checkedCheckboxes.findIndex(x => x.listId == listId && x.id == id);
+    if (index !== -1) {
+      setCheckedCheckboxes([
+        ...checkedCheckboxes.slice(0, index),
+        ...checkedCheckboxes.slice(index + 1)
+      ]);
+    }
+    removeCheckbox(id, listId);
+  }
+
+  const removeCheckbox = (id, listId) => {
+    let index = 0;
+    checkboxes.map((item) => {
+      if (Number(item.id) === Number(id) && Number(item.listId) === Number(listId)) {
+        index = checkboxes.indexOf(item);
+      }
+      return item;
+    })
+    setCheckboxes([
+      ...checkboxes.slice(0, index),
+      ...checkboxes.slice(index + 1)
+    ]);
+  };
   /* end checklists state */
   /*end task modal states*/
 
@@ -133,6 +309,15 @@ const BoardCard = ({
       checkLists={checkLists}
       changeCheckList={changeCheckList}
       cardId={card.id}
+
+      addCheckBox={addCheckBox}
+      changeCheckboxTitle={onChangeCheckboxTitle}
+      removeCheckBox={removeCheckbox}
+      changeProgress={changeProgress}
+      removeCheckList={removeCheckList}
+      removeCheckListItem={removeCheckListItem}
+      checkboxes={checkboxes}
+      checkedCheckboxes={checkedCheckboxes}
       />}
       {Number(card.columnId) === columnId && (
         <Card
@@ -186,10 +371,10 @@ const BoardCard = ({
             <Card.Link href="#" draggable={false}>
               <i className="bi bi-link-45deg btn-light"></i>
             </Card.Link>
-            <Card.Link href="#" draggable={false}>
+            {(checkboxes.length > 0) && <Card.Link href="#" draggable={false}>
               <i className="bi bi-check2-square btn-light"></i>
-              <span className={"btn-light " + styles.ml}>2/2</span>
-            </Card.Link>
+              <span className={"btn-light " + styles.ml}>{checkedCheckboxes.length}/{checkboxes.length}</span>
+            </Card.Link>}
             {activeLabels.length > 0 && (
                 <div className={styles.card_labels}>
                   { activeLabels.map((item, i) => {
