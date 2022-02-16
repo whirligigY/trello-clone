@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styles from './BoardListCard.module.css';
 import { BoardCard } from '../BoardCard';
@@ -88,5 +90,6 @@ const BoardListCard = ({
     </Draggable>
   );
 };
+
 
 export { BoardListCard };
