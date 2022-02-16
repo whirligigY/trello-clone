@@ -11,7 +11,9 @@ import { CardLabel } from '../CardLabel';
 
 const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const [visible, setVisible] = useState(false);
+
   const [isEditTitleCard, setIsEditTitleCard] = useState(false);
+
 
   function closeHandle() {
     setVisible(false);
@@ -55,7 +57,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
     { id: 1, value: 'a', status: false, color: 'blue' },
     { id: 2, value: '', status: false, color: 'red' },
     { id: 3, value: '', status: false, color: 'yellow' },
-    { id: 4, value: '', status: false, color: 'green' }
+    { id: 4, value: '', status: false, color: 'green' },
   ]);
 
   const changeLabels = (val) => {
@@ -112,7 +114,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const removeActiveLabel = (value) => {
     setActiveLabels([
       ...activeLabels.slice(0, value),
-      ...activeLabels.slice(value + 1)
+      ...activeLabels.slice(value + 1),
     ]);
   };
   /* end of labels states */
@@ -133,28 +135,33 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <TaskModalWindow
-            visible={visible}
-            closeHandle={closeHandle}
-            title={card.title}
-            column={columnTitle}
-            dateValue={value}
-            changeDeadline={onChange}
-            showDeadline={showDeadline}
-            setDeadlineView={changeDeadlineView}
-            useDeadlineRange={isActiveRange}
-            setDeadlineRange={setDeadlineRange}
-            deadlineTime={deadlineTime}
-            changeDeadlineTime={changeDeadlineTime}
-            activeLabels={activeLabels}
-            changeActiveLabels={changeActiveLabels}
-            labels={labels}
-            changeLabels={changeLabels}
-            removeLabel={removeActiveLabel}
-            checkLists={checkLists}
-            changeCheckList={changeCheckList}
-          />
+
+          {
+            <TaskModalWindow
+              visible={visible}
+              closeHandle={closeHandle}
+              title={card.crd_title}
+              column={columnTitle}
+              dateValue={value}
+              changeDeadline={onChange}
+              showDeadline={showDeadline}
+              setDeadlineView={changeDeadlineView}
+              useDeadlineRange={isActiveRange}
+              setDeadlineRange={setDeadlineRange}
+              deadlineTime={deadlineTime}
+              changeDeadlineTime={changeDeadlineTime}
+              activeLabels={activeLabels}
+              changeActiveLabels={changeActiveLabels}
+              labels={labels}
+              changeLabels={changeLabels}
+              removeLabel={removeActiveLabel}
+              checkLists={checkLists}
+              changeCheckList={changeCheckList}
+              cardId={card.crd_id}
+            />
+          }
           {Number(card['crd_columnid']) === columnId && (
+
             <Card
               style={{ width: '19rem' }}
               className={styles.card}
@@ -167,6 +174,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
               </div>
 
               <Card.Body>
+
                 <div>
                   {isEditTitleCard ? (
                     <RenderCardTitle
@@ -178,6 +186,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
                     <Card.Text className="mb-3">{card['crd_title']}</Card.Text>
                   )}
                 </div>
+
 
                 {showDeadline && (
                   <Card.Link href="#" className="p-1 btn btn-secondary">
@@ -216,3 +225,12 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
 };
 
 export { BoardCard };
+
+/*
+{activeLabels.map((item, i) => {
+                      if (item.status) {
+                        return <CardLabel item={item} key={i} />;
+                      }
+                      return '';
+                    })}
+*/
