@@ -64,6 +64,17 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
     { id: 4, value: '', status: false, color: 'green' },
   ]);
 
+  useEffect(() => {
+    saveСardLabels()
+  }, [activeLabels])
+
+  const saveСardLabels= async () => {
+    const { data, error } = await client
+    .from('tsk_cards')
+    .update({ crd_labels: activeLabels })
+    .eq('crd_id', card.id)
+  };
+
   const changeLabels = (val) => {
     if (!val.id) {
       /* eslint-disable */

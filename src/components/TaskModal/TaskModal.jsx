@@ -70,7 +70,6 @@ const TaskModalWindow = ({
           </p>
         </div>
       </Modal.Header>
-
       <TaskModalBody
         dateValue={dateValue}
         changeDeadline={changeDeadline}
