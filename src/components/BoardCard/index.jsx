@@ -165,38 +165,32 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
   const changeCheckList = (value) => {
     setCheckList([
       ...checkLists,
-      { title: value, id: checkLists.length + 1, card: card.id },
+      { title: value, id: checkLists.length + 1, card: cardId },
     ]);
   };
 
   const saveCheckLists = async () => {
-    let savedCardLists = checkLists.filter((list) => list.card == card.id);
+    let savedCardLists = checkLists.filter((list) => list.card == cardId);
     if (savedCardLists.length === 0) {
       savedCardLists = [];
     }
-    const { data, error } = await client.from('tsk_checklists').insert(
-      [
-        {
-          list_id: card.id,
-          lists: JSON.stringify(savedCardLists),
-          list_crd_id: card.id,
-        },
-      ],
-      { upsert: true }
-    );
+    const { data, error } = await client
+      .from('tsk_cards')
+      .update({ lists: JSON.stringify(savedCardLists) })
+      .eq('crd_id', cardId);
   };
 
   const saveCheckboxes = async () => {
     let savedCardCheckboxes = checkboxes.filter(
-      (checkbox) => checkbox.card == card.id
+      (checkbox) => checkbox.card == cardId
     );
     if (checkboxes.length === 0) {
       savedCardCheckboxes = [];
     }
     const { data, error } = await client
-      .from('tsk_checklists')
+      .from('tsk_cards')
       .update({ checkboxes: JSON.stringify(savedCardCheckboxes) })
-      .eq('list_crd_id', card.id);
+      .eq('crd_id', cardId);
   };
 
   useEffect(() => {
@@ -223,15 +217,15 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
 
   useEffect(() => {
     client
-      .from('tsk_checklists')
+      .from('tsk_cards')
       .select('*')
-      .eq('list_crd_id', card.id)
+      .eq('crd_id', cardId)
       .then(({ data, error }) => {
         if (data) {
           if (data.length > 0) {
             if (!error) {
               setCheckList(() =>
-                data[0].lists.length ? JSON.parse(data[0].lists) : []
+                data[0].lists ? JSON.parse(data[0].lists) : []
               );
               setCheckboxes(() =>
                 data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
@@ -264,7 +258,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
             : 1,
           status: false,
           listId: listId,
-          card: card.id,
+          card: cardId,
         },
       ];
     });
@@ -332,7 +326,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
   const removeCheckList = (e) => {
     const id = e.target.closest('.check-list').dataset.num;
     const index = checkLists.findIndex(
-      (x) => Number(x.card) == Number(card.id) && Number(x.id) == Number(id)
+      (x) => Number(x.card) == Number(cardId) && Number(x.id) == Number(id)
     );
     setCheckList((prevState) => {
       if (index === prevState.length - 1) {
@@ -346,7 +340,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
     setCheckboxes([
       ...checkboxes
         .filter((item) => item.listId != id)
-        .filter((item) => item.card == card.id),
+        .filter((item) => item.card == cardId),
     ]);
     setChanges(true);
   };
@@ -413,7 +407,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
               removeLabel={removeActiveLabel}
               checkLists={checkLists}
               changeCheckList={changeCheckList}
-              cardId={card.id}
+              cardId={cardId}
               addCheckBox={addCheckBox}
               changeCheckboxTitle={onChangeCheckboxTitle}
               removeCheckBox={removeCheckbox}
