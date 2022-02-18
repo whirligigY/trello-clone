@@ -33,6 +33,7 @@ const TaskModalWindow = ({
   removeCheckListItem,
   checkboxes,
   checkedCheckboxes,
+  setSaveDeadline
 }) => {
   const { user, client } = useAuth();
 
@@ -97,6 +98,7 @@ const TaskModalWindow = ({
         removeCheckListItem={removeCheckListItem}
         checkboxes={checkboxes}
         checkedCheckboxes={checkedCheckboxes}
+        setSaveDeadline={setSaveDeadline}
       />
     </Modal>
   );

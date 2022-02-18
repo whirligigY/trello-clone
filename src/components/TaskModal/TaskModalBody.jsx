@@ -37,7 +37,8 @@ const TaskModalBody = ({
   removeCheckList,
   removeCheckListItem,
   checkboxes,
-  checkedCheckboxes
+  checkedCheckboxes,
+  setSaveDeadline
 }) => {
   return (
     <Modal.Body>
@@ -64,6 +65,7 @@ const TaskModalBody = ({
                   setDeadlineRange={setDeadlineRange}
                   deadlineTime={deadlineTime}
                   changeDeadlineTime={changeDeadlineTime}
+                  setSaveDeadline={setSaveDeadline}
                 />
               )}
             </div>
@@ -102,6 +104,7 @@ const TaskModalBody = ({
               setDeadlineRange={setDeadlineRange}
               deadlineTime={deadlineTime}
               changeDeadlineTime={changeDeadlineTime}
+              setSaveDeadline={setSaveDeadline}
             />
             <CoversDropdown />
           </Col>

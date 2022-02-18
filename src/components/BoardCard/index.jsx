@@ -40,6 +40,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
   const [showDeadline, setShowDeadline] = useState(false);
   const [isActiveRange, setIsActiveRange] = useState(false);
   const [deadlineTime, setDeadlineTime] = useState('');
+  const [saveDeadline, setSaveDeadline] = useState(false);
 
   const changeDeadlineView = (val) => {
     setShowDeadline(val);
@@ -53,10 +54,69 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
     setDeadlineTime(val);
   };
 
+  useEffect(() => {
+    client
+      .from('tsk_cards')
+      .select('*')
+      .eq('crd_id', cardId)
+      .then(({ data, error }) => {
+        if (data) {
+          if (data.length > 0) {
+            if (!error) {
+              if (data[0].crd_deadlineDate) {
+                if (data[0].crd_startDate) {
+                  setIsActiveRange(true);
+                  onChange([new Date(data[0].crd_startDate),
+                  new Date(data[0].crd_deadlineDate)]);
+                } else {
+                  let deadlineDate = new Date(data[0].crd_deadlineDate);
+                  if (deadlineDate != new Date()) {
+                    deadlineDate.setDate(deadlineDate.getDate() + 1);
+                  }
+                  onChange(deadlineDate);
+                }
+                if (data[0].crd_deadlineTime) {
+                  setDeadlineTime(data[0].crd_deadlineTime)
+                }
+                setShowDeadline(true);
+              }
+            }
+          }
+        }
+      });
+  }, []);
+
+  useEffect(() => {
+    if (saveDeadline) {
+      saveDeadlineDate()
+      setSaveDeadline(false)
+    }
+  }, [saveDeadline])
+
+  const saveDeadlineDate= async () => {
+    let startDate;
+    let deadlineDate;
+    let savedTime = deadlineTime || null;
+    if (Array.isArray(value)) {
+      [startDate, deadlineDate] = [...value]
+    } else {
+      startDate = null;
+      deadlineDate = value;
+    }
+    if (!showDeadline) {
+      deadlineDate = null;
+    }
+    const { data, error } = await client
+    .from('tsk_cards')
+    .update({ crd_deadlineDate: deadlineDate,
+    crd_startDate: startDate, crd_deadlineTime: savedTime })
+    .eq('crd_id', cardId)
+  };
+
   /* end of deadline states */
 
   const [activeLabels, setActiveLabels] = useState([]);
-  const [activeLabelsUpdate, setActiveLabelsUpdate] = useState(false)
+  const [activeLabelsUpdate, setActiveLabelsUpdate] = useState(false);
 
   useEffect(() => {
     client
@@ -410,6 +470,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
               removeCheckListItem={removeCheckListItem}
               checkboxes={checkboxes}
               checkedCheckboxes={checkedCheckboxes}
+              setSaveDeadline={setSaveDeadline}
             />
           }
 
