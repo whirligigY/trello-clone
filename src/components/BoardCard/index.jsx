@@ -95,29 +95,25 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
   };
 
   const changeLabels = (val) => {
-    if (!val.id) {
-      /* eslint-disable */
-      val.id = labels.length + 1;
+    const newItem = val;
+    if (!newItem.id) {
+      newItem.id = labels.length + 1;
     }
-    if (Number(val.id) <= Number(labels.length)) {
+    if (Number(newItem.id) <= Number(labels.length)) {
       setLabels((prevState) =>
         prevState.map((item) => {
-          if (Number(val.id) === Number(item.id)) {
-            /* eslint-disable */
-            item.id = val.id;
-            /* eslint-disable */
-            item.color = val.color;
-            /* eslint-disable */
-            item.status = val.status;
-            /* eslint-disable */
-            item.value = val.value;
+          if (Number(newItem.id) === Number(item.id)) {
+            item.id = newItem.id;
+            item.color = newItem.color;
+            item.status = newItem.status;
+            item.value = newItem.value;
           }
           return item;
         })
       );
       setLabelsUpdate(true);
     } else {
-      setLabels([...labels, val]);
+      setLabels([...labels, newItem]);
       setLabelsUpdate(true);
     }
   };
@@ -308,9 +304,8 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
           return [...prevState.slice(0, index)];
         } else if (index === 0) {
           return [...prevState.slice(index, prevState.length)];
-        } else {
-          return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
-        }
+        } 
+        return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
       });
       setCheckboxes((prevState) => {
         return prevState.map((item) => {
@@ -333,9 +328,8 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
         return [...prevState.slice(0, index)];
       } else if (index === 0) {
         return [...prevState.slice(index, prevState.length)];
-      } else {
-        return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
       }
+      return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
     });
     setCheckboxes([
       ...checkboxes
