@@ -11,7 +11,8 @@ import { RenderCardTitle } from '../RenderCardTitle';
 
 import { CardLabel } from '../CardLabel';
 
-const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
+const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
+   labels, setLabels, setLabelsUpdate }) => {
   const [visible, setVisible] = useState(false);
   const { client } = useAuth();
 
@@ -23,7 +24,6 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   }
 
   function openHandle(e) {
-    console.log(e.nativeEvent.path[0]);
     setVisible(true);
   }
 
@@ -55,24 +55,43 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
 
   /* end of deadline states */
 
-  /* labels states */
   const [activeLabels, setActiveLabels] = useState([]);
-  const [labels, setLabels] = useState([
-    { id: 1, value: 'a', status: false, color: 'blue' },
-    { id: 2, value: '', status: false, color: 'red' },
-    { id: 3, value: '', status: false, color: 'yellow' },
-    { id: 4, value: '', status: false, color: 'green' },
-  ]);
+  const [activeLabelsUpdate, setActiveLabelsUpdate] = useState(false)
 
   useEffect(() => {
-    saveСardLabels()
-  }, [activeLabels])
+    client
+      .from('tsk_cards')
+      .select('*')
+      .eq('crd_id', cardId)
+      .then(({ data, error }) => {
+        if (data) {
+          if (data.length > 0) {
+            if (!error) {
+              setActiveLabels(() =>
+                data[0].crd_labels.length ? JSON.parse(data[0].crd_labels) : []
+              );
+            }
+          }
+        }
+      });
+  }, []);
+
+  useEffect(() => {
+    if (activeLabelsUpdate) {
+      saveСardLabels()
+      setActiveLabelsUpdate(false)
+    }
+  }, [activeLabelsUpdate])
 
   const saveСardLabels= async () => {
+    let savedLabels = activeLabels;
+    if (savedLabels.length === 0) {
+      savedLabels = [];
+    }
     const { data, error } = await client
     .from('tsk_cards')
-    .update({ crd_labels: activeLabels })
-    .eq('crd_id', card.id)
+    .update({ crd_labels: JSON.stringify(savedLabels) })
+    .eq('crd_id', cardId)
   };
 
   const changeLabels = (val) => {
@@ -96,8 +115,10 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
           return item;
         })
       );
+      setLabelsUpdate(true);
     } else {
       setLabels([...labels, val]);
+      setLabelsUpdate(true);
     }
   };
 
@@ -124,6 +145,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
     } else {
       setActiveLabels([...activeLabels, value]);
     }
+    setActiveLabelsUpdate(true);
   };
 
   const removeActiveLabel = (value) => {
@@ -205,25 +227,27 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
       .select('*')
       .eq('list_crd_id', card.id)
       .then(({ data, error }) => {
-        if (data.length > 0) {
-          if (!error) {
-            setCheckList(() =>
-              data[0].lists.length ? JSON.parse(data[0].lists) : []
-            );
-            setCheckboxes(() =>
-              data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
-            );
-            setCheckedCheckboxes(() =>
-              data[0].checkboxes
-                ? JSON.parse(data[0].checkboxes)
-                    .map((item) => {
-                      return item.status
-                        ? { id: item.id, listId: item.listId }
-                        : 0;
-                    })
-                    .filter((item) => item !== 0)
-                : []
-            );
+        if (data) {
+          if (data.length > 0) {
+            if (!error) {
+              setCheckList(() =>
+                data[0].lists.length ? JSON.parse(data[0].lists) : []
+              );
+              setCheckboxes(() =>
+                data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
+              );
+              setCheckedCheckboxes(() =>
+                data[0].checkboxes
+                  ? JSON.parse(data[0].checkboxes)
+                      .map((item) => {
+                        return item.status
+                          ? { id: item.id, listId: item.listId }
+                          : 0;
+                      })
+                      .filter((item) => item !== 0)
+                  : []
+              );
+            }
           }
         }
       });
@@ -456,7 +480,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
                 {activeLabels.length > 0 && (
                   <div className={styles.card_labels}>
                     {activeLabels.map(
-                      (item) => item.status && <CardLabel item={item} />
+                      (item) => item.status && <CardLabel key={item.id} item={item} />
                     )}
                   </div>
                 )}

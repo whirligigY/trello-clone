@@ -4,7 +4,7 @@ import { AddLabelMenu } from './AddLabelMenu'
 import "../../TaskModalWindow.css";
 import { useEffect } from 'react';
 
-const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove, filterLabels }) => {
+const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
 
   const [search, setSearch] = useState();
   const preparedLables = search ? labels.filter((el) => {
