@@ -438,10 +438,10 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
                 <Card.Link href="#">
                   <i className="bi bi-link-45deg btn-light" />
                 </Card.Link>
-                <Card.Link href="#">
-                  <i className="bi bi-check2-square btn-light" />
-                  <span className={`btn-light ${styles.ml}`}>2/2</span>
-                </Card.Link>
+                {(checkboxes.length > 0) && <Card.Link href="#" draggable={false}>
+                  <i className="bi bi-check2-square btn-light"></i>
+                  <span className={"btn-light " + styles.ml}>{checkedCheckboxes.length}/{checkboxes.length}</span>
+                </Card.Link>}
                 {activeLabels.length > 0 && (
                   <div className={styles.card_labels}>
                     {activeLabels.map(
