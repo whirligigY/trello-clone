@@ -6,6 +6,8 @@ import WorkspaceBoards from '../Workspace';
 import { useAuth } from '../../contexts/Auth';
 import { WorkspaceBoarModal } from '../WorkspaceBoardModal';
 
+import { useKeyPress } from '../../hooks/hotKeys';
+
 import './boards.css';
 
 const Boards = ({ handleBoardIdChange, ...props }) => {
@@ -30,10 +32,10 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
     }
   }, [user, modalShow, client]);
 
-  // TODO: justify content left how to pass modifier styles to Main?
-
   const handleModal = () => setModalShow(true);
   const navigate = useNavigate();
+
+  useKeyPress(['b'], ['Control'], handleModal);
 
   return (
     <>
