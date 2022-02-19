@@ -8,7 +8,8 @@ const CoversDropdownMenu = ({
   colorCover,
   pictureCover,
   addColorCover,
-  addPictureCover
+  addPictureCover,
+  removeCover
 }) => {
   const [unsplashCovers, setUnsplashCovers] = useState([]);
   const [inputTag, setInputTag]=useState('');
@@ -43,7 +44,11 @@ const CoversDropdownMenu = ({
   return (
     <Dropdown.Menu>
       <p className='deadline-text'>Cover</p>
-      {(pictureCover.length || colorCover) && <div className='cover_example' style={colorCover ? {backgroundColor: colorCover} : pictureCover ? {backgroundImage: `url(${pictureCover})`} : ''}></div>}
+      {(pictureCover || colorCover) && 
+      <div className='used_cover'>
+        <div className='cover_example' style={colorCover ? {backgroundColor: colorCover} : pictureCover ? {backgroundImage: `url(${pictureCover})`} : ''}></div>
+        <Button className='delete_cover' variant='outline-secondary' onClick={removeCover}>Remove cover</Button>
+      </div>}
       <Dropdown.Divider />
       <p className='deadline-text'>Colors</p>
       {<ToggleButtonGroup className='labels-colors' type="radio" name="options" value={colorCover || ''}onChange={addColorCover}>

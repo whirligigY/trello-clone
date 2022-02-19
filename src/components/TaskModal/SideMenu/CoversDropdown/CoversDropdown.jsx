@@ -6,7 +6,8 @@ const CoversDropdown = ({
   colorCover,
   pictureCover,
   addColorCover,
-  addPictureCover
+  addPictureCover,
+  removeCover
 }) => {
 
   return (
@@ -22,6 +23,7 @@ const CoversDropdown = ({
         pictureCover={pictureCover}
         addColorCover={addColorCover}
         addPictureCover={addPictureCover}
+        removeCover={removeCover}
       />
     </Dropdown>
   )

@@ -37,7 +37,8 @@ const TaskModalWindow = ({
   colorCover,
   pictureCover,
   addColorCover,
-  addPictureCover
+  addPictureCover,
+  removeCover
 }) => {
   const { user, client } = useAuth();
 
@@ -113,6 +114,7 @@ const TaskModalWindow = ({
         pictureCover={pictureCover}
         addColorCover={addColorCover}
         addPictureCover={addPictureCover}
+        removeCover={removeCover}
       />
     </Modal>
   );

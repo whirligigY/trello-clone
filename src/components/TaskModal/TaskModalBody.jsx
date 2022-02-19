@@ -44,7 +44,8 @@ const TaskModalBody = ({
   pictureCover,
   setPictureCover,
   addColorCover,
-  addPictureCover
+  addPictureCover,
+  removeCover
 }) => {
   return (
     <Modal.Body>
@@ -117,6 +118,7 @@ const TaskModalBody = ({
               pictureCover={pictureCover}
               addColorCover={addColorCover}
               addPictureCover={addPictureCover}
+              removeCover={removeCover}
             />
           </Col>
         </Row>

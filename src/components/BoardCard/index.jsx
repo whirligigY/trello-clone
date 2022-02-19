@@ -33,27 +33,35 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
   const handleCardClose = () => {
     setIsEditTitleCard(false);
   };
+
   /* task modal window state */
   /* cover states */
   const [colorCover, setColorCover] = useState('');
   const [pictureCover, setPictureCover] = useState('');
+  const [saveCover, setSaveCover] = useState(false)
 
   const addColorCover = (val) => {
     setColorCover(val);
     setPictureCover('');
+    setSaveCover('true');
   }
 
   const addPictureCover = (val) => {
     setPictureCover(val);
     setColorCover('');
+    setSaveCover('true');
+  }
+
+  const removeCover = () => {
+    setPictureCover('');
+    setColorCover('');
+    setSaveCover('true');
   }
 
   useEffect(() => {
-    if (colorCover || pictureCover) {
       saveColorCover()
       savePictureCover()
-    }
-  }, [colorCover, pictureCover])
+  }, [saveCover])
 
   const saveColorCover= async () => {
     const { data, error } = await client
@@ -490,6 +498,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
               pictureCover={pictureCover}
               addColorCover={addColorCover}
               addPictureCover={addPictureCover}
+              removeCover={removeCover}
             />
           }
 
