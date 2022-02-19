@@ -69,26 +69,6 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
     .eq('crd_id', cardId)
   };
 
-  useEffect(() => {
-    client
-      .from('tsk_cards')
-      .select('*')
-      .eq('crd_id', cardId)
-      .then(({ data, error }) => {
-        if (data) {
-          if (data.length > 0) {
-            if (!error) {
-              if (data[0].crd_coverPic) {
-                setPictureCover(data[0].crd_coverPic);
-              }
-              if (data[0].crd_coverColor) {
-                setColorCover(data[0].crd_coverColor);
-              }
-            }
-          }
-        }
-      });
-  }, []);
   /* end cover states */
 
   /* deadline states */
@@ -110,38 +90,6 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
   const changeDeadlineTime = (val) => {
     setDeadlineTime(val);
   };
-
-  useEffect(() => {
-    client
-      .from('tsk_cards')
-      .select('*')
-      .eq('crd_id', cardId)
-      .then(({ data, error }) => {
-        if (data) {
-          if (data.length > 0) {
-            if (!error) {
-              if (data[0].crd_deadlineDate) {
-                if (data[0].crd_startDate) {
-                  setIsActiveRange(true);
-                  onChange([new Date(data[0].crd_startDate),
-                  new Date(data[0].crd_deadlineDate)]);
-                } else {
-                  let deadlineDate = new Date(data[0].crd_deadlineDate);
-                  if (deadlineDate != new Date()) {
-                    deadlineDate.setDate(deadlineDate.getDate() + 1);
-                  }
-                  onChange(deadlineDate);
-                }
-                if (data[0].crd_deadlineTime) {
-                  setDeadlineTime(data[0].crd_deadlineTime)
-                }
-                setShowDeadline(true);
-              }
-            }
-          }
-        }
-      });
-  }, []);
 
   useEffect(() => {
     if (saveDeadline) {
@@ -174,24 +122,6 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
 
   const [activeLabels, setActiveLabels] = useState([]);
   const [activeLabelsUpdate, setActiveLabelsUpdate] = useState(false);
-
-  useEffect(() => {
-    client
-      .from('tsk_cards')
-      .select('*')
-      .eq('crd_id', cardId)
-      .then(({ data, error }) => {
-        if (data) {
-          if (data.length > 0) {
-            if (!error) {
-              setActiveLabels(() =>
-                data[0].crd_labels.length ? JSON.parse(data[0].crd_labels) : []
-              );
-            }
-          }
-        }
-      });
-  }, []);
 
   useEffect(() => {
     if (activeLabelsUpdate) {
@@ -328,38 +258,6 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
     }
   }, [checkboxes]);
 
-  useEffect(() => {
-    client
-      .from('tsk_cards')
-      .select('*')
-      .eq('crd_id', cardId)
-      .then(({ data, error }) => {
-        if (data) {
-          if (data.length > 0) {
-            if (!error) {
-              setCheckList(() =>
-                data[0].lists ? JSON.parse(data[0].lists) : []
-              );
-              setCheckboxes(() =>
-                data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
-              );
-              setCheckedCheckboxes(() =>
-                data[0].checkboxes
-                  ? JSON.parse(data[0].checkboxes)
-                      .map((item) => {
-                        return item.status
-                          ? { id: item.id, listId: item.listId }
-                          : 0;
-                      })
-                      .filter((item) => item !== 0)
-                  : []
-              );
-            }
-          }
-        }
-      });
-  }, []);
-
   const addCheckBox = (listId) => {
     setCheckboxes((prevState) => {
       return [
@@ -488,6 +386,66 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
     ]);
   };
   /* end checklists state */
+
+  /* download values from database */
+  useEffect(() => {
+    client
+      .from('tsk_cards')
+      .select('*')
+      .eq('crd_id', cardId)
+      .then(({ data, error }) => {
+        if (data) {
+          if (data.length > 0) {
+            if (!error) {
+              setActiveLabels(() =>
+                data[0].crd_labels ? JSON.parse(data[0].crd_labels) : []
+              );
+              if (data[0].crd_deadlineDate) {
+                if (data[0].crd_startDate) {
+                  setIsActiveRange(true);
+                  onChange([new Date(data[0].crd_startDate),
+                  new Date(data[0].crd_deadlineDate)]);
+                } else {
+                  let deadlineDate = new Date(data[0].crd_deadlineDate);
+                  if (deadlineDate != new Date()) {
+                    deadlineDate.setDate(deadlineDate.getDate() + 1);
+                  }
+                  onChange(deadlineDate);
+                }
+                if (data[0].crd_deadlineTime) {
+                  setDeadlineTime(data[0].crd_deadlineTime)
+                }
+                setShowDeadline(true);
+              }
+              if (data[0].crd_coverPic) {
+                setPictureCover(data[0].crd_coverPic);
+              }
+              if (data[0].crd_coverColor) {
+                setColorCover(data[0].crd_coverColor);
+              }
+              setCheckList(() =>
+                data[0].lists ? JSON.parse(data[0].lists) : []
+              );
+              setCheckboxes(() =>
+                data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
+              );
+              setCheckedCheckboxes(() =>
+                data[0].checkboxes
+                  ? JSON.parse(data[0].checkboxes)
+                      .map((item) => {
+                        return item.status
+                          ? { id: item.id, listId: item.listId }
+                          : 0;
+                      })
+                      .filter((item) => item !== 0)
+                  : []
+              );
+            }
+          }
+        }
+      });
+  }, []);
+  /* end modal states */
 
   return (
     <Draggable draggableId={`${cardId}`} index={cardIndex}>
