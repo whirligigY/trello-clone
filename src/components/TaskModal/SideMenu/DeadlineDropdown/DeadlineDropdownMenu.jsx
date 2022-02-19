@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Button } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';

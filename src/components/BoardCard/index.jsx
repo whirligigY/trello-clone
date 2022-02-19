@@ -34,6 +34,63 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
     setIsEditTitleCard(false);
   };
   /* task modal window state */
+  /* cover states */
+  const [colorCover, setColorCover] = useState('');
+  const [pictureCover, setPictureCover] = useState('');
+
+  const addColorCover = (val) => {
+    setColorCover(val);
+    setPictureCover('');
+  }
+
+  const addPictureCover = (val) => {
+    setPictureCover(val);
+    setColorCover('');
+  }
+
+  useEffect(() => {
+    if (colorCover || pictureCover) {
+      saveColorCover()
+      savePictureCover()
+    }
+  }, [colorCover, pictureCover])
+
+  const saveColorCover= async () => {
+    const { data, error } = await client
+    .from('tsk_cards')
+    .update({crd_coverColor: colorCover })
+    .eq('crd_id', cardId)
+  };
+
+  const savePictureCover= async () => {
+    const { data, error } = await client
+    .from('tsk_cards')
+    .update({crd_coverPic: pictureCover })
+    .eq('crd_id', cardId)
+  };
+
+  useEffect(() => {
+    client
+      .from('tsk_cards')
+      .select('*')
+      .eq('crd_id', cardId)
+      .then(({ data, error }) => {
+        if (data) {
+          if (data.length > 0) {
+            if (!error) {
+              if (data[0].crd_coverPic) {
+                setPictureCover(data[0].crd_coverPic);
+              }
+              if (data[0].crd_coverColor) {
+                setColorCover(data[0].crd_coverColor);
+              }
+            }
+          }
+        }
+      });
+  }, []);
+  /* end cover states */
+
   /* deadline states */
 
   const [value, onChange] = useState(new Date());
@@ -444,7 +501,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
             <TaskModalWindow
               visible={visible}
               closeHandle={closeHandle}
-              title={card.title}
+              title={card['crd_title']}
               column={columnTitle}
               dateValue={value}
               changeDeadline={onChange}
@@ -471,6 +528,10 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
               checkboxes={checkboxes}
               checkedCheckboxes={checkedCheckboxes}
               setSaveDeadline={setSaveDeadline}
+              colorCover={colorCover}
+              pictureCover={pictureCover}
+              addColorCover={addColorCover}
+              addPictureCover={addPictureCover}
             />
           }
 
@@ -495,6 +556,12 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
 
               <Card.Body>
                 <div>
+                  { colorCover && 
+                  <div className={styles.cover__color} style={{backgroundColor: colorCover}}></div>}
+                  {pictureCover && 
+                  <div className={styles.cover__pic}>
+                    <img src={`${pictureCover}`} alt="" />
+                  </div>}
                   {isEditTitleCard ? (
                     <RenderCardTitle
                       title={card.crd_title}

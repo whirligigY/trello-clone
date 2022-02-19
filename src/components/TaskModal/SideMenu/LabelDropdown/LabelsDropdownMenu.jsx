@@ -1,5 +1,5 @@
-import React, {useState, useMemo} from 'react';
-import { Dropdown, Button } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Dropdown } from "react-bootstrap";
 import { AddLabelMenu } from './AddLabelMenu'
 import "../../TaskModalWindow.css";
 import { useEffect } from 'react';
