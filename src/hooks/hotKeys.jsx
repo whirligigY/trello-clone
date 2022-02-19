@@ -16,18 +16,15 @@ export const useKeyPress = (keys, comboKeys, callback, node = null) => {
 
   const handleKeyPress = useCallback(
     (event) => {
-      console.log(`event!`, event.key);
-
       if (comboKeys.some((key) => event.key === key)) {
         setKey(true);
       }
 
       if (keys.some((key) => event.key === key) && key) {
         callbackRef.current(event);
-        // console.log(`key pressed!`);
       }
     },
-    [keys, comboKeys]
+    [keys, comboKeys, key]
   );
 
   useEffect(() => {
