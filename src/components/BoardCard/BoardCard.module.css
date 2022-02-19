@@ -1,5 +1,5 @@
 .card {
-  width: 256px;
+  width: 308px;
   border-radius: 3px;
   min-height: 80px;
   box-shadow: 0 1px 0 #091e4240;
@@ -7,21 +7,44 @@
   margin-bottom: 10px;
 }
 .img {
-  width: 256px;
+  width: 308px;
   height: 153px;
   object-fit: fill;
 }
-.bd_clipboard {
-  position: relative;
-  float: right;
+
+.title_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
 }
+
+.edit_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+}
+
+.blosk_close {
+  align-items: flex-start;
+}
+
+.btn_close {
+  display: block;
+  color: lightgrey;
+  cursor: pointer;
+  transition: 1s;
+}
+
+.btn_close:hover {
+  color: grey;
+}
+
 .btn_clipboard {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
   z-index: 10;
   display: block;
-  padding: 0.25rem 0.5rem;
+  margin-left: 10px;
+  padding: 0.25rem 0.25rem;
   color: #818a91;
   cursor: pointer;
   background-color: lightgrey;
@@ -30,8 +53,7 @@
   opacity: 0;
 }
 .btn_clipboard:hover {
-  background-color: white;
-  opacity: 0.7;
+  opacity: 1;
 }
 .link {
   text-decoration: none;
