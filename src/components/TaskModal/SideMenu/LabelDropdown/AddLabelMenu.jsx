@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Dropdown, Button, ToggleButtonGroup, ToggleButton } from "react-bootstrap";
+import { Dropdown, ToggleButtonGroup, ToggleButton } from "react-bootstrap";
 import "../../TaskModalWindow.css";
 
-const AddLabelMenu = ({ changeActiveLabels, labels, changeLabels, id, title, itemColor, itemStatus }) => {
+const AddLabelMenu = ({ 
+  changeActiveLabels,
+  labels,
+  changeLabels,
+  id,
+  title,
+  itemColor,
+  itemStatus }) => {
   const [newLabel, setNewLabel] = useState({id: id, color: itemColor, value: title, status: ''});
   const [labelTitle, setLabelTitle] = useState(title || '');
   const [value, setValue] = useState(itemColor || '');

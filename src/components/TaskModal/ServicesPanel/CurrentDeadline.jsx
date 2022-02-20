@@ -4,8 +4,15 @@ import { DeadlineDropdownMenu } from '../SideMenu/DeadlineDropdown/DeadlineDropd
 import '../TaskModalWindow.css'
 import moment from 'moment';
 
-const CurrentDeadline = ({ dateValue, changeDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime }) => {
-  console.log(deadlineTime)
+const CurrentDeadline = ({ dateValue,
+  changeDeadline,
+  setDeadlineView,
+  useDeadlineRange,
+  setDeadlineRange,
+  deadlineTime,
+  changeDeadlineTime,
+  setSaveDeadline 
+  }) => {
   return (
     <div>
       <p className="service-title">Dedline</p>
@@ -23,7 +30,8 @@ const CurrentDeadline = ({ dateValue, changeDeadline, setDeadlineView, useDeadli
         useDeadlineRange={useDeadlineRange}
         setDeadlineRange={setDeadlineRange}
         deadlineTime={deadlineTime}
-        changeDeadlineTime={changeDeadlineTime}/>
+        changeDeadlineTime={changeDeadlineTime}
+        setSaveDeadline={setSaveDeadline}/>
       </Dropdown>
     </div>
   )
