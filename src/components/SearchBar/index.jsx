@@ -54,6 +54,8 @@ export const SearchBar = (props) => {
     if (inputRef.current) inputRef.current.value = '';
   };
 
+  const handleCross = useCallback(() => setSearchQuery(''), []);
+
   useEffect(() => {
     if (isClickOutside) collapseSearchBar();
   }, [isClickOutside]);
@@ -99,7 +101,8 @@ export const SearchBar = (props) => {
         .select('*')
         .like('title', `%${sanitize(searchQuery)}%`)
         .then(({ data, error }) => {
-          if (!error) {
+          console.log(`data`, data);
+          if (!error && data.length) {
             searchItems.push(...data);
           }
         });
@@ -109,7 +112,8 @@ export const SearchBar = (props) => {
         .select('*')
         .like('description', `%${sanitize(searchQuery)}%`)
         .then(({ data, error }) => {
-          if (!error) {
+          console.log(`data`, data);
+          if (!error && data.length) {
             searchItems.push(...data);
           }
         });
@@ -142,25 +146,26 @@ export const SearchBar = (props) => {
           value={searchQuery}
           onChange={changeHandler}
         />
-        {isExpanded && <i className="bi bi-x-circle" />}
+        {isExpanded && <i className="bi bi-x-circle" onClick={handleCross} />}
       </form>
       {isExpanded && <SearchSeparator />}
       {isExpanded && (
         <SearchContent>
-          {!isLoading && !isEmpty && (
+          {!isLoading && searchDataDB.length && (
             <>
               {searchDataDB.map((data) => (
                 <Link
+                  key={data.id}
                   to={`/dashboard/${data.id}`}
                   onClick={collapseSearchBar}
                   className="search__content__link"
                 >
                   <SearchContentCard
-                    key={data.id}
-                    title={data.title}
-                    description={data.description}
-                    dataId={data.id}
-                    date={data.insertedat}
+                    // title={data.title}
+                    // description={data.description}
+                    // dataId={data.id}
+                    // date={data.insertedat}
+                    data={data}
                   />
                 </Link>
               ))}
