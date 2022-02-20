@@ -199,6 +199,30 @@ const DashboardPage = () => {
     );
   };
 
+  const handleColumnDelete = async (e, columnId, colOrder) => {
+    e.stopPropagation();
+    const { data, error } = await client
+      .from('tsk_cards')
+      .select('*')
+      .eq('crd_columnid', columnId);
+    if (!error && data.length === 0) {
+      const columnsWithNewOrder = columns.map((el) => {
+        if (el.col_order > colOrder) {
+          return { ...el, col_order: el.col_order - 1 };
+        }
+        return el;
+      });
+      const updatedColumns = columnsWithNewOrder.filter(
+        (col) => col.col_id !== columnId
+      );
+      setColumns(updatedColumns);
+      await client.from('tsk_columns').upsert(updatedColumns);
+      await client.from('tsk_columns').delete().match({ col_id: columnId });
+    } else if (!error && data.length > 0) {
+      //TODO: delete with cards
+    }
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEndHandle}>
       <div className={styles.container}>
@@ -222,6 +246,7 @@ const DashboardPage = () => {
                     <BoardListCard
                       title={column.col_title}
                       columnId={column.col_id}
+                      columnOrder={column.col_order}
                       key={column.col_id}
                       cards={cards.filter(
                         (el) => el.crd_columnid === column.col_id
@@ -234,6 +259,7 @@ const DashboardPage = () => {
                       updateCardTitle={updateCardTitle}
                       handleCardDelete={handleCardDelete}
                       cardsVisible={cardsVisible}
+                      handleColumnDelete={handleColumnDelete}
                     />
                   ))
                 ) : (

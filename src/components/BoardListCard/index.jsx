@@ -10,6 +10,7 @@ import { useAuth } from '../../contexts/Auth';
 const BoardListCard = ({
   title,
   columnId,
+  columnOrder,
   cards,
   AddTask,
   index,
@@ -17,6 +18,7 @@ const BoardListCard = ({
   updateCardTitle,
   handleCardDelete,
   cardsVisible,
+  handleColumnDelete,
 }) => {
   const [isEditTitleColumn, setIsEditTitleColum] = useState(false);
   const { client } = useAuth();
@@ -62,7 +64,14 @@ const BoardListCard = ({
                       onClick={() => setIsEditTitleColum(true)}
                     >
                       <h4>{title}</h4>
-                      <span>delete</span>
+                      <span
+                        className={styles.delete}
+                        onClick={(e) =>
+                          handleColumnDelete(e, columnId, columnOrder)
+                        }
+                      >
+                        delete
+                      </span>
                     </div>
                   )}
                 </div>
