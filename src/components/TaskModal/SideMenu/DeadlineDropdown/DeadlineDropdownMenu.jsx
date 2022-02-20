@@ -1,10 +1,17 @@
 import React from 'react';
-import { Dropdown, Button } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
 
-function DeadlineDropdownMenu({ dateValue, changeDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime }) {
+const DeadlineDropdownMenu = ({ dateValue,
+  changeDeadline,
+  setDeadlineView,
+  useDeadlineRange,
+  setDeadlineRange,
+  deadlineTime,
+  changeDeadlineTime,
+  setSaveDeadline }) => {
   const addCalendarRange = () => {
     setDeadlineRange(!useDeadlineRange);
   }
@@ -16,6 +23,7 @@ function DeadlineDropdownMenu({ dateValue, changeDeadline, setDeadlineView, useD
   const addDeadline = () => 
   {
     setDeadlineView(true);
+    setSaveDeadline(true);
   }
 
   const removeDeadline = () => 
@@ -24,6 +32,7 @@ function DeadlineDropdownMenu({ dateValue, changeDeadline, setDeadlineView, useD
     changeDeadlineTime('');
     changeDeadline(new Date());
     setDeadlineRange(false);
+    setSaveDeadline(true);
   }
 
   return (

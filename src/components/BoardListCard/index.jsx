@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styles from './BoardListCard.module.css';
@@ -27,6 +27,42 @@ const BoardListCard = ({
       .upsert([{ col_id: idColumn, col_title: val }]);
     getData('columns', boardId);
   };
+
+  /* board labels*/
+  const [labels, setLabels] = useState([]);
+  const [labelsUpdate, setLabelsUpdate] = useState(false)
+
+  useEffect(() => {
+    client
+      .from('boards')
+      .select('brd_labels')
+      .eq('id', boardId)
+      .then(({ data, error }) => {
+        if (data) {
+          if (data.length > 0) {
+            if (!error) {
+              setLabels(JSON.parse(data[0].brd_labels));
+            }
+          }
+        }
+      });
+  }, []);
+
+  useEffect(() => {
+    if (labelsUpdate) {
+      saveBoardLabels();
+      setLabelsUpdate(false);
+    }
+  }, [labelsUpdate]);
+
+  const saveBoardLabels = async () => {
+    const { data, error } = await client
+      .from('boards')
+      .update({ brd_labels: JSON.stringify(labels) })
+      .eq('id', boardId);
+  };
+
+  /*end board labels */
 
   return (
     <Draggable draggableId={`${id}`} index={index}>
@@ -71,6 +107,9 @@ const BoardListCard = ({
                       columnTitle={title}
                       cardId={card.crd_id}
                       cardIndex={ind}
+                      setLabels={setLabels}
+                      labels={labels}
+                      setLabelsUpdate={setLabelsUpdate}
                     />
                   ))}
                 {provided.placeholder}
