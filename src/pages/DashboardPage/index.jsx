@@ -260,6 +260,7 @@ const DashboardPage = () => {
                       handleCardDelete={handleCardDelete}
                       cardsVisible={cardsVisible}
                       handleColumnDelete={handleColumnDelete}
+                      boardId={boardId}
                     />
                   ))
                 ) : (

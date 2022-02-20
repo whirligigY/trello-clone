@@ -6,7 +6,7 @@ import { LabelsDropdown } from './SideMenu/LabelDropdown/LabelsDropdown';
 import { CheckListDropdown } from './SideMenu/CheckListDropdown';
 import { DeadlineDropdown } from './SideMenu/DeadlineDropdown/DeadlineDropdown';
 import { MembersDropdown } from './SideMenu/MembersDropdown/MembersDropdown';
-import { CoversDropdown } from './SideMenu/CoversDropdown';
+import { CoversDropdown } from './SideMenu/CoversDropdown/CoversDropdown';
 import { CurrentLabels } from './ServicesPanel/CurrentLabels';
 import { CurrentDeadline } from './ServicesPanel/CurrentDeadline';
 import { CurrentMembers } from './ServicesPanel/CurrentMembers';
@@ -37,7 +37,15 @@ const TaskModalBody = ({
   removeCheckList,
   removeCheckListItem,
   checkboxes,
-  checkedCheckboxes
+  checkedCheckboxes,
+  setSaveDeadline,
+  colorCover,
+  setColorCover,
+  pictureCover,
+  setPictureCover,
+  addColorCover,
+  addPictureCover,
+  removeCover
 }) => {
   return (
     <Modal.Body>
@@ -64,6 +72,7 @@ const TaskModalBody = ({
                   setDeadlineRange={setDeadlineRange}
                   deadlineTime={deadlineTime}
                   changeDeadlineTime={changeDeadlineTime}
+                  setSaveDeadline={setSaveDeadline}
                 />
               )}
             </div>
@@ -102,8 +111,15 @@ const TaskModalBody = ({
               setDeadlineRange={setDeadlineRange}
               deadlineTime={deadlineTime}
               changeDeadlineTime={changeDeadlineTime}
+              setSaveDeadline={setSaveDeadline}
             />
-            <CoversDropdown />
+            <CoversDropdown 
+              colorCover={colorCover}
+              pictureCover={pictureCover}
+              addColorCover={addColorCover}
+              addPictureCover={addPictureCover}
+              removeCover={removeCover}
+            />
           </Col>
         </Row>
       </Container>

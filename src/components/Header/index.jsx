@@ -12,7 +12,7 @@ const basicStyles = {
 };
 
 export const Header = () => {
-  const { signOut, user } = useAuth();
+  const { signOut, user, authState } = useAuth();
 
   return (
     <header className="header">
@@ -22,7 +22,7 @@ export const Header = () => {
           Crello
         </Link>
         <div className="nav__button__sign-in">
-          {user ? (
+          {user.role === 'authenticated' ? (
             <>
               <Link to="/profile" style={basicStyles}>
                 Profile
@@ -34,7 +34,7 @@ export const Header = () => {
             </>
           ) : null}
 
-          {!user ? (
+          {user.role !== 'authenticated' ? (
             <Link to="/sign-in" style={basicStyles}>
               Sign In
             </Link>

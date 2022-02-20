@@ -33,6 +33,12 @@ const TaskModalWindow = ({
   removeCheckListItem,
   checkboxes,
   checkedCheckboxes,
+  setSaveDeadline,
+  colorCover,
+  pictureCover,
+  addColorCover,
+  addPictureCover,
+  removeCover
 }) => {
   const { user, client } = useAuth();
 
@@ -60,17 +66,22 @@ const TaskModalWindow = ({
       className="task-modal-window"
     >
       <Modal.Header closeButton onClick={closeHandle}>
+      { colorCover && 
+                  <div className="modalcover cover__color" style={{backgroundColor: colorCover}}></div>}
+                  {pictureCover && 
+                  <div className="modalcover cover__pic">
+                    <img src={`${pictureCover}`} alt="" />
+                  </div>}
         <div className="header-content d-flex flex-column">
           <Modal.Title>{title}</Modal.Title>
-          <p className="text-start">
+          <p className="crd_column">
             in column{' '}
-            <a href="/#" className="link-secondary">
+            <span className="link-secondary">
               {column}
-            </a>
+            </span>
           </p>
         </div>
       </Modal.Header>
-
       <TaskModalBody
         dateValue={dateValue}
         changeDeadline={changeDeadline}
@@ -98,6 +109,12 @@ const TaskModalWindow = ({
         removeCheckListItem={removeCheckListItem}
         checkboxes={checkboxes}
         checkedCheckboxes={checkedCheckboxes}
+        setSaveDeadline={setSaveDeadline}
+        colorCover={colorCover}
+        pictureCover={pictureCover}
+        addColorCover={addColorCover}
+        addPictureCover={addPictureCover}
+        removeCover={removeCover}
       />
     </Modal>
   );

@@ -151,12 +151,12 @@ export const SearchBar = (props) => {
             <>
               {searchDataDB.map((data) => (
                 <Link
+                  key={data.id}
                   to={`/dashboard/${data.id}`}
                   onClick={collapseSearchBar}
                   className="search__content__link"
                 >
                   <SearchContentCard
-                    key={data.id}
                     title={data.title}
                     description={data.description}
                     dataId={data.id}

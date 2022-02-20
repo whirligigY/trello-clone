@@ -1,0 +1,33 @@
+.covers {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  row-gap: 10px;
+  overflow: auto;
+  max-height: 370px;
+}
+
+.covers img {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.covers img:hover {
+  opacity: 0.7;
+}
+
+.cover_example {
+  width: 100%;
+  height: 100px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.cover_btn {
+  background-color: transparent !important;
+  border: none !important;
+}
