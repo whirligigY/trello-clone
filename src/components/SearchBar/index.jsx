@@ -118,7 +118,6 @@ export const SearchBar = (props) => {
         .select('*')
         .like('title', `%${sanitize(searchQuery)}%`)
         .then(({ data, error }) => {
-          console.log(`data`, data);
           if (!error && data.length) {
             searchItems.push(...data);
           }
@@ -129,7 +128,6 @@ export const SearchBar = (props) => {
         .select('*')
         .like('description', `%${sanitize(searchQuery)}%`)
         .then(({ data, error }) => {
-          console.log(`data`, data);
           if (!error && data.length) {
             searchItems.push(...data);
           }
