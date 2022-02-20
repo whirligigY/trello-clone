@@ -6,13 +6,15 @@ import WorkspaceBoards from '../Workspace';
 import { useAuth } from '../../contexts/Auth';
 import { WorkspaceBoarModal } from '../WorkspaceBoardModal';
 
+import { useKeyPress } from '../../hooks/hotKeys';
+
 import './boards.css';
 
 const Boards = ({ handleBoardIdChange, ...props }) => {
   const [boards, setBoards] = useState([]);
   const [modalShow, setModalShow] = useState(false);
 
-  const { user, client } = useAuth();
+  const { user, client, authState } = useAuth();
 
   useEffect(() => {
     if (user) {
@@ -30,16 +32,16 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
     }
   }, [user, modalShow, client]);
 
-  // TODO: justify content left how to pass modifier styles to Main?
-
   const handleModal = () => setModalShow(true);
   const navigate = useNavigate();
+
+  useKeyPress(['b'], ['Control'], handleModal);
 
   return (
     <>
       <WorkspaceBoards>
         <Row className="workspace__boards board__list">
-          {user ? (
+          {user.role === 'authenticated' ? (
             boards.map((item) => (
               <div
                 key={item.id}
@@ -60,7 +62,7 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
               <p>You need to sign in to view your boards.</p>
             </div>
           )}
-          {user ? (
+          {user.role === 'authenticated' ? (
             <div className="board__list__board card card_add-new-board">
               <Button
                 variant="light"
