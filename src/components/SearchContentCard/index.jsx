@@ -2,21 +2,21 @@ import React, { useState, useEffect } from 'react';
 import './searchContentCard.css';
 
 export const SearchContentCard = (props) => {
-  const { title, description, dataId, date } = props;
+  const { data } = props;
 
   const [dateConverted, setDateConverted] = useState('');
 
   useEffect(() => {
-    const dateNew = new Date(date);
+    const dateNew = new Date(data.date);
     setDateConverted(
       `${dateNew.getFullYear()}-${dateNew.getMonth()}-${dateNew.getDay()}`
     );
-  }, [props]);
+  }, [data.date, props]);
 
   return (
-    <div className="search__content__DB" key={dataId}>
-      <h3>Board Name: {title}</h3>
-      <p>Description: {description}</p>
+    <div className="search__content__DB" key={data.id}>
+      <h3>Board Name: {data.title}</h3>
+      <p>Description: {data.description}</p>
       <p>Created at: {dateConverted}</p>
     </div>
   );
