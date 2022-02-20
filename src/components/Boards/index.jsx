@@ -41,7 +41,7 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
     <>
       <WorkspaceBoards>
         <Row className="workspace__boards board__list">
-          {user.role === 'authenticated' ? (
+          {authState === 'authenticated' ? (
             boards.map((item) => (
               <div
                 key={item.id}
@@ -62,7 +62,7 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
               <p>You need to sign in to view your boards.</p>
             </div>
           )}
-          {user.role === 'authenticated' ? (
+          {authState === 'authenticated' ? (
             <div className="board__list__board card card_add-new-board">
               <Button
                 variant="light"
