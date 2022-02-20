@@ -1,5 +1,6 @@
-import { Button } from "react-bootstrap";
-import styles from "./RenderAddButton.module.css";
+import React from 'react';
+import { Button } from 'react-bootstrap';
+import styles from './RenderAddButton.module.css';
 
 const RenderAddButton = ({ type, textBtn, onChangeState }) => {
   return (
@@ -10,10 +11,10 @@ const RenderAddButton = ({ type, textBtn, onChangeState }) => {
     >
       <i
         className={
-          "bi bi-plus-lg " + (textBtn === "column" ? styles.color : "")
+          'bi bi-plus-lg ' + (textBtn === 'column' ? styles.color : '')
         }
       />
-      <span className={"p-2 " + (textBtn === "column" ? styles.color : "")}>
+      <span className={'p-2 ' + (textBtn === 'column' ? styles.color : '')}>
         Add {textBtn}
       </span>
     </Button>
