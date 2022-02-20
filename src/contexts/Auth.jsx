@@ -38,10 +38,6 @@ export const AuthProvider = ({ children }) => {
         setUser(_session?.user ?? null);
         setLoading(false);
 
-        console.log(`event`, event);
-        console.log(`session`, _session);
-        console.log(`authState`, authState);
-
         if (event === 'SIGNED_IN') {
           navigate('/');
           const { _data, error } = await supabase.from('profiles').upsert({
@@ -74,34 +70,6 @@ export const AuthProvider = ({ children }) => {
       listener?.unsubscribe();
     };
   }, []);
-
-  // useEffect(() => {
-  //   setLoading(false);
-
-  //   const { data: listener } = supabase.auth.onAuthStateChange(
-  //     async (event, _session) => {
-  //       setLoading(false);
-  //       console.log(`event`, event);
-  //       console.log(`session`, _session);
-  //       console.log(`authState`, authState);
-
-  //       if (event === 'PASSWORD_RECOVERY') {
-  //         await Promise.resolve().then(() => {
-  //           setAuthState('password-recovery');
-  //           console.log(`navigating to /set-new-password`);
-  //           navigate('/set-new-password');
-  //         });
-  //       }
-  //       if (event === 'USER_UPDATED') {
-  //         navigate('/');
-  //         setAuthState('authenticated');
-  //       }
-  //     }
-  //   );
-  //   return () => {
-  //     listener?.unsubscribe();
-  //   };
-  // }, []);
 
   const value = useMemo(
     () => ({
