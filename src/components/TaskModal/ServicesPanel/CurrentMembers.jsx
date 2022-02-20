@@ -1,10 +1,9 @@
-import React from "react";
-import { Dropdown } from "react-bootstrap";
-import { MembersDropdownMenu } from '../SideMenu/MembersDropdown/MembersDropdownMenu'
-import "../TaskModalWindow.css";
-
-function CurrentMembers () {
-
+import React from 'react';
+import { Dropdown } from 'react-bootstrap';
+import { MembersDropdownMenu } from '../SideMenu/MembersDropdown/MembersDropdownMenu';
+import '../TaskModalWindow.css';
+/* eslint-disable */
+function CurrentMembers() {
   return (
     <div>
       <p className="service-title">Members</p>
@@ -18,13 +17,10 @@ function CurrentMembers () {
           <div className="member-avatar">TK</div>
         </div>
         <Dropdown>
-          <Dropdown.Toggle
-          className="add-current-members"
-          variant="secondary"
-          >
+          <Dropdown.Toggle className="add-current-members" variant="secondary">
             <span>+</span>
           </Dropdown.Toggle>
-          <MembersDropdownMenu/>
+          <MembersDropdownMenu />
         </Dropdown>
       </div>
     </div>

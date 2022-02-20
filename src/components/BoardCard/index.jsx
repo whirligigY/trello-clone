@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Card } from 'react-bootstrap';
 import moment from 'moment';
@@ -11,35 +11,112 @@ import { RenderCardTitle } from '../RenderCardTitle';
 
 import { CardLabel } from '../CardLabel';
 
-const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
+const BoardCard = ({
+  columnId,
+  card,
+  columnTitle,
+  cardId,
+  cardIndex,
+  updateCardTitle,
+  handleCardDelete,
+  cardsVisible,
+  labels,
+  setLabels,
+  setLabelsUpdate,
+}) => {
   const [visible, setVisible] = useState(false);
   const { client } = useAuth();
 
   const [isEditTitleCard, setIsEditTitleCard] = useState(false);
-  const ref = useRef();
 
   function closeHandle() {
     setVisible(false);
   }
 
-  function openHandle(e) {
-    console.log(e.nativeEvent.path[0]);
+  function openHandle() {
     setVisible(true);
   }
 
-  const handleCardSave = () => {
+  const upsertCardTitle = async (val, cardId) => {
+    await client.from('tsk_cards').upsert([{ crd_id: cardId, crd_title: val }]);
+  };
+
+  const handleCardSave = async (e, valueCard, cardId) => {
+    e.stopPropagation();
+    updateCardTitle(valueCard, cardId);
+    setIsEditTitleCard(false);
+    upsertCardTitle(valueCard, cardId);
+
+    //getData('cards', null);
+  };
+
+  const handleCardClose = (e) => {
+    e.stopPropagation();
     setIsEditTitleCard(false);
   };
-  const handleCardClose = () => {
-    setIsEditTitleCard(false);
+
+  const handleCardEdit = (e) => {
+    e.stopPropagation();
+    setIsEditTitleCard(true);
   };
+
+  const isCardVisible = () => {
+    const currentCard = cardsVisible.find((el) => el.crd_id === card.crd_id);
+    return currentCard === undefined || currentCard.visible ? true : false;
+  };
+
   /* task modal window state */
+  /* cover states */
+  const [colorCover, setColorCover] = useState('');
+  const [pictureCover, setPictureCover] = useState('');
+  const [saveCover, setSaveCover] = useState(false);
+
+  const addColorCover = (val) => {
+    setColorCover(val);
+    setPictureCover('');
+    setSaveCover('true');
+  };
+
+  const addPictureCover = (val) => {
+    setPictureCover(val);
+    setColorCover('');
+    setSaveCover('true');
+  };
+
+  const removeCover = () => {
+    setPictureCover('');
+    setColorCover('');
+    setSaveCover('true');
+  };
+
+  useEffect(() => {
+    saveColorCover();
+    savePictureCover();
+  }, [saveCover]);
+
+  const saveColorCover = async () => {
+    const { data, error } = await client
+      .from('tsk_cards')
+      .update({ crd_coverColor: colorCover })
+      .eq('crd_id', cardId);
+  };
+
+  const savePictureCover = async () => {
+    const { data, error } = await client
+      .from('tsk_cards')
+      .update({ crd_coverPic: pictureCover })
+      .eq('crd_id', cardId);
+  };
+
+  /* end cover states */
+
   /* deadline states */
 
   const [value, onChange] = useState(new Date());
   const [showDeadline, setShowDeadline] = useState(false);
   const [isActiveRange, setIsActiveRange] = useState(false);
   const [deadlineTime, setDeadlineTime] = useState('');
+  const [saveDeadline, setSaveDeadline] = useState(false);
 
   const changeDeadlineView = (val) => {
     setShowDeadline(val);
@@ -53,40 +130,80 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
     setDeadlineTime(val);
   };
 
+  useEffect(() => {
+    if (saveDeadline) {
+      saveDeadlineDate();
+      setSaveDeadline(false);
+    }
+  }, [saveDeadline]);
+
+  const saveDeadlineDate = async () => {
+    let startDate;
+    let deadlineDate;
+    let savedTime = deadlineTime || null;
+    if (Array.isArray(value)) {
+      [startDate, deadlineDate] = [...value];
+    } else {
+      startDate = null;
+      deadlineDate = value;
+    }
+    if (!showDeadline) {
+      deadlineDate = null;
+    }
+    const { data, error } = await client
+      .from('tsk_cards')
+      .update({
+        crd_deadlineDate: deadlineDate,
+        crd_startDate: startDate,
+        crd_deadlineTime: savedTime,
+      })
+      .eq('crd_id', cardId);
+  };
+
   /* end of deadline states */
 
-  /* labels states */
   const [activeLabels, setActiveLabels] = useState([]);
-  const [labels, setLabels] = useState([
-    { id: 1, value: 'a', status: false, color: 'blue' },
-    { id: 2, value: '', status: false, color: 'red' },
-    { id: 3, value: '', status: false, color: 'yellow' },
-    { id: 4, value: '', status: false, color: 'green' },
-  ]);
+  const [activeLabelsUpdate, setActiveLabelsUpdate] = useState(false);
+
+  useEffect(() => {
+    if (activeLabelsUpdate) {
+      saveСardLabels();
+      setActiveLabelsUpdate(false);
+    }
+  }, [activeLabelsUpdate]);
+
+  const saveСardLabels = async () => {
+    let savedLabels = activeLabels;
+    if (savedLabels.length === 0) {
+      savedLabels = [];
+    }
+    const { data, error } = await client
+      .from('tsk_cards')
+      .update({ crd_labels: JSON.stringify(savedLabels) })
+      .eq('crd_id', cardId);
+  };
 
   const changeLabels = (val) => {
-    if (!val.id) {
-      /* eslint-disable */
-      val.id = labels.length + 1;
+    const newItem = val;
+    if (!newItem.id) {
+      newItem.id = labels.length + 1;
     }
-    if (Number(val.id) <= Number(labels.length)) {
+    if (Number(newItem.id) <= Number(labels.length)) {
       setLabels((prevState) =>
         prevState.map((item) => {
-          if (Number(val.id) === Number(item.id)) {
-            /* eslint-disable */
-            item.id = val.id;
-            /* eslint-disable */
-            item.color = val.color;
-            /* eslint-disable */
-            item.status = val.status;
-            /* eslint-disable */
-            item.value = val.value;
+          if (Number(newItem.id) === Number(item.id)) {
+            item.id = newItem.id;
+            item.color = newItem.color;
+            item.status = newItem.status;
+            item.value = newItem.value;
           }
           return item;
         })
       );
+      setLabelsUpdate(true);
     } else {
-      setLabels([...labels, val]);
+      setLabels([...labels, newItem]);
+      setLabelsUpdate(true);
     }
   };
 
@@ -113,6 +230,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
     } else {
       setActiveLabels([...activeLabels, value]);
     }
+    setActiveLabelsUpdate(true);
   };
 
   const removeActiveLabel = (value) => {
@@ -132,38 +250,32 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const changeCheckList = (value) => {
     setCheckList([
       ...checkLists,
-      { title: value, id: checkLists.length + 1, card: card.id },
+      { title: value, id: checkLists.length + 1, card: cardId },
     ]);
   };
 
   const saveCheckLists = async () => {
-    let savedCardLists = checkLists.filter((list) => list.card == card.id);
+    let savedCardLists = checkLists.filter((list) => list.card == cardId);
     if (savedCardLists.length === 0) {
       savedCardLists = [];
     }
-    const { data, error } = await client.from('tsk_checklists').insert(
-      [
-        {
-          list_id: card.id,
-          lists: JSON.stringify(savedCardLists),
-          list_crd_id: card.id,
-        },
-      ],
-      { upsert: true }
-    );
+    const { data, error } = await client
+      .from('tsk_cards')
+      .update({ lists: JSON.stringify(savedCardLists) })
+      .eq('crd_id', cardId);
   };
 
   const saveCheckboxes = async () => {
     let savedCardCheckboxes = checkboxes.filter(
-      (checkbox) => checkbox.card == card.id
+      (checkbox) => checkbox.card == cardId
     );
     if (checkboxes.length === 0) {
       savedCardCheckboxes = [];
     }
     const { data, error } = await client
-      .from('tsk_checklists')
+      .from('tsk_cards')
       .update({ checkboxes: JSON.stringify(savedCardCheckboxes) })
-      .eq('list_crd_id', card.id);
+      .eq('crd_id', cardId);
   };
 
   useEffect(() => {
@@ -194,7 +306,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
       .select('*')
       .eq('list_crd_id', card.id)
       .then(({ data, error }) => {
-        if (data.length > 0) {
+        if (data && data.length > 0) {
           if (!error) {
             setCheckList(() =>
               data[0].lists.length ? JSON.parse(data[0].lists) : []
@@ -229,7 +341,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
             : 1,
           status: false,
           listId: listId,
-          card: card.id,
+          card: cardId,
         },
       ];
     });
@@ -279,9 +391,8 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
           return [...prevState.slice(0, index)];
         } else if (index === 0) {
           return [...prevState.slice(index, prevState.length)];
-        } else {
-          return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
         }
+        return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
       });
       setCheckboxes((prevState) => {
         return prevState.map((item) => {
@@ -297,21 +408,20 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   const removeCheckList = (e) => {
     const id = e.target.closest('.check-list').dataset.num;
     const index = checkLists.findIndex(
-      (x) => Number(x.card) == Number(card.id) && Number(x.id) == Number(id)
+      (x) => Number(x.card) == Number(cardId) && Number(x.id) == Number(id)
     );
     setCheckList((prevState) => {
       if (index === prevState.length - 1) {
         return [...prevState.slice(0, index)];
       } else if (index === 0) {
         return [...prevState.slice(index, prevState.length)];
-      } else {
-        return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
       }
+      return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
     });
     setCheckboxes([
       ...checkboxes
         .filter((item) => item.listId != id)
-        .filter((item) => item.card == card.id),
+        .filter((item) => item.card == cardId),
     ]);
     setChanges(true);
   };
@@ -349,6 +459,68 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
   };
   /* end checklists state */
 
+  /* download values from database */
+  useEffect(() => {
+    client
+      .from('tsk_cards')
+      .select('*')
+      .eq('crd_id', cardId)
+      .then(({ data, error }) => {
+        if (data) {
+          if (data.length > 0) {
+            if (!error) {
+              setActiveLabels(() =>
+                data[0].crd_labels ? JSON.parse(data[0].crd_labels) : []
+              );
+              if (data[0].crd_deadlineDate) {
+                if (data[0].crd_startDate) {
+                  setIsActiveRange(true);
+                  onChange([
+                    new Date(data[0].crd_startDate),
+                    new Date(data[0].crd_deadlineDate),
+                  ]);
+                } else {
+                  let deadlineDate = new Date(data[0].crd_deadlineDate);
+                  if (deadlineDate != new Date()) {
+                    deadlineDate.setDate(deadlineDate.getDate() + 1);
+                  }
+                  onChange(deadlineDate);
+                }
+                if (data[0].crd_deadlineTime) {
+                  setDeadlineTime(data[0].crd_deadlineTime);
+                }
+                setShowDeadline(true);
+              }
+              if (data[0].crd_coverPic) {
+                setPictureCover(data[0].crd_coverPic);
+              }
+              if (data[0].crd_coverColor) {
+                setColorCover(data[0].crd_coverColor);
+              }
+              setCheckList(() =>
+                data[0].lists ? JSON.parse(data[0].lists) : []
+              );
+              setCheckboxes(() =>
+                data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
+              );
+              setCheckedCheckboxes(() =>
+                data[0].checkboxes
+                  ? JSON.parse(data[0].checkboxes)
+                      .map((item) => {
+                        return item.status
+                          ? { id: item.id, listId: item.listId }
+                          : 0;
+                      })
+                      .filter((item) => item !== 0)
+                  : []
+              );
+            }
+          }
+        }
+      });
+  }, []);
+  /* end modal states */
+
   return (
     <Draggable draggableId={`${cardId}`} index={cardIndex}>
       {(provided) => (
@@ -361,7 +533,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
             <TaskModalWindow
               visible={visible}
               closeHandle={closeHandle}
-              title={card.title}
+              title={card['crd_title']}
               column={columnTitle}
               dateValue={value}
               changeDeadline={onChange}
@@ -378,7 +550,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
               removeLabel={removeActiveLabel}
               checkLists={checkLists}
               changeCheckList={changeCheckList}
-              cardId={card.id}
+              cardId={cardId}
               addCheckBox={addCheckBox}
               changeCheckboxTitle={onChangeCheckboxTitle}
               removeCheckBox={removeCheckbox}
@@ -387,38 +559,65 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
               removeCheckListItem={removeCheckListItem}
               checkboxes={checkboxes}
               checkedCheckboxes={checkedCheckboxes}
+              setSaveDeadline={setSaveDeadline}
+              colorCover={colorCover}
+              pictureCover={pictureCover}
+              addColorCover={addColorCover}
+              addPictureCover={addPictureCover}
+              removeCover={removeCover}
             />
           }
 
           {Number(card['crd_columnid']) === columnId && (
             <Card
-              style={{ width: '19rem' }}
-              className={styles.card}
+              className={
+                !isCardVisible() ? styles.card + ' ' + styles.hide : styles.card
+              }
               onClick={openHandle}
             >
-              <div
-                className={styles.bd_clipboard}
-                ref={ref}
-                onClick={() => {
-                  setIsEditTitleCard(true);
-                  setVisible(false);
-                }}
-              >
-                <i
-                  className={`bi bi-pencil btn-secondary ${styles.btn_clipboard}`}
-                />
-              </div>
-
               <Card.Body>
                 <div>
+                  {colorCover && (
+                    <div
+                      className={styles.cover__color}
+                      style={{ backgroundColor: colorCover }}
+                    ></div>
+                  )}
+                  {pictureCover && (
+                    <div className={styles.cover__pic}>
+                      <img src={`${pictureCover}`} alt="" />
+                    </div>
+                  )}
                   {isEditTitleCard ? (
                     <RenderCardTitle
+                      cardId={card.crd_id}
                       title={card.crd_title}
                       handleCardSave={handleCardSave}
                       handleCardClose={handleCardClose}
                     />
                   ) : (
-                    <Card.Text className="mb-3">{card['crd_title']}</Card.Text>
+                    <div className={'mb-3 ' + styles.title_container}>
+                      <div className={styles.edit_container}>
+                        <Card.Text>{card.crd_title}</Card.Text>
+                        <div onClick={handleCardEdit}>
+                          <i
+                            className={`bi bi-pencil btn-secondary ${styles.btn_clipboard}`}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className={styles.blosk_close}
+                        onClick={() =>
+                          handleCardDelete(
+                            card.crd_id,
+                            columnId,
+                            card.crd_order
+                          )
+                        }
+                      >
+                        <i className={'bi bi-x-lg ' + styles.btn_close}></i>
+                      </div>
+                    </div>
                   )}
                 </div>
 
@@ -438,14 +637,21 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex }) => {
                 <Card.Link href="#">
                   <i className="bi bi-link-45deg btn-light" />
                 </Card.Link>
-                <Card.Link href="#">
-                  <i className="bi bi-check2-square btn-light" />
-                  <span className={`btn-light ${styles.ml}`}>2/2</span>
-                </Card.Link>
+
+                {checkboxes.length > 0 && (
+                  <Card.Link href="#" draggable={false}>
+                    <i className="bi bi-check2-square btn-light"></i>
+                    <span className={'btn-light ' + styles.ml}>
+                      {checkedCheckboxes.length}/{checkboxes.length}
+                    </span>
+                  </Card.Link>
+                )}
+
                 {activeLabels.length > 0 && (
                   <div className={styles.card_labels}>
                     {activeLabels.map(
-                      (item) => item.status && <CardLabel item={item} />
+                      (item) =>
+                        item.status && <CardLabel key={item.id} item={item} />
                     )}
                   </div>
                 )}

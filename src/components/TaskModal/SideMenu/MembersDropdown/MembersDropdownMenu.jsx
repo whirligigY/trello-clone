@@ -1,9 +1,8 @@
-import React from "react";
-import { Dropdown, Button } from "react-bootstrap";
-import "../../TaskModalWindow.css";
-
-function MembersDropdownMenu () {
-
+import React from 'react';
+import { Dropdown, Button } from 'react-bootstrap';
+import '../../TaskModalWindow.css';
+/* eslint-disable */
+function MembersDropdownMenu() {
   return (
     <Dropdown.Menu>
       <input className="search-input" type="text" placeholder="Search member" />

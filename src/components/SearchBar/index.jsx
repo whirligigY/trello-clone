@@ -160,13 +160,7 @@ export const SearchBar = (props) => {
                   onClick={collapseSearchBar}
                   className="search__content__link"
                 >
-                  <SearchContentCard
-                    // title={data.title}
-                    // description={data.description}
-                    // dataId={data.id}
-                    // date={data.insertedat}
-                    data={data}
-                  />
+                  <SearchContentCard data={data} />
                 </Link>
               ))}
             </>

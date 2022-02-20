@@ -2,7 +2,14 @@ import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { DeadlineDropdownMenu } from './DeadlineDropdownMenu'
 
-const DeadlineDropdown = ({ dateValue, changeDeadline, setDeadlineView, useDeadlineRange, setDeadlineRange, deadlineTime, changeDeadlineTime }) => {
+const DeadlineDropdown = ({ dateValue,
+  changeDeadline,
+  setDeadlineView,
+  useDeadlineRange,
+  setDeadlineRange,
+  deadlineTime,
+  changeDeadlineTime,
+  setSaveDeadline }) => {
 
   return (
     <Dropdown>
@@ -10,7 +17,7 @@ const DeadlineDropdown = ({ dateValue, changeDeadline, setDeadlineView, useDeadl
       className="aside-buttons"
       variant="outline-secondary"
       >
-        Dedline
+        Deadline
       </Dropdown.Toggle>
       <DeadlineDropdownMenu 
       dateValue={dateValue} 
@@ -19,7 +26,8 @@ const DeadlineDropdown = ({ dateValue, changeDeadline, setDeadlineView, useDeadl
       useDeadlineRange={useDeadlineRange}
       setDeadlineRange={setDeadlineRange}
       deadlineTime={deadlineTime}
-      changeDeadlineTime={changeDeadlineTime}/>
+      changeDeadlineTime={changeDeadlineTime}
+      setSaveDeadline={setSaveDeadline}/>
     </Dropdown>
   )
 }

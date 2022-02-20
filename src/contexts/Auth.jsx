@@ -37,19 +37,13 @@ export const AuthProvider = ({ children }) => {
       async (event, _session) => {
         setUser(_session?.user ?? null);
         setLoading(false);
-        console.log(`event`, event);
-        console.log(`session`, _session);
-        console.log(`authState`, authState);
-        if (
-          event === 'SIGNED_IN' &&
-          _session?.user.aud === 'authenticated' &&
-          authState !== 'non-authenticated'
-        ) {
+
+        if (event === 'SIGNED_IN') {
           supabase
             .from('profiles')
             .upsert({
               id: supabase.auth.user().id,
-              username: supabase.auth.user().email,
+              username: supabase.auth.user().email
             })
             .then((_data, error) => {
               if (!error) {
@@ -60,12 +54,6 @@ export const AuthProvider = ({ children }) => {
         } else if (event === 'SIGNED_OUT') {
           setAuthState('non-authenticated');
           navigate('/');
-        } else if (event === 'PASSWORD_RECOVERY') {
-          navigate('/set-new-password');
-          setAuthState('password-recovery');
-        } else if (event === 'USER_UPDATED') {
-          navigate('/');
-          setAuthState('authenticated');
         }
       }
     );
@@ -74,17 +62,16 @@ export const AuthProvider = ({ children }) => {
     };
   }, [navigate, user, authState]);
 
-  const value = useMemo(
-    () => ({
-      signIn: (data) => supabase.auth.signIn(data),
-      signOut: () => supabase.auth.signOut(),
-      userProfile: () => supabase.auth.user(),
-      client: supabase,
-      user,
-      authState: () => authState,
-    }),
-    [authState, user]
-  );
+  const value = useMemo(() => ({
+    signIn: (data) => supabase.auth.signIn(data),
+    signOut: () => supabase.auth.signOut(),
+    userProfile: () => supabase.auth.user(),
+    client: supabase,
+    user,
+    authState
+    // listenTable: (table) =>
+    //   realtimeSupabaseClient.channel(`realtime:public:${table}`),
+  }), [authState, user]);
 
   return (
     <AuthContext.Provider value={value}>

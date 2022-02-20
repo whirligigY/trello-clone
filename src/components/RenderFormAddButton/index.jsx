@@ -7,9 +7,10 @@ const RenderFormAddButton = ({
   input,
   textBtn,
   onChangeState,
-  handleAddActivity
+  handleAddActivity,
 }) => {
-  const { value, onClear } = input;
+  const { value, onChange, onClear } = input;
+
   const handleActivity = (value) => {
     onClear();
     handleAddActivity(value);
@@ -22,12 +23,13 @@ const RenderFormAddButton = ({
         rows="3"
         placeholder={placeholder}
         autoFocus
-        {...input}
+        value={value}
+        onChange={onChange}
       />
       <div className="input-group d-flex align-items-center">
         <Button
           variant="primary"
-          type="submit"
+          type="button"
           className={'mt-2 ' + styles.btn_side}
           onClick={() => {
             handleActivity(value);

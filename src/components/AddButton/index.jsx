@@ -2,7 +2,7 @@ import React from 'react';
 import { useInput } from '../../hooks/useInput';
 import { RenderFormAddButton } from '../RenderFormAddButton';
 import { RenderAddButton } from '../RenderAddButton';
-import { useClick } from './ hooks/useClick';
+import { useClick } from './hooks/useClick';
 
 const AddButton = ({ type, placeholder, textBtn, onClick }) => {
   const handleAddActivity = (text) => {
