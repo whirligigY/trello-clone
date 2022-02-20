@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 import { Droppable, Draggable } from 'react-beautiful-dnd';
@@ -10,27 +9,36 @@ import { useAuth } from '../../contexts/Auth';
 
 const BoardListCard = ({
   title,
-  id,
+  columnId,
+  columnOrder,
   cards,
   AddTask,
   index,
+  updateColumnTitle,
+  updateCardTitle,
+  handleCardDelete,
+  cardsVisible,
+  handleColumnDelete,
   boardId,
-  getData
 }) => {
   const [isEditTitleColumn, setIsEditTitleColum] = useState(false);
   const { client } = useAuth();
 
-  const handleBlur = async (val, idColumn) => {
-    setIsEditTitleColum(false);
+  const upsertTitle = async (val, idColumn) => {
     await client
       .from('tsk_columns')
       .upsert([{ col_id: idColumn, col_title: val }]);
-    getData('columns', boardId);
+  };
+
+  const handleBlur = (val, idCol) => {
+    updateColumnTitle(val, idCol);
+    setIsEditTitleColum(false);
+    upsertTitle(val, idCol);
   };
 
   /* board labels*/
   const [labels, setLabels] = useState([]);
-  const [labelsUpdate, setLabelsUpdate] = useState(false)
+  const [labelsUpdate, setLabelsUpdate] = useState(false);
 
   useEffect(() => {
     client
@@ -65,14 +73,14 @@ const BoardListCard = ({
   /*end board labels */
 
   return (
-    <Draggable draggableId={`${id}`} index={index}>
+    <Draggable draggableId={`${columnId}`} index={index}>
       {(provided) => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <Droppable droppableId={`${id}`} type="cards">
+          <Droppable droppableId={`${columnId}`} type="cards">
             {/* eslint-disable */}
             {(provided) => (
               <div
@@ -85,7 +93,7 @@ const BoardListCard = ({
                     <RenderColumnTitle
                       title={title}
                       handleBlur={handleBlur}
-                      id={id}
+                      id={columnId}
                     />
                   ) : (
                     <div
@@ -93,20 +101,30 @@ const BoardListCard = ({
                       onClick={() => setIsEditTitleColum(true)}
                     >
                       <h4>{title}</h4>
-                      <span>delete</span>
+                      <span
+                        className={styles.delete}
+                        onClick={(e) =>
+                          handleColumnDelete(e, columnId, columnOrder)
+                        }
+                      >
+                        delete
+                      </span>
                     </div>
                   )}
                 </div>
 
-                {cards.length > 0 &&
+                {cards?.length > 0 &&
                   cards.map((card, ind) => (
                     <BoardCard
                       key={card.crd_id}
-                      columnId={id}
+                      columnId={columnId}
                       card={card}
                       columnTitle={title}
                       cardId={card.crd_id}
                       cardIndex={ind}
+                      updateCardTitle={updateCardTitle}
+                      handleCardDelete={handleCardDelete}
+                      cardsVisible={cardsVisible}
                       setLabels={setLabels}
                       labels={labels}
                       setLabelsUpdate={setLabelsUpdate}
@@ -116,10 +134,10 @@ const BoardListCard = ({
                 <AddButton
                   text="task"
                   type="card"
-                  listId={id}
+                  listId={columnId}
                   placeholder="Enter a title for this card"
                   textBtn="task"
-                  onClick={(text) => AddTask(text, id)}
+                  onClick={(text) => AddTask(text, columnId)}
                 />
               </div>
             )}
@@ -129,6 +147,5 @@ const BoardListCard = ({
     </Draggable>
   );
 };
-
 
 export { BoardListCard };

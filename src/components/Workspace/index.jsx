@@ -1,4 +1,5 @@
-import "./workspace.css";
+import React from 'react';
+import './workspace.css';
 
 //TODO: workspace remove this component?
 /**

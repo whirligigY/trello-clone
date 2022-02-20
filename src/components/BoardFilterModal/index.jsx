@@ -1,15 +1,16 @@
-import { Modal, Form, FormControl } from "react-bootstrap";
-import styles from "./BoardFilterModal.module.css";
+import React from 'react';
+import { Modal, Form } from 'react-bootstrap';
+import styles from './BoardFilterModal.module.css';
 
-const BoardFilterModal = ({ showFilter, handleClose }) => {
+const BoardFilterModal = ({ showFilter, handleClose, inputSearch }) => {
   return (
     <div
       className={
-        styles.container + " " + (showFilter === true ? styles.visible : "")
+        styles.container + ' ' + (showFilter === true ? styles.visible : '')
       }
     >
       <Modal.Dialog className={styles.modal__dialog}>
-        <Modal.Header closeButton onClick={(e) => handleClose(e, "filter")}>
+        <Modal.Header closeButton onClick={(e) => handleClose(e, 'filter')}>
           <Modal.Title>Filter</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -21,18 +22,19 @@ const BoardFilterModal = ({ showFilter, handleClose }) => {
                 placeholder="Enter task name"
                 className="me-2"
                 aria-label="Search"
+                {...inputSearch}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Label>Members</Form.Label>
+              <Form.Label>Deadline</Form.Label>
               <Form.Check
                 type="checkbox"
-                label="  Member 1"
+                label="Indefinitely"
                 className={styles.checkbox}
               />
               <Form.Check
                 type="checkbox"
-                label="  Member 2"
+                label="Deadline expires tomorrow"
                 className={styles.checkbox}
               />
             </Form.Group>
