@@ -7,17 +7,6 @@ import { useDebauncer } from '../../utils';
 import { useAuth } from '../../contexts/Auth';
 import { SearchContentCard } from '../SearchContentCard';
 
-const containerVariants = {
-  expanded: {
-    height: '30em',
-    zIndex: '10',
-  },
-  collapsed: {
-    height: '1.8em',
-    zIndex: '10',
-  },
-};
-
 const containerTransition = {
   type: 'spring',
   damping: 22,
@@ -31,6 +20,19 @@ export const SearchBar = (props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [searchDataDB, setSearchDataDB] = useState([]);
+  const [searchFieldHeight, setSearchFieldHeight] = useState('150');
+  const [notFound, setNotFound] = useState(false);
+
+  const containerVariants = {
+    expanded: {
+      height: `${searchFieldHeight}px`,
+      zIndex: '10',
+    },
+    collapsed: {
+      height: '1.8em',
+      zIndex: '10',
+    },
+  };
 
   const navigate = useNavigate();
 
@@ -41,6 +43,9 @@ export const SearchBar = (props) => {
   const changeHandler = (e) => {
     e.preventDefault();
     setSearchQuery(e.target.value);
+    if (!searchQuery || searchQuery.trim() === '') {
+      setSearchFieldHeight('150');
+    }
   };
 
   const expandSearchBar = () => {
@@ -51,10 +56,22 @@ export const SearchBar = (props) => {
     setExpanded(false);
     setSearchQuery('');
     setSearchDataDB([]);
+    setNotFound(false);
     if (inputRef.current) inputRef.current.value = '';
   };
 
-  const handleCross = useCallback(() => setSearchQuery(''), []);
+  const handleCross = useCallback(() => {
+    setSearchQuery('');
+    setSearchFieldHeight('150');
+  }, []);
+
+  useEffect(() => {
+    if (searchDataDB.length) {
+      setSearchFieldHeight(`${searchDataDB.length * 100}`);
+    } else {
+      setSearchFieldHeight('150');
+    }
+  }, [searchDataDB]);
 
   useEffect(() => {
     if (isClickOutside) collapseSearchBar();
@@ -118,7 +135,10 @@ export const SearchBar = (props) => {
           }
         });
 
-      setSearchDataDB(filterDubs(searchItems));
+      if (searchItems.length) {
+        setSearchDataDB(filterDubs(searchItems));
+        setNotFound(false);
+      } else setNotFound(true);
     }
     setLoading(false);
   };
@@ -151,7 +171,7 @@ export const SearchBar = (props) => {
       {isExpanded && <SearchSeparator />}
       {isExpanded && (
         <SearchContent>
-          {!isLoading && searchDataDB.length && (
+          {!isLoading && !!searchDataDB.length && (
             <>
               {searchDataDB.map((data) => (
                 <Link
@@ -165,6 +185,7 @@ export const SearchBar = (props) => {
               ))}
             </>
           )}
+          {!isLoading && notFound && <div>Nothing was found</div>}
         </SearchContent>
       )}
     </motion.div>

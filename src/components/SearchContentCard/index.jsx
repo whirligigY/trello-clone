@@ -7,7 +7,7 @@ export const SearchContentCard = (props) => {
   const [dateConverted, setDateConverted] = useState('');
 
   useEffect(() => {
-    const dateNew = new Date(data.date);
+    const dateNew = new Date(data.insertedat);
     setDateConverted(
       `${dateNew.getFullYear()}-${dateNew.getMonth()}-${dateNew.getDay()}`
     );
