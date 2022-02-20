@@ -16,6 +16,7 @@ const BoardListCard = ({
   updateColumnTitle,
   updateCardTitle,
   handleCardDelete,
+  cardsVisible,
 }) => {
   const [isEditTitleColumn, setIsEditTitleColum] = useState(false);
   const { client } = useAuth();
@@ -77,6 +78,7 @@ const BoardListCard = ({
                       cardIndex={ind}
                       updateCardTitle={updateCardTitle}
                       handleCardDelete={handleCardDelete}
+                      cardsVisible={cardsVisible}
                     />
                   ))}
                 {provided.placeholder}

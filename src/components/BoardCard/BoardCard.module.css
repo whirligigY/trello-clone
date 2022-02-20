@@ -6,6 +6,12 @@
   border: none;
   margin-bottom: 10px;
 }
+
+.hide {
+  display: none !important;
+  height: 0;
+}
+
 .img {
   width: 308px;
   height: 153px;

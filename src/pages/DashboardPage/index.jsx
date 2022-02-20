@@ -16,6 +16,7 @@ import {
 } from '../../utils';
 import { BoardAside } from '../../components/BoardAside';
 import { useAuth } from '../../contexts/Auth';
+import { useInput } from '../../hooks/useInput';
 
 // TODO: Объект задачи отдельная сущность, массив с досками о
 //  тдельная сущность. Когда открываем страницу Dashboard мы должны сделать фетч всех досок
@@ -27,8 +28,11 @@ import { useAuth } from '../../contexts/Auth';
 const DashboardPage = () => {
   const [columns, setColumns] = useState([]);
   const [cards, setCards] = useState([]);
+  const [cardsVisible, setCardsVisible] = useState([]);
   const { user, client } = useAuth();
   const { boardId } = useParams();
+  const inputSearch = useInput();
+  const { value } = inputSearch;
 
   const getData = async (type, id) => {
     if (type === 'columns') {
@@ -96,10 +100,6 @@ const DashboardPage = () => {
     const newCard = getNewCard(idColumn, text, numElemInColumn);
     setCards([...cards, newCard]);
     writeCardToDataBase(newCard);
-    //.eq('crd_columnid', idColumn);
-
-    //setCards(data);
-    //upsertState('cards', idColumn, newCard);
   };
 
   useEffect(() => {
@@ -110,6 +110,18 @@ const DashboardPage = () => {
   useEffect(() => {
     getData('cards', null);
   }, [columns]);
+
+  useEffect(() => {
+    if (cards.length) {
+      const ar = cards.map((el) => {
+        if (el.crd_title.toLowerCase().indexOf(value) >= 0) {
+          return { crd_id: el.crd_id, visible: true };
+        }
+        return { crd_id: el.crd_id, visible: false };
+      });
+      setCardsVisible(ar);
+    }
+  }, [value]);
 
   const updateTable = async (type, arr) => {
     await client
@@ -193,7 +205,7 @@ const DashboardPage = () => {
         <BoardAside />
 
         <div className={styles.dashboard_container_right}>
-          <BoardNavigation title="First board" />
+          <BoardNavigation title="First board" inputSearch={inputSearch} />
           <Droppable
             droppableId="all-lists"
             direction="horizontal"
@@ -221,6 +233,7 @@ const DashboardPage = () => {
                       updateColumnTitle={updateColumnTitle}
                       updateCardTitle={updateCardTitle}
                       handleCardDelete={handleCardDelete}
+                      cardsVisible={cardsVisible}
                     />
                   ))
                 ) : (

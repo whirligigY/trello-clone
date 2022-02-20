@@ -19,6 +19,7 @@ const BoardCard = ({
   cardIndex,
   updateCardTitle,
   handleCardDelete,
+  cardsVisible,
 }) => {
   const [visible, setVisible] = useState(false);
   const { client } = useAuth();
@@ -54,6 +55,11 @@ const BoardCard = ({
   const handleCardEdit = (e) => {
     e.stopPropagation();
     setIsEditTitleCard(true);
+  };
+
+  const isCardVisible = () => {
+    const currentCard = cardsVisible.find((el) => el.crd_id === card.crd_id);
+    return currentCard === undefined || currentCard.visible ? true : false;
   };
   /* task modal window state */
   /* deadline states */
@@ -413,7 +419,12 @@ const BoardCard = ({
           }
 
           {Number(card['crd_columnid']) === columnId && (
-            <Card className={styles.card} onClick={openHandle}>
+            <Card
+              className={
+                !isCardVisible() ? styles.card + ' ' + styles.hide : styles.card
+              }
+              onClick={openHandle}
+            >
               <Card.Body>
                 <div>
                   {isEditTitleCard ? (
