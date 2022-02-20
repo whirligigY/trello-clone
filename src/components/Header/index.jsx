@@ -22,7 +22,7 @@ export const Header = () => {
           Crello
         </Link>
         <div className="nav__button__sign-in">
-          {authState() === 'authenticated' ? (
+          {user.role === 'authenticated' ? (
             <>
               <Link to="/profile" style={basicStyles}>
                 Profile
@@ -34,7 +34,7 @@ export const Header = () => {
             </>
           ) : null}
 
-          {authState() !== 'authenticated' ? (
+          {user.role !== 'authenticated' ? (
             <Link to="/sign-in" style={basicStyles}>
               Sign In
             </Link>
