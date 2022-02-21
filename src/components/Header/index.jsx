@@ -14,7 +14,7 @@ const basicStyles = {
 };
 
 export const Header = () => {
-  const { signOut, user, authState } = useAuth();
+  const { signOut, user, authState, userProfile } = useAuth();
   const { changeWrapperBg } = useContext(BgContext);
   const defaultBackground = 'https://fyddxppvkwjfodizkufq.supabase.in/storage/v1/object/public/avatars/beautiful.jpeg';
 
@@ -29,7 +29,8 @@ export const Header = () => {
         <div className="nav__button__sign-in">
           {userProfile()?.aud === 'authenticated' ? (
             <>
-              <Link to="/profile" style={basicStyles}>
+              <Link to="/profile" style={basicStyles}
+              onClick={()=>changeWrapperBg(defaultBackground)}>
                 Profile
               </Link>
 
