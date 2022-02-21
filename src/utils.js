@@ -86,7 +86,7 @@ export const getColumnsAfterDragAndDrop = (result, columns) => {
   if (nextOrder !== prevOrder) {
     return getNewOrderArray(columns, 'col_order', prevOrder, nextOrder);
   }
-  return [];
+  return columns;
 };
 
 export const useDebauncer = (value, timeout, callback) => {
