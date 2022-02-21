@@ -25,19 +25,6 @@ const BoardFilterModal = ({ showFilter, handleClose, inputSearch }) => {
                 {...inputSearch}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Label>Deadline</Form.Label>
-              <Form.Check
-                type="checkbox"
-                label="Indefinitely"
-                className={styles.checkbox}
-              />
-              <Form.Check
-                type="checkbox"
-                label="Deadline expires tomorrow"
-                className={styles.checkbox}
-              />
-            </Form.Group>
           </Form>
         </Modal.Body>
       </Modal.Dialog>

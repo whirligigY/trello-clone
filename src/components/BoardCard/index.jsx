@@ -23,6 +23,7 @@ const BoardCard = ({
   labels,
   setLabels,
   setLabelsUpdate,
+  changeCardPos,
 }) => {
   const [visible, setVisible] = useState(false);
   const { client } = useAuth();
