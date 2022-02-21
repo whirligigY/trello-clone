@@ -1,9 +1,11 @@
 .profile {
   width: 100%;
   min-height: 80vh;
+  height: 100%;
   padding: 15px;
-  background: rgba(248, 249, 250, 1);
+  background: rgba(199, 228, 255, 0.651);
   border-radius: 5px;
+  color: rgba(68, 68, 68, 1);
 }
 
 .profile .sbui-btn-primary {
@@ -62,8 +64,12 @@
   font-size: calc(1.3rem + 0.6vw);
   font-weight: 600;
   line-height: 1.2;
-  color: #000;
+  color: inherit;
   cursor: pointer;
+}
+
+.h3.user_nickname {
+  color: rgba(68, 68, 68, 1);
 }
 
 .user_nickname_input {
@@ -81,30 +87,32 @@
 
 .profile-input:disabled {
   width: 194px;
-  color: black;
+  color: inherit;
   font-weight: 600;
 }
 
-.contacts_item, .personal_item {
+.contacts_item,
+.personal_item {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.user_contact, .user_data {
+.user_contact,
+.user_data {
   display: flex;
   flex-direction: column;
- }
+}
 
- .edit-user-data {
-   margin-left: 20px;
-   padding: 0px 10px !important;
-   height: 30px;
-   font-size: 16px;
-   text-align: center;
- }
+.edit-user-data {
+  margin-left: 20px;
+  padding: 0px 10px !important;
+  height: 30px;
+  font-size: 16px;
+  text-align: center;
+}
 
- .change_user_avatar {
-   margin-top: 10px;
- }
+.change_user_avatar {
+  margin-top: 10px;
+}

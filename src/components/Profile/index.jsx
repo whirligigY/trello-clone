@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-
 import { Container, Button, Row, Col } from 'react-bootstrap';
 import { Button as ButtonAuth } from '@supabase/ui';
 import Main from '../Main';
 import { useAuth } from '../../contexts/Auth';
-import { UploadAvatar } from '../UploadAvatar/UploadAvatar'
+import { UploadAvatar } from '../UploadAvatar/UploadAvatar';
 import './profile.css';
 
 const Profile = () => {
@@ -24,10 +23,11 @@ const Profile = () => {
   const [avatar, setAvatar] = useState('');
   const [nickname, setNickname] = useState('');
   const [visible, setVisible] = useState(false);
-  
+  const signinClass = 'main_center';
+
   const closeHandle = () => {
     setVisible(false);
-  }
+  };
 
   useEffect(() => {
     client
@@ -36,12 +36,12 @@ const Profile = () => {
       .eq('id', user.id)
       .then(({ data, error }) => {
         if (!error) {
-          setName(() => (data[0].name) ? data[0].name : '');
-          setSurname(() => (data[0].surname) ? data[0].surname : '');
-          setBirthdate(() => (data[0].birthdate) ? data[0].birthdate : '');
-          setPhone(() => (data[0].phone) ? data[0].phone : '');
-          setEmail(() => (data[0].mail) ? data[0].mail : user.email);
-          setAvatar(() => (data[0].avatar_url))
+          setName(() => (data[0].name ? data[0].name : ''));
+          setSurname(() => (data[0].surname ? data[0].surname : ''));
+          setBirthdate(() => (data[0].birthdate ? data[0].birthdate : ''));
+          setPhone(() => (data[0].phone ? data[0].phone : ''));
+          setEmail(() => (data[0].mail ? data[0].mail : user.email));
+          setAvatar(() => data[0].avatar_url);
           let nick = '';
           if (data[0].nickname) {
             nick = data[0].nickname;
@@ -64,7 +64,10 @@ const Profile = () => {
   };
 
   const saveBirthdate = async (value) => {
-    await client.from('profiles').update({ birthdate: value }).eq('id', user.id);
+    await client
+      .from('profiles')
+      .update({ birthdate: value })
+      .eq('id', user.id);
   };
 
   const savePhone = async (value) => {
@@ -88,24 +91,24 @@ const Profile = () => {
     }
     switch (dataType) {
       case 'name':
-        setName(e.target.value)
-        saveName(e.target.value)
+        setName(e.target.value);
+        saveName(e.target.value);
         break;
       case 'surname':
-        setSurname(e.target.value)
-        saveSurname(e.target.value)
+        setSurname(e.target.value);
+        saveSurname(e.target.value);
         break;
       case 'birthdate':
-        setBirthdate(e.target.value)
-        saveBirthdate(e.target.value)
+        setBirthdate(e.target.value);
+        saveBirthdate(e.target.value);
         break;
       case 'phone':
-        setPhone(e.target.value)
-        savePhone(e.target.value)
+        setPhone(e.target.value);
+        savePhone(e.target.value);
         break;
       case 'email':
-        setEmail(e.target.value)
-        saveEmail(e.target.value)
+        setEmail(e.target.value);
+        saveEmail(e.target.value);
         break;
       case 'nickname':
         setNickname(e.target.value);
@@ -118,51 +121,65 @@ const Profile = () => {
 
   if (user) {
     return (
-      <Main>
-        <UploadAvatar visible={visible} closeHandle={closeHandle}/>
-          <div className="profile">
-            <Container>
+      <Main {...[signinClass]}>
+        <UploadAvatar visible={visible} closeHandle={closeHandle} />
+        <div className="profile">
+          <Container>
             <Row className="profile__content content">
               <Col xs={6} md={4} className="side-content">
                 <img
                   className="profile__avatar"
                   src={avatar}
-                  alt=''
+                  alt=""
                   onClick={setVisible}
                 />
-                {nicknameEdit && <input
-                  className="user_nickname user_nickname_input"
-                  type="text"
-                  placeholder="Your nickname"
-                  disabled={!nicknameEdit}
-                  onBlur={() => setNicknameEdit(false)}
-                  value={nickname}
-                  onChange={saveData}
-                  data-type="nickname"
-                  maxLength="20"
-                />}
-                {!nicknameEdit &&
-                <Button className="change_user_nickname" onClick={() => setNicknameEdit(true)}><h3 className='h3 user_nickname'>{nickname}</h3></Button>}
-                <Button className="change_user_avatar" variant="outline-primary"  onClick={() => setVisible(true)}>Change avatar</Button>
+                {nicknameEdit && (
+                  <input
+                    className="user_nickname user_nickname_input"
+                    type="text"
+                    placeholder="Your nickname"
+                    disabled={!nicknameEdit}
+                    onBlur={() => setNicknameEdit(false)}
+                    value={nickname}
+                    onChange={saveData}
+                    data-type="nickname"
+                    maxLength="20"
+                  />
+                )}
+                {!nicknameEdit && (
+                  <Button
+                    className="change_user_nickname"
+                    onClick={() => setNicknameEdit(true)}
+                  >
+                    <h3 className="h3 user_nickname">{nickname}</h3>
+                  </Button>
+                )}
+                <Button
+                  className="change_user_avatar"
+                  variant="outline-primary"
+                  onClick={() => setVisible(true)}
+                >
+                  Change avatar
+                </Button>
               </Col>
               <Col className="main-content" xs={12} md={8}>
                 <h2 className="h2">User inform</h2>
                 <div className="personal_item" data-type="name">
-                    <label className="user_data" htmlFor="name">
-                      <span>Name</span>
-                      <input
-                        className="profile-input"
-                        type="text"
-                        id="name"
-                        name="name"
-                        placeholder="Your name"
-                        disabled={!nameEdit}
-                        onBlur={() => setNameEdit(false)}
-                        value={name}
-                        onChange={saveData}
-                        maxLength="20"
-                      />
-                    </label>
+                  <label className="user_data" htmlFor="name">
+                    <span>Name</span>
+                    <input
+                      className="profile-input"
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Your name"
+                      disabled={!nameEdit}
+                      onBlur={() => setNameEdit(false)}
+                      value={name}
+                      onChange={saveData}
+                      maxLength="20"
+                    />
+                  </label>
                   <Button
                     variant="outline-secondary"
                     className="edit-user-data"
@@ -275,8 +292,8 @@ const Profile = () => {
         </div>
       </Main>
     );
-  } 
+  }
   return null;
-}
+};
 
 export { Profile };
