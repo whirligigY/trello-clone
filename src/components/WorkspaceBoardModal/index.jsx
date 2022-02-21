@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Modal, Button, Form, FloatingLabel } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
+import { BgContext } from '../../contexts/BgContext';
 import './WorkspaceBoardModal.css';
 
 const WorkspaceBoarModal = ({ ...props }) => {
@@ -10,6 +11,7 @@ const WorkspaceBoarModal = ({ ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [background, setBackgroundImage] = useState('');
+  const { changeWrapperBg } = useContext(BgContext);
 
   const { user, client } = useAuth();
   const navigate = useNavigate();
@@ -27,12 +29,21 @@ const WorkspaceBoarModal = ({ ...props }) => {
     setIsLoading(true);
     if (res) {
       //props.handleBoardIdChange(res.data[0].id);
-      navigate(`/dashboard/${res.data[0].id}`);
+      getBackground(res.data[0].id);
+      //navigate(`/dashboard/${res.data[0].id}`);
     }
 
     if (!res.error) closeHandler();
   };
-
+  const getBackground = async (id) => {
+    const {data} = await
+    client
+      .from('boards')
+      .select('background')
+      .eq('id', id)
+    changeWrapperBg(data[0].background);
+    navigate(`/dashboard/${id}`);
+  }
   function Delay() {
     return new Promise((res) => {
       setTimeout(() => res(), 500);
