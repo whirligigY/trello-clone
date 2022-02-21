@@ -14,7 +14,7 @@ body {
   grid-row-gap: 1em;
   grid-template-rows: auto 1fr auto;
   grid-template-columns: 1fr 1fr 1fr;
-  background-image: url('./assets/beautiful.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
 }

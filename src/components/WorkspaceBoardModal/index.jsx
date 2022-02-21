@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, FloatingLabel } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
+import './WorkspaceBoardModal.css';
 
 const WorkspaceBoarModal = ({ ...props }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [background, setBackgroundImage] = useState('');
 
   const { user, client } = useAuth();
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const WorkspaceBoarModal = ({ ...props }) => {
 
     const res = await client
       .from('boards')
-      .upsert([{ title, description, user_id: user.id }]);
+      .upsert([{ title, description, user_id: user.id, background: background}]);
 
     setIsLoading(true);
     if (res) {
@@ -44,6 +46,39 @@ const WorkspaceBoarModal = ({ ...props }) => {
       });
     }
   }, [isLoading]);
+
+  /*  asdas*/
+  const [unsplashCovers, setUnsplashCovers] = useState([]);
+  const [inputTag, setInputTag]=useState('');
+  useEffect (() => {
+    downloadUnsplash();
+  }, [inputTag])
+
+  async function downloadUnsplash() {
+    let tag = 'mountain';
+    if (inputTag)
+      tag = inputTag;
+    const url = `https://api.unsplash.com/search/photos?query=${tag}&per_page=31&orientation=landscape&client_id=fNbe10hInNaKsDNkqXVOAUxSkOxj1Qt_qcPHwcaFlmk`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const urlsArr = [];
+    data.results.map((item, i) => {
+      if (urlsArr.length < 40) {
+          urlsArr.push(item.urls)
+      }
+    })
+    setUnsplashCovers(urlsArr);
+  };
+
+  const changeSearchValue = (e) => {
+    setInputTag(e.target.value);
+  }
+
+  const addDackground = (val) => {
+    setBackgroundImage(val);
+  };
+
+  /* end */
 
   return (
     <Modal
@@ -81,6 +116,20 @@ const WorkspaceBoarModal = ({ ...props }) => {
               />
             </FloatingLabel>
           </Form.Group>
+          <div className="board_covers">
+            <p className='deadline-text'>Select background from Unsplash</p>
+            <input className="search-input" 
+            type="text" placeholder="Search background on Unsplash" onChange={changeSearchValue}/>
+            <div className='covers'>
+              { unsplashCovers.map((item, i) => {
+              return (
+              <Button key={i} className='cover_btn' onClick={()=>addDackground(item.raw)}>
+                <img src={item.small} alt=''/>
+              </Button> )
+              }) }
+            </div>
+            <p className='deadline-text'>Photos from <a href='unsplash.com'>Unsplash.com</a></p>
+            </div>
         </Modal.Body>
         <Modal.Footer>
           <Form.Group controlId="colse-save" className="d-flex gap-2">
