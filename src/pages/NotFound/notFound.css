@@ -1,0 +1,21 @@
+.not-found.alert {
+  grid-area: 2 / 1 / 3 / 4;
+  background-color: rgba(175, 223, 255, 0.247);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.not-found .no-found__alert-msg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: max-content;
+  background-color: aliceblue;
+  padding: 10px;
+  border-radius: 5px;
+  color: darkred;
+}
