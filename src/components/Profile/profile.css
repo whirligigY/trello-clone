@@ -116,3 +116,7 @@
 .change_user_avatar {
   margin-top: 10px;
 }
+
+.profile .h2 {
+  font-size: larger;
+}

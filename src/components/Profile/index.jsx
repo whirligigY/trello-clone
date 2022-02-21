@@ -163,7 +163,7 @@ const Profile = () => {
                 </Button>
               </Col>
               <Col className="main-content" xs={12} md={8}>
-                <h2 className="h2">User inform</h2>
+                <h2 className="h2">User</h2>
                 <div className="personal_item" data-type="name">
                   <label className="user_data" htmlFor="name">
                     <span>Name</span>
@@ -236,7 +236,7 @@ const Profile = () => {
                   </Button>
                 </div>
                 <hr />
-                <h2 className="h2">Contact inform</h2>
+                <h2 className="h2">Contacts</h2>
                 <div className="personal_item" data-type="phone">
                   <label className="user_contact" htmlFor="phone">
                     Phone
@@ -284,7 +284,7 @@ const Profile = () => {
                   </Button>
                 </div>
                 <hr />
-                <h2 className="h2">Account management</h2>
+                <h2 className="h2">Account Management</h2>
                 <ButtonAuth onClick={() => signOut()}>Sign out</ButtonAuth>
               </Col>
             </Row>
