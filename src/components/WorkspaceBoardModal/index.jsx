@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, FloatingLabel } from 'react-bootstrap';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
 
 const WorkspaceBoarModal = ({ ...props }) => {
@@ -10,7 +10,7 @@ const WorkspaceBoarModal = ({ ...props }) => {
   const [isComplete, setIsComplete] = useState(false);
 
   const { user, client } = useAuth();
-
+  const navigate = useNavigate();
   const closeHandler = () => {
     setIsComplete(false);
   };
@@ -24,11 +24,12 @@ const WorkspaceBoarModal = ({ ...props }) => {
 
     setIsLoading(true);
     if (res) {
-      props.handleBoardIdChange(res.data[0].id);
+      //props.handleBoardIdChange(res.data[0].id);
+      navigate(`/dashboard/${res.data[0].id}`);
     }
 
     if (!res.error) closeHandler();
-  }
+  };
 
   function Delay() {
     return new Promise((res) => {
@@ -88,7 +89,7 @@ const WorkspaceBoarModal = ({ ...props }) => {
             </Button>
             <Button
               variant="primary"
-              // onClick={!isLoading ? handleModalData : null}
+              //onClick={!isLoading ? handleModalData : null}
               disabled={isLoading}
               type="submit"
             >
@@ -96,7 +97,6 @@ const WorkspaceBoarModal = ({ ...props }) => {
                 <>
                   <span className="spinner-border spinner-border-sm" />{' '}
                   Saving...
-                  <Navigate to="/dashboard" />
                 </>
               ) : (
                 'Save'
@@ -107,6 +107,6 @@ const WorkspaceBoarModal = ({ ...props }) => {
       </Form>
     </Modal>
   );
-}
+};
 
 export { WorkspaceBoarModal };

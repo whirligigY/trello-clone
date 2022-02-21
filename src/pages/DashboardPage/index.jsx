@@ -33,6 +33,7 @@ const DashboardPage = () => {
   const { boardId } = useParams();
   const inputSearch = useInput();
   const { value } = inputSearch;
+  const boardID = Number(boardId);
 
   const getData = async (type, id) => {
     if (type === 'columns') {
@@ -74,14 +75,14 @@ const DashboardPage = () => {
     data.sort(sortColumns);
     setColumns(data);
   };
-  const addColumn = (text, boardId) => {
-    const newCol = getNewColumn(boardId, text, columns);
+  const addColumn = (text, boardID) => {
+    const newCol = getNewColumn(boardID, text, columns);
     setColumns([...columns, newCol]);
-    writeColumnToDatabase(boardId, newCol);
+    writeColumnToDatabase(boardID, newCol);
   };
 
-  const writeCardToDataBase = async (newArr) => {
-    await client.from('tsk_cards').insert([newArr]);
+  const writeCardToDataBase = async (newObj) => {
+    await client.from('tsk_cards').insert([newObj]);
     if (columns.length) {
       const { data } = await client.from('tsk_cards').select('*');
       const arrColumns = columns.map((el) => el.col_id);
@@ -104,7 +105,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     getData('cards', null);
-    getData('columns', boardId);
+    getData('columns', boardID);
   }, []);
 
   useEffect(() => {
@@ -253,14 +254,14 @@ const DashboardPage = () => {
                       )}
                       AddTask={AddTask}
                       index={index}
-                      boardId={boardId}
+                      boardId={boardID}
                       getData={getData}
                       updateColumnTitle={updateColumnTitle}
                       updateCardTitle={updateCardTitle}
                       handleCardDelete={handleCardDelete}
                       cardsVisible={cardsVisible}
                       handleColumnDelete={handleColumnDelete}
-                      boardId={boardId}
+                      boardId={boardID}
                     />
                   ))
                 ) : (
@@ -271,7 +272,7 @@ const DashboardPage = () => {
                   type="list"
                   placeholder="Enter column title"
                   onClick={(text) => {
-                    addColumn(text, boardId);
+                    addColumn(text, boardID);
                   }}
                   textBtn="column"
                 />
