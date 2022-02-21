@@ -339,6 +339,11 @@
 
 /* current deadline styles */
 .current-deadline {
+  min-width: 90px;
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   padding: 0px 5px !important;
   height: 40px;
 }
@@ -396,7 +401,9 @@
 .services-content {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   margin-bottom: 10px;
+  column-gap: 15px;
 }
 
 .service-title {

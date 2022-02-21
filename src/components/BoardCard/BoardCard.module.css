@@ -75,15 +75,19 @@ a {
   text-decoration: none !important;
 }
 
+.card_metrics {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
 .card_labels {
+  margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-}
-
-.card_label {
-  min-width: 30px;
-  min-height: 10px;
 }
 
 .cover__color {

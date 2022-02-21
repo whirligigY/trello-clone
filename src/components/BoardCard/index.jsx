@@ -90,8 +90,11 @@ const BoardCard = ({
   };
 
   useEffect(() => {
-    saveColorCover();
-    savePictureCover();
+    if (saveCover) {
+      saveColorCover();
+      savePictureCover();
+      setSaveCover(false);
+    }
   }, [saveCover]);
 
   const saveColorCover = async () => {
@@ -185,6 +188,7 @@ const BoardCard = ({
 
   const changeLabels = (val) => {
     const newItem = val;
+    console.log('newItem = ', newItem)
     if (!newItem.id) {
       newItem.id = labels.length + 1;
     }
@@ -238,6 +242,7 @@ const BoardCard = ({
       ...activeLabels.slice(0, value),
       ...activeLabels.slice(value + 1),
     ]);
+    setActiveLabelsUpdate(true);
   };
   /* end of labels states */
 
@@ -299,36 +304,6 @@ const BoardCard = ({
       saveCheckboxes();
     }
   }, [checkboxes]);
-
-  useEffect(() => {
-    client
-      .from('tsk_checklists')
-      .select('*')
-      .eq('list_crd_id', card.id)
-      .then(({ data, error }) => {
-        if (data && data.length > 0) {
-          if (!error) {
-            setCheckList(() =>
-              data[0].lists.length ? JSON.parse(data[0].lists) : []
-            );
-            setCheckboxes(() =>
-              data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
-            );
-            setCheckedCheckboxes(() =>
-              data[0].checkboxes
-                ? JSON.parse(data[0].checkboxes)
-                    .map((item) => {
-                      return item.status
-                        ? { id: item.id, listId: item.listId }
-                        : 0;
-                    })
-                    .filter((item) => item !== 0)
-                : []
-            );
-          }
-        }
-      });
-  }, []);
 
   const addCheckBox = (listId) => {
     setCheckboxes((prevState) => {
@@ -620,41 +595,35 @@ const BoardCard = ({
                     </div>
                   )}
                 </div>
+                <div className='card_metrics'>
+                  {showDeadline && (
+                    <Card.Link href="#" className="p-1 btn btn-secondary">
+                      <i className="bi bi-clock-fill" />
+                      <span className={styles.ml}>
+                        {Array.isArray(value)
+                          ? moment(value[1]).format('DD MMM')
+                          : moment(value).format('DD MMM')}
+                      </span>
+                    </Card.Link>
+                  )}
+                  {checkboxes.length > 0 && (
+                    <Card.Link href="#" draggable={false}>
+                      <i className="bi bi-check2-square btn-light"></i>
+                      <span className={'btn-light ' + styles.ml}>
+                        {checkedCheckboxes.length}/{checkboxes.length}
+                      </span>
+                    </Card.Link>
+                  )}
 
-                {showDeadline && (
-                  <Card.Link href="#" className="p-1 btn btn-secondary">
-                    <i className="bi bi-clock-fill" />
-                    <span className={styles.ml}>
-                      {Array.isArray(value)
-                        ? moment(value[1]).format('DD MMM')
-                        : moment(value).format('DD MMM')}
-                    </span>
-                  </Card.Link>
-                )}
-                <Card.Link href="#" className={`card-link ${styles.descrip}`}>
-                  <i className="bi bi-justify-left btn-light" />
-                </Card.Link>
-                <Card.Link href="#">
-                  <i className="bi bi-link-45deg btn-light" />
-                </Card.Link>
-
-                {checkboxes.length > 0 && (
-                  <Card.Link href="#" draggable={false}>
-                    <i className="bi bi-check2-square btn-light"></i>
-                    <span className={'btn-light ' + styles.ml}>
-                      {checkedCheckboxes.length}/{checkboxes.length}
-                    </span>
-                  </Card.Link>
-                )}
-
-                {activeLabels.length > 0 && (
-                  <div className={styles.card_labels}>
-                    {activeLabels.map(
-                      (item) =>
-                        item.status && <CardLabel key={item.id} item={item} />
-                    )}
-                  </div>
-                )}
+                  {activeLabels.length > 0 && (
+                    <div className={styles.card_labels}>
+                      {activeLabels.map(
+                        (item) =>
+                          item.status && <CardLabel key={item.id} item={item} />
+                      )}
+                    </div>
+                  )}
+                </div>
               </Card.Body>
             </Card>
           )}

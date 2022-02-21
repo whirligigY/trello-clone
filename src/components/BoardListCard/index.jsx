@@ -64,6 +64,7 @@ const BoardListCard = ({
   }, [labelsUpdate]);
 
   const saveBoardLabels = async () => {
+    console.log('labels = ', labels);
     const { data, error } = await client
       .from('boards')
       .update({ brd_labels: JSON.stringify(labels) })

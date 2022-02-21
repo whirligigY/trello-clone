@@ -42,7 +42,7 @@ const TaskModalWindow = ({
 }) => {
   const { user, client } = useAuth();
 
-  const [taskDescription, setTaskDescription] = useState();
+  const [taskDescription, setTaskDescription] = useState('');
   useEffect(() => {
     if (visible) {
       client
@@ -51,7 +51,11 @@ const TaskModalWindow = ({
         .eq('crd_id', cardId)
         .then(({ data, error }) => {
           if (!error) {
-            setTaskDescription(data[0].crd_description);
+            if (data[0].crd_description) {
+              setTaskDescription(data[0].crd_description);
+            } else {
+              setTaskDescription('')
+            }
           }
         });
     }

@@ -21,6 +21,7 @@ const CurrentDeadline = ({ dateValue,
         variant='secondary'
         className="current-deadline"
         >
+          <i className="bi bi-clock-fill" />
           {Array.isArray(dateValue) ? `${moment(dateValue[1]).format('DD MMM')} ${deadlineTime}` : `${moment(dateValue).format('DD MMM')} ${deadlineTime}`}
         </Dropdown.Toggle>
         <DeadlineDropdownMenu

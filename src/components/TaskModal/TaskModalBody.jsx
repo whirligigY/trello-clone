@@ -53,7 +53,6 @@ const TaskModalBody = ({
         <Row className="content">
           <Col xs={14} md={10} className="main-content">
             <div className="services-content">
-              {showDeadline && <CurrentMembers />}
               {activeLabels.length > 0 && (
                 <CurrentLabels
                   activeLabels={activeLabels}
@@ -77,8 +76,8 @@ const TaskModalBody = ({
               )}
             </div>
             <TaskDescription
-            taskDescription={taskDescription}
-            setTaskDescription={setTaskDescription}
+              taskDescription={taskDescription}
+              setTaskDescription={setTaskDescription}
               cardId={cardId}
             />
             {checkLists.map((item) => (
@@ -94,7 +93,6 @@ const TaskModalBody = ({
             ))}
           </Col>
           <Col className="side-buttons" xs={4} md={2}>
-            <MembersDropdown />
             <LabelsDropdown
               activeLabels={activeLabels}
               changeActiveLabels={changeActiveLabels}
