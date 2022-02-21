@@ -82,8 +82,9 @@ const DashboardPage = () => {
 
   const AddTask = async (text, id) => {
     const length = await getOrderForColumnOrCard(id, 'cards');
+    console.log('id1 = ', id)
     if (length >= 0) {
-      await client.from('tsk_cards').insert({
+      client.from('tsk_cards').insert({
         crd_columnid: id,
         crd_title: text,
         crd_description: '',

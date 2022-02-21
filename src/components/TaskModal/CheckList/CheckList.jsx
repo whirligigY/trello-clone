@@ -2,7 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { ProgressBar, Button, InputGroup, FormControl } from 'react-bootstrap';
 import '../TaskModalWindow.css'
 
-const CheckList = ({ title, id, addCheckBox, changeCheckboxTitle, changeProgress, removeCheckList, removeCheckListItem, checkboxes, checkedCheckboxes }) => {
+const CheckList = ({ title,
+  id,
+  addCheckBox,
+  changeCheckboxTitle,
+  changeProgress,
+  removeCheckList,
+  removeCheckListItem,
+  checkboxes,
+  checkedCheckboxes }) => {
   const [progress, setProgress] = useState();
   const [listCheckboxes, setListCheckboxes] = useState([]);
   const [listCheckedCheckboxes, setListCheckedCheckboxes] = useState([]);

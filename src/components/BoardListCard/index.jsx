@@ -19,7 +19,7 @@ const BoardListCard = ({
 }) => {
   const [isEditTitleColumn, setIsEditTitleColum] = useState(false);
   const { client } = useAuth();
-
+  console.log('id = ', id);
   const handleBlur = async (val, idColumn) => {
     setIsEditTitleColum(false);
     await client
