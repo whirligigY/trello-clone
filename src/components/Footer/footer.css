@@ -17,15 +17,56 @@
   align-items: center;
 }
 
+.footer__github__container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.footer__github__container .footer__item {
+  margin: 0 5px 0 5px;
+}
+
+.footer__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .footer__item a {
   color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer__item a:hover {
+  color: inherit;
 }
 
 .footer__item__icon-git {
+  align-self: center;
   height: 1.5em;
 }
 
 .footer__item__icon-rss {
   height: 3em;
   fill: white;
+}
+
+.footer__item__icon-subscr {
+  font-size: 8px;
+  padding: 0;
+  margin: 0;
+}
+
+.footer__item__date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer__item__date > * {
+  margin: 0 5px 0 5px;
 }

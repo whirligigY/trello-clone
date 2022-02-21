@@ -21,9 +21,15 @@ export const Header = () => {
   return (
     <header className="header">
       <nav className="header__nav nav__button">
-        <div className="nav_button__more" aria-label="More" role="button" />
-        <Link to="/" className="nav_button__trello" 
-        onClick={()=>changeWrapperBg(defaultBackground)}>
+
+        <Link
+          to="/"
+          className="nav_button__more"
+          aria-label="More"
+          role="button"
+        />
+        <Link to="/" className="nav_button__trello">
+
           Crello
         </Link>
         <div className="nav__button__sign-in">
