@@ -12,12 +12,12 @@
 .card {
   background-color: inherit !important;
   border: none !important;
-  padding: 15px 0 0 0;
   opacity: 1;
   cursor: pointer;
   min-width: 308px;
   text-align: left !important;
-  margin-bottom: 8px;
+  display: flex !important;
+  align-items: center;
 }
 
 .card:hover {

@@ -1,5 +1,21 @@
 import { useState, useEffect } from 'react';
 
+export const getNewColumn = (id, text, columns) => {
+  return {
+    col_boardid: id,
+    col_title: text,
+    col_order: columns.length + 1,
+  };
+};
+
+export const getNewCard = (idColumn, text, numElemInColumn) => {
+  return {
+    crd_columnid: idColumn,
+    crd_title: text,
+    crd_order: numElemInColumn.length + 1,
+  };
+};
+
 export const sortCards = (a, b) => {
   if (a.crd_order > b.crd_order) return 1;
   return -1;

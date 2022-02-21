@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Card } from 'react-bootstrap';
 import moment from 'moment';
@@ -11,70 +11,101 @@ import { RenderCardTitle } from '../RenderCardTitle';
 
 import { CardLabel } from '../CardLabel';
 
-const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
-   labels, setLabels, setLabelsUpdate }) => {
+const BoardCard = ({
+  columnId,
+  card,
+  columnTitle,
+  cardId,
+  cardIndex,
+  updateCardTitle,
+  handleCardDelete,
+  cardsVisible,
+  labels,
+  setLabels,
+  setLabelsUpdate,
+}) => {
   const [visible, setVisible] = useState(false);
   const { client } = useAuth();
 
   const [isEditTitleCard, setIsEditTitleCard] = useState(false);
-  const ref = useRef();
 
   function closeHandle() {
     setVisible(false);
   }
 
-  function openHandle(e) {
+  function openHandle() {
     setVisible(true);
   }
 
-  const handleCardSave = () => {
+  const upsertCardTitle = async (val, cardId) => {
+    await client.from('tsk_cards').upsert([{ crd_id: cardId, crd_title: val }]);
+  };
+
+  const handleCardSave = async (e, valueCard, cardId) => {
+    e.stopPropagation();
+    updateCardTitle(valueCard, cardId);
+    setIsEditTitleCard(false);
+    upsertCardTitle(valueCard, cardId);
+
+    //getData('cards', null);
+  };
+
+  const handleCardClose = (e) => {
+    e.stopPropagation();
     setIsEditTitleCard(false);
   };
-  const handleCardClose = () => {
-    setIsEditTitleCard(false);
+
+  const handleCardEdit = (e) => {
+    e.stopPropagation();
+    setIsEditTitleCard(true);
+  };
+
+  const isCardVisible = () => {
+    const currentCard = cardsVisible.find((el) => el.crd_id === card.crd_id);
+    return currentCard === undefined || currentCard.visible ? true : false;
   };
 
   /* task modal window state */
   /* cover states */
   const [colorCover, setColorCover] = useState('');
   const [pictureCover, setPictureCover] = useState('');
-  const [saveCover, setSaveCover] = useState(false)
+  const [saveCover, setSaveCover] = useState(false);
 
   const addColorCover = (val) => {
     setColorCover(val);
     setPictureCover('');
     setSaveCover('true');
-  }
+  };
 
   const addPictureCover = (val) => {
     setPictureCover(val);
     setColorCover('');
     setSaveCover('true');
-  }
+  };
 
   const removeCover = () => {
     setPictureCover('');
     setColorCover('');
     setSaveCover('true');
-  }
-
-  useEffect(() => {
-      saveColorCover()
-      savePictureCover()
-  }, [saveCover])
-
-  const saveColorCover= async () => {
-    const { data, error } = await client
-    .from('tsk_cards')
-    .update({crd_coverColor: colorCover })
-    .eq('crd_id', cardId)
   };
 
-  const savePictureCover= async () => {
+  useEffect(() => {
+    saveColorCover();
+    savePictureCover();
+  }, [saveCover]);
+
+  const saveColorCover = async () => {
     const { data, error } = await client
-    .from('tsk_cards')
-    .update({crd_coverPic: pictureCover })
-    .eq('crd_id', cardId)
+      .from('tsk_cards')
+      .update({ crd_coverColor: colorCover })
+      .eq('crd_id', cardId);
+  };
+
+  const savePictureCover = async () => {
+    const { data, error } = await client
+      .from('tsk_cards')
+      .update({ crd_coverPic: pictureCover })
+      .eq('crd_id', cardId);
   };
 
   /* end cover states */
@@ -101,17 +132,17 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
 
   useEffect(() => {
     if (saveDeadline) {
-      saveDeadlineDate()
-      setSaveDeadline(false)
+      saveDeadlineDate();
+      setSaveDeadline(false);
     }
-  }, [saveDeadline])
+  }, [saveDeadline]);
 
-  const saveDeadlineDate= async () => {
+  const saveDeadlineDate = async () => {
     let startDate;
     let deadlineDate;
     let savedTime = deadlineTime || null;
     if (Array.isArray(value)) {
-      [startDate, deadlineDate] = [...value]
+      [startDate, deadlineDate] = [...value];
     } else {
       startDate = null;
       deadlineDate = value;
@@ -120,10 +151,13 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
       deadlineDate = null;
     }
     const { data, error } = await client
-    .from('tsk_cards')
-    .update({ crd_deadlineDate: deadlineDate,
-    crd_startDate: startDate, crd_deadlineTime: savedTime })
-    .eq('crd_id', cardId)
+      .from('tsk_cards')
+      .update({
+        crd_deadlineDate: deadlineDate,
+        crd_startDate: startDate,
+        crd_deadlineTime: savedTime,
+      })
+      .eq('crd_id', cardId);
   };
 
   /* end of deadline states */
@@ -133,20 +167,20 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
 
   useEffect(() => {
     if (activeLabelsUpdate) {
-      saveСardLabels()
-      setActiveLabelsUpdate(false)
+      saveСardLabels();
+      setActiveLabelsUpdate(false);
     }
-  }, [activeLabelsUpdate])
+  }, [activeLabelsUpdate]);
 
-  const saveСardLabels= async () => {
+  const saveСardLabels = async () => {
     let savedLabels = activeLabels;
     if (savedLabels.length === 0) {
       savedLabels = [];
     }
     const { data, error } = await client
-    .from('tsk_cards')
-    .update({ crd_labels: JSON.stringify(savedLabels) })
-    .eq('crd_id', cardId)
+      .from('tsk_cards')
+      .update({ crd_labels: JSON.stringify(savedLabels) })
+      .eq('crd_id', cardId);
   };
 
   const changeLabels = (val) => {
@@ -266,6 +300,36 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
     }
   }, [checkboxes]);
 
+  useEffect(() => {
+    client
+      .from('tsk_checklists')
+      .select('*')
+      .eq('list_crd_id', card.id)
+      .then(({ data, error }) => {
+        if (data && data.length > 0) {
+          if (!error) {
+            setCheckList(() =>
+              data[0].lists.length ? JSON.parse(data[0].lists) : []
+            );
+            setCheckboxes(() =>
+              data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
+            );
+            setCheckedCheckboxes(() =>
+              data[0].checkboxes
+                ? JSON.parse(data[0].checkboxes)
+                    .map((item) => {
+                      return item.status
+                        ? { id: item.id, listId: item.listId }
+                        : 0;
+                    })
+                    .filter((item) => item !== 0)
+                : []
+            );
+          }
+        }
+      });
+  }, []);
+
   const addCheckBox = (listId) => {
     setCheckboxes((prevState) => {
       return [
@@ -327,7 +391,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
           return [...prevState.slice(0, index)];
         } else if (index === 0) {
           return [...prevState.slice(index, prevState.length)];
-        } 
+        }
         return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
       });
       setCheckboxes((prevState) => {
@@ -411,8 +475,10 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
               if (data[0].crd_deadlineDate) {
                 if (data[0].crd_startDate) {
                   setIsActiveRange(true);
-                  onChange([new Date(data[0].crd_startDate),
-                  new Date(data[0].crd_deadlineDate)]);
+                  onChange([
+                    new Date(data[0].crd_startDate),
+                    new Date(data[0].crd_deadlineDate),
+                  ]);
                 } else {
                   let deadlineDate = new Date(data[0].crd_deadlineDate);
                   if (deadlineDate != new Date()) {
@@ -421,7 +487,7 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
                   onChange(deadlineDate);
                 }
                 if (data[0].crd_deadlineTime) {
-                  setDeadlineTime(data[0].crd_deadlineTime)
+                  setDeadlineTime(data[0].crd_deadlineTime);
                 }
                 setShowDeadline(true);
               }
@@ -504,39 +570,54 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
 
           {Number(card['crd_columnid']) === columnId && (
             <Card
-              style={{ width: '19rem' }}
-              className={styles.card}
+              className={
+                !isCardVisible() ? styles.card + ' ' + styles.hide : styles.card
+              }
               onClick={openHandle}
             >
-              <div
-                className={styles.bd_clipboard}
-                ref={ref}
-                onClick={() => {
-                  setIsEditTitleCard(true);
-                  setVisible(false);
-                }}
-              >
-                <i
-                  className={`bi bi-pencil btn-secondary ${styles.btn_clipboard}`}
-                />
-              </div>
-
               <Card.Body>
                 <div>
-                  { colorCover && 
-                  <div className={styles.cover__color} style={{backgroundColor: colorCover}}></div>}
-                  {pictureCover && 
-                  <div className={styles.cover__pic}>
-                    <img src={`${pictureCover}`} alt="" />
-                  </div>}
+                  {colorCover && (
+                    <div
+                      className={styles.cover__color}
+                      style={{ backgroundColor: colorCover }}
+                    ></div>
+                  )}
+                  {pictureCover && (
+                    <div className={styles.cover__pic}>
+                      <img src={`${pictureCover}`} alt="" />
+                    </div>
+                  )}
                   {isEditTitleCard ? (
                     <RenderCardTitle
+                      cardId={card.crd_id}
                       title={card.crd_title}
                       handleCardSave={handleCardSave}
                       handleCardClose={handleCardClose}
                     />
                   ) : (
-                    <Card.Text className="mb-3">{card['crd_title']}</Card.Text>
+                    <div className={'mb-3 ' + styles.title_container}>
+                      <div className={styles.edit_container}>
+                        <Card.Text>{card.crd_title}</Card.Text>
+                        <div onClick={handleCardEdit}>
+                          <i
+                            className={`bi bi-pencil btn-secondary ${styles.btn_clipboard}`}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className={styles.blosk_close}
+                        onClick={() =>
+                          handleCardDelete(
+                            card.crd_id,
+                            columnId,
+                            card.crd_order
+                          )
+                        }
+                      >
+                        <i className={'bi bi-x-lg ' + styles.btn_close}></i>
+                      </div>
+                    </div>
                   )}
                 </div>
 
@@ -556,14 +637,21 @@ const BoardCard = ({ columnId, card, columnTitle, cardId, cardIndex,
                 <Card.Link href="#">
                   <i className="bi bi-link-45deg btn-light" />
                 </Card.Link>
-                {(checkboxes.length > 0) && <Card.Link href="#" draggable={false}>
-                  <i className="bi bi-check2-square btn-light"></i>
-                  <span className={"btn-light " + styles.ml}>{checkedCheckboxes.length}/{checkboxes.length}</span>
-                </Card.Link>}
+
+                {checkboxes.length > 0 && (
+                  <Card.Link href="#" draggable={false}>
+                    <i className="bi bi-check2-square btn-light"></i>
+                    <span className={'btn-light ' + styles.ml}>
+                      {checkedCheckboxes.length}/{checkboxes.length}
+                    </span>
+                  </Card.Link>
+                )}
+
                 {activeLabels.length > 0 && (
                   <div className={styles.card_labels}>
                     {activeLabels.map(
-                      (item) => item.status && <CardLabel key={item.id} item={item} />
+                      (item) =>
+                        item.status && <CardLabel key={item.id} item={item} />
                     )}
                   </div>
                 )}
