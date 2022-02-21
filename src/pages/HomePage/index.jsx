@@ -6,7 +6,6 @@ import Aside from '../../components/Aside';
 const HomePage = ({ ...props }) => {
   return (
     <>
-      <Aside />
       <Main>
         <Boards {...props} />
       </Main>
