@@ -10,7 +10,7 @@
   justify-content: center;
 }
 
-label {
+.profile .label {
   width: 350px;
   box-sizing: border-box;
 }

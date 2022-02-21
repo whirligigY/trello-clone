@@ -39,39 +39,49 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
 
         if (event === 'SIGNED_IN') {
-          supabase
-            .from('profiles')
-            .upsert({
-              id: supabase.auth.user().id,
-              username: supabase.auth.user().email
-            })
-            .then((_data, error) => {
-              if (!error) {
-                setAuthState('authenticated');
-                navigate('/');
-              }
-            });
-        } else if (event === 'SIGNED_OUT') {
+          navigate('/');
+          const { _data, error } = await supabase.from('profiles').upsert({
+            id: supabase.auth.user().id,
+            username: supabase.auth.user().email,
+          });
+
+          if (!error) {
+            setAuthState('authenticated');
+          } else {
+            // navigate to 404
+            setAuthState('non-authenticated');
+          }
+        }
+        if (event === 'SIGNED_OUT') {
           setAuthState('non-authenticated');
           navigate('/');
+        }
+        if (event === 'PASSWORD_RECOVERY') {
+          setAuthState('password-recovery');
+          navigate('/set-new-password');
+        }
+        if (event === 'USER_UPDATED') {
+          navigate('/');
+          setAuthState('authenticated');
         }
       }
     );
     return () => {
       listener?.unsubscribe();
     };
-  }, [navigate, user, authState]);
+  }, []);
 
-  const value = useMemo(() => ({
-    signIn: (data) => supabase.auth.signIn(data),
-    signOut: () => supabase.auth.signOut(),
-    userProfile: () => supabase.auth.user(),
-    client: supabase,
-    user,
-    authState
-    // listenTable: (table) =>
-    //   realtimeSupabaseClient.channel(`realtime:public:${table}`),
-  }), [authState, user]);
+  const value = useMemo(
+    () => ({
+      signIn: (data) => supabase.auth.signIn(data),
+      signOut: () => supabase.auth.signOut(),
+      userProfile: () => supabase.auth.user(),
+      client: supabase,
+      user,
+      authState,
+    }),
+    [authState, user]
+  );
 
   return (
     <AuthContext.Provider value={value}>
