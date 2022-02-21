@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useRoutes } from 'react-router-dom';
 import { routesConfig } from './routesConfig';
 
@@ -18,6 +18,12 @@ const App = () => {
   const changeWrapperBg = (newBg) => {
     setWrapperBg(newBg);
   }
+
+  useEffect(()=>{
+    if (window.location.pathname === '/' || window.location.pathname === '/profile') {
+      setWrapperBg('https://fyddxppvkwjfodizkufq.supabase.in/storage/v1/object/public/avatars/beautiful.jpeg')
+    }
+  }, [window.location.pathname])
 
   return (
     <AuthProvider supabase={supabase}>
