@@ -67,7 +67,7 @@ export const SearchBar = (props) => {
 
   useEffect(() => {
     if (searchDataDB.length) {
-      setSearchFieldHeight(`${searchDataDB.length * 100}`);
+      setSearchFieldHeight(`${searchDataDB.length * 85 + 50}`);
     } else {
       setSearchFieldHeight('150');
     }
