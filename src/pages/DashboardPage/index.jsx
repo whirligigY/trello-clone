@@ -29,8 +29,10 @@ const DashboardPage = () => {
   const [columns, setColumns] = useState([]);
   const [cards, setCards] = useState([]);
   const [cardsVisible, setCardsVisible] = useState([]);
+  const [changeCardPos, setChangeCardPos] = useState(false);
   const { user, client } = useAuth();
   const { boardId } = useParams();
+  const [boardTitle, setBoardTitle] = useState({});
   const inputSearch = useInput();
   const { value } = inputSearch;
   const boardID = Number(boardId);
@@ -45,6 +47,7 @@ const DashboardPage = () => {
       setColumns(data);
     } else {
       const res = await client.from('tsk_cards').select('*');
+
       const arrColumns = columns.map((el) => el.col_id);
       if (columns.length) {
         const updatedRes = await res.data.filter(
@@ -52,10 +55,17 @@ const DashboardPage = () => {
             el.crd_columnid ===
             arrColumns.find((item) => el.crd_columnid === item)
         );
+
         updatedRes.sort(sortCards);
         setCards(updatedRes);
       }
     }
+  };
+  const getBoardData = async () => {
+    const { data } = await client.from('boards').select('*').eq('id', boardID);
+    const res = await client.from('profiles').select('*').eq('id', user.id);
+    console.log(res.data[0].username);
+    setBoardTitle({ title: data[0].title, username: res.data[0].username });
   };
   /* eslint-disable */
   const getOrderForColumnOrCard = async (id, type) => {
@@ -106,6 +116,7 @@ const DashboardPage = () => {
   useEffect(() => {
     getData('cards', null);
     getData('columns', boardID);
+    getBoardData();
   }, []);
 
   useEffect(() => {
@@ -132,6 +143,8 @@ const DashboardPage = () => {
 
   const onDragEndHandle = async (result) => {
     if (result.type === 'cards') {
+      setChangeCardPos((prev) => !prev);
+
       const updatedCards = getCardsAfterDragAndDrop(result, cards);
 
       let cardsUnion = [];
@@ -227,10 +240,10 @@ const DashboardPage = () => {
   return (
     <DragDropContext onDragEnd={onDragEndHandle}>
       <div className={styles.container}>
-        <BoardAside />
+        <BoardAside username={boardTitle.username} />
 
         <div className={styles.dashboard_container_right}>
-          <BoardNavigation title="First board" inputSearch={inputSearch} />
+          <BoardNavigation title={boardTitle.title} inputSearch={inputSearch} />
           <Droppable
             droppableId="all-lists"
             direction="horizontal"
@@ -262,6 +275,7 @@ const DashboardPage = () => {
                       cardsVisible={cardsVisible}
                       handleColumnDelete={handleColumnDelete}
                       boardId={boardID}
+                      changeCardPos={changeCardPos}
                     />
                   ))
                 ) : (

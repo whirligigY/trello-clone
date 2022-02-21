@@ -26,10 +26,6 @@ const BoardNavigation = ({ title, inputSearch }) => {
           handleClose={handleClose}
           inputSearch={inputSearch}
         />
-        <Nav.Link className={styles.link}>
-          <i className={`bi bi-three-dots ${styles.rightIconIndent}`} />
-          Menu
-        </Nav.Link>
       </Container>
     </Navbar>
   );
