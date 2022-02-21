@@ -23,6 +23,11 @@ const Profile = () => {
   const [email, setEmail] = useState(user.email);
   const [avatar, setAvatar] = useState('');
   const [nickname, setNickname] = useState('');
+  const [visible, setVisible] = useState(false);
+  
+  const closeHandle = () => {
+    setVisible(false);
+  }
 
   useEffect(() => {
     client
@@ -48,7 +53,7 @@ const Profile = () => {
           setNickname(nick);
         }
       });
-  }, [client, user.email, user.id]);
+  }, [client, user.email, user.id, visible]);
 
   const saveName = async (value) => {
     await client.from('profiles').update({ name: value }).eq('id', user.id);
@@ -114,7 +119,7 @@ const Profile = () => {
   if (user) {
     return (
       <Main>
-        <UploadAvatar/>
+        <UploadAvatar visible={visible} closeHandle={closeHandle}/>
           <div className="profile">
             <Container>
             <Row className="profile__content content">
@@ -123,6 +128,7 @@ const Profile = () => {
                   className="profile__avatar"
                   src={avatar}
                   alt=''
+                  onClick={setVisible}
                 />
                 {nicknameEdit && <input
                   className="user_nickname user_nickname_input"
@@ -133,9 +139,11 @@ const Profile = () => {
                   value={nickname}
                   onChange={saveData}
                   data-type="nickname"
+                  maxLength="20"
                 />}
                 {!nicknameEdit &&
                 <Button className="change_user_nickname" onClick={() => setNicknameEdit(true)}><h3 className='h3 user_nickname'>{nickname}</h3></Button>}
+                <Button className="change_user_avatar" variant="outline-primary"  onClick={() => setVisible(true)}>Change avatar</Button>
               </Col>
               <Col className="main-content" xs={12} md={8}>
                 <h2 className="h2">User inform</h2>
@@ -152,6 +160,7 @@ const Profile = () => {
                         onBlur={() => setNameEdit(false)}
                         value={name}
                         onChange={saveData}
+                        maxLength="20"
                       />
                     </label>
                   <Button
@@ -175,6 +184,7 @@ const Profile = () => {
                       onBlur={() => setSurnameEdit(false)}
                       value={surname}
                       onChange={saveData}
+                      maxLength="20"
                     />
                   </label>
                   <Button

@@ -8,6 +8,8 @@
   color: white;
   padding: 5px;
   cursor: pointer;
+  background-position: center;
+  background-size: cover;
 }
 
 .board__list__board.card.card_add-new-board {
