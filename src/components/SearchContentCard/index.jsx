@@ -8,7 +8,6 @@ export const SearchContentCard = (props) => {
 
   useEffect(() => {
     const dateNew = new Date(data.insertedat).toLocaleString('ru-RU');
-    console.log(`date`, dateNew);
     setDateConverted(dateNew);
   }, [data, props]);
 
