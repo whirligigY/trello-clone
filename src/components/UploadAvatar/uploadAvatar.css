@@ -1,11 +1,16 @@
-.upload_modal {
+.upload_avatar {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.upload_avatar .upload_header {
+  border-bottom: none !important;
+}
+
 .upload_modal_content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }

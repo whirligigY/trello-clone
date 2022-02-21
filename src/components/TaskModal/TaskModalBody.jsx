@@ -40,9 +40,7 @@ const TaskModalBody = ({
   checkedCheckboxes,
   setSaveDeadline,
   colorCover,
-  setColorCover,
   pictureCover,
-  setPictureCover,
   addColorCover,
   addPictureCover,
   removeCover
