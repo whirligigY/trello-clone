@@ -7,11 +7,10 @@ export const SearchContentCard = (props) => {
   const [dateConverted, setDateConverted] = useState('');
 
   useEffect(() => {
-    const dateNew = new Date(data.insertedat);
-    setDateConverted(
-      `${dateNew.getFullYear()}-${dateNew.getMonth()}-${dateNew.getDay()}`
-    );
-  }, [data.date, props]);
+    const dateNew = new Date(data.insertedat).toLocaleString('ru-RU');
+    console.log(`date`, dateNew);
+    setDateConverted(dateNew);
+  }, [data, props]);
 
   return (
     <div className="search__content__DB" key={data.id}>

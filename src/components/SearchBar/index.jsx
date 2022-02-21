@@ -136,7 +136,10 @@ export const SearchBar = (props) => {
       if (searchItems.length) {
         setSearchDataDB(filterDubs(searchItems));
         setNotFound(false);
-      } else setNotFound(true);
+      } else {
+        setNotFound(true);
+        setSearchDataDB([]);
+      }
     }
     setLoading(false);
   };
