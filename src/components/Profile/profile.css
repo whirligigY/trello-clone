@@ -21,7 +21,6 @@
   flex-direction: column;
 }
 
-
 /* styles by Igor */
 .profile__avatar {
   max-width: 150px;
@@ -104,4 +103,8 @@
    height: 30px;
    font-size: 16px;
    text-align: center;
+ }
+
+ .change_user_avatar {
+   margin-top: 10px;
  }
