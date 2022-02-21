@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Row, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,12 +7,14 @@ import { useAuth } from '../../contexts/Auth';
 import { WorkspaceBoarModal } from '../WorkspaceBoardModal';
 
 import { useKeyPress } from '../../hooks/hotKeys';
+import { BgContext } from '../../contexts/BgContext';
 
 import './boards.css';
 
 const Boards = ({ handleBoardIdChange, ...props }) => {
   const [boards, setBoards] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const { changeWrapperBg } = useContext(BgContext);
 
   const { user, client, authState } = useAuth();
 
@@ -25,7 +27,6 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
         .order('id', { ascending: true })
         .then(({ data, error }) => {
           if (!error) {
-            console.log(`user`, user);
             setBoards(data);
           }
         });
@@ -36,6 +37,16 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
   const navigate = useNavigate();
 
   useKeyPress(['b'], ['Control'], handleModal);
+
+  const getBackground = async (id) => {
+    const {data} = await
+    client
+      .from('boards')
+      .select('background')
+      .eq('id', id)
+    changeWrapperBg(data[0].background);
+    navigate(`/dashboard/${id}`);
+  }
 
   return (
     <>
@@ -48,9 +59,10 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
                 className="board__list__board card"
                 onClick={() => {
                   //  handleBoardIdChange(item.id);
-                  navigate(`/dashboard/${item.id}`);
+                  getBackground(item.id);
                 }}
                 role="none"
+                style={{ backgroundImage: `url('${item.background}')` }}
               >
                 <div>
                   <p>{item.title}</p>

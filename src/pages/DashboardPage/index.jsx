@@ -80,22 +80,6 @@ const DashboardPage = () => {
     writeColumnToDatabase(boardId, newCol);
   };
 
-<<<<<<< HEAD
-  const AddTask = async (text, id) => {
-    const length = await getOrderForColumnOrCard(id, 'cards');
-    console.log('id1 = ', id)
-    if (length >= 0) {
-      client.from('tsk_cards').insert({
-        crd_columnid: id,
-        crd_title: text,
-        crd_description: '',
-        crd_datestart: new Date(),
-        crd_dateend: new Date(),
-        crd_labels: JSON.stringify(''),
-        crd_order: length + 1,
-      });
-      getData('cards', id);
-=======
   const writeCardToDataBase = async (newArr) => {
     await client.from('tsk_cards').insert([newArr]);
     if (columns.length) {
@@ -108,7 +92,6 @@ const DashboardPage = () => {
       );
       if (updatedRes.length > 2) updatedRes.sort(sortCards);
       setCards(updatedRes);
->>>>>>> origin/main
     }
   };
 
@@ -120,6 +103,7 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
+    //getBackground();
     getData('cards', null);
     getData('columns', boardId);
   }, []);
