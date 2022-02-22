@@ -37,8 +37,6 @@ const DashboardPage = () => {
   const inputSearch = useInput();
   const { value } = inputSearch;
   const boardID = Number(boardId);
-  
-  const [downloadCard, setDownloadCard] = useState(true);
   const { changeWrapperBg } = useContext(BgContext);
 
   const getData = async (type, id) => {
@@ -51,6 +49,7 @@ const DashboardPage = () => {
       setColumns(data);
     } else {
       const res = await client.from('tsk_cards').select('*');
+
       const arrColumns = columns.map((el) => el.col_id);
       if (columns.length) {
         const updatedRes = await res.data.filter(
@@ -58,6 +57,7 @@ const DashboardPage = () => {
             el.crd_columnid ===
             arrColumns.find((item) => el.crd_columnid === item)
         );
+
         updatedRes.sort(sortCards);
         setCards(updatedRes);
       }
@@ -66,6 +66,7 @@ const DashboardPage = () => {
   const getBoardData = async () => {
     const { data } = await client.from('boards').select('*').eq('id', boardID);
     const res = await client.from('profiles').select('*').eq('id', user.id);
+    console.log(res.data[0].username);
     setBoardTitle({ title: data[0].title, username: res.data[0].username });
   };
   /* eslint-disable */
@@ -121,16 +122,15 @@ const DashboardPage = () => {
       .select('background')
       .eq('id', id)
     changeWrapperBg(data[0].background);
-    navigate(`/dashboard/${id}`);
   }
 
   useEffect(() => {
-    getBackground(boardID);
+    //getBackground();
     getData('cards', null);
     getData('columns', boardID);
     getBoardData();
   }, []);
-  
+
   useEffect(() => {
     getData('cards', null);
   }, [columns]);
@@ -148,44 +148,10 @@ const DashboardPage = () => {
   }, [value]);
 
   const updateTable = async (type, arr) => {
-    if (type === 'cards') {
-      await arr.forEach((item) => {
-        if (item.crd_id) {
-          client
-          .from('tsk_cards')
-          .update({
-            crd_columnid: item.crd_columnid,
-            crd_coverColor: item.crd_coverColor,
-            crd_coverPic: item.crd_coverPic,
-            crd_deadlineTime: item.crd_deadlineTime,
-            crd_description: item.crd_description,
-            crd_id: item.crd_id,
-            crd_labels: item.crd_labels,
-            crd_order: item.crd_order,
-            crd_startDate: item.crd_startDate,
-            crd_title: item.crd_title,
-            lists: item.lists
-            })
-          .eq('crd_id', item.crd_id);
-        } else {
-          client
-          .from('tsk_cards')
-          .upsert(item)
-        }
-        setDownloadCard(true)
-      })
-    }
-    else {await client
-      .from('tsk_columns')
+    await client
+      .from(type === 'columns' ? 'tsk_columns' : 'tsk_cards')
       .upsert(arr);
-    }
   };
-
-  useEffect(() => {
-    if (downloadCard) {
-      updateTable('cards', cards);
-    }
-  }, [downloadCard])
 
   const onDragEndHandle = async (result) => {
     if (result.type === 'cards') {
@@ -206,8 +172,9 @@ const DashboardPage = () => {
       }
       cardsUnion.push(...updatedCards);
       cardsUnion.sort(sortCards);
+
       setCards(cardsUnion);
-      setDownloadCard(true)
+      updateTable('cards', updatedCards);
     } else {
       const updatedColumns = getColumnsAfterDragAndDrop(result, columns);
       updatedColumns.sort(sortColumns);
@@ -319,10 +286,7 @@ const DashboardPage = () => {
                       handleCardDelete={handleCardDelete}
                       cardsVisible={cardsVisible}
                       handleColumnDelete={handleColumnDelete}
-                      boardId={boardID}
                       changeCardPos={changeCardPos}
-                      downloadCard={downloadCard}
-                      setDownloadCard={setDownloadCard}
                     />
                   ))
                 ) : (

@@ -23,9 +23,7 @@ const BoardCard = ({
   labels,
   setLabels,
   setLabelsUpdate,
-  changeCardPos,
-  downloadCard,
-  setDownloadCard
+  getData
 }) => {
   const [visible, setVisible] = useState(false);
   const { client } = useAuth();
@@ -105,6 +103,7 @@ const BoardCard = ({
       .from('tsk_cards')
       .update({ crd_coverColor: colorCover })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   const savePictureCover = async () => {
@@ -112,6 +111,7 @@ const BoardCard = ({
       .from('tsk_cards')
       .update({ crd_coverPic: pictureCover })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   /* end cover states */
@@ -164,10 +164,12 @@ const BoardCard = ({
         crd_deadlineTime: savedTime,
       })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   /* end of deadline states */
 
+  /* card labels state */
   const [activeLabels, setActiveLabels] = useState([]);
   const [activeLabelsUpdate, setActiveLabelsUpdate] = useState(false);
 
@@ -183,15 +185,15 @@ const BoardCard = ({
     if (savedLabels.length === 0) {
       savedLabels = [];
     }
-    const { data, error } = await client
+    await client
       .from('tsk_cards')
       .update({ crd_labels: JSON.stringify(savedLabels) })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   const changeLabels = (val) => {
     const newItem = val;
-    //console.log('newItem = ', newItem)
     if (!newItem.id) {
       newItem.id = labels.length + 1;
     }
@@ -271,6 +273,7 @@ const BoardCard = ({
       .from('tsk_cards')
       .update({ lists: JSON.stringify(savedCardLists) })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   const saveCheckboxes = async () => {
@@ -284,6 +287,7 @@ const BoardCard = ({
       .from('tsk_cards')
       .update({ checkboxes: JSON.stringify(savedCardCheckboxes) })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   useEffect(() => {
@@ -338,11 +342,12 @@ const BoardCard = ({
     });
   };
 
-  const changeProgress = (e) => {
-    const id = Number(e.target.closest('.subtask').id);
-    const listId = Number(e.target.closest('.check-list').dataset.num);
+  const changeProgress = (target) => {
+    const id = Number(target.closest('.subtask').id);
+    const listId = Number(target.closest('.check-list').dataset.num);
     const item = { id, listId };
-    if (e.target.checked) {
+
+    if (target.checked) {
       if (
         checkedCheckboxes.findIndex(
           (x) => x.id === id && x.listId === listId
@@ -368,7 +373,7 @@ const BoardCard = ({
         if (index === prevState.length - 1) {
           return [...prevState.slice(0, index)];
         } else if (index === 0) {
-          return [...prevState.slice(index, prevState.length)];
+          return [...prevState.slice(1, prevState.length)];
         }
         return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
       });
@@ -439,7 +444,7 @@ const BoardCard = ({
 
   /* download values from database */
   useEffect(() => {
-    if (downloadCard) {
+    if(cardId) {
     client
       .from('tsk_cards')
       .select('*')
@@ -497,9 +502,8 @@ const BoardCard = ({
           }
         }
       });
-      setDownloadCard(false)
     }
-  }, [downloadCard]);
+  }, []);
   /* end modal states */
 
   return (

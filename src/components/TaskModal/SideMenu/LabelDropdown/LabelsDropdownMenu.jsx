@@ -5,6 +5,28 @@ import "../../TaskModalWindow.css";
 import { useEffect } from 'react';
 
 const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
+  const [trueCardLabels, setTrueCardLabels] = useState([]);
+
+  const setCurrentLabels = () => {
+    const tempArr = [];
+    labels.map((item)=>{
+      const index = activeLabels.indexOf(activeLabels.find((el)=>el.id == item.id));
+      if (index != -1) {
+        item.status = true;
+      } else {
+        item.status = false;
+      }
+      tempArr.push(item)
+      });
+      setTrueCardLabels(tempArr)
+  }
+  useEffect(()=>{
+    setCurrentLabels();
+  }, [])
+
+  useEffect(()=>{
+    setCurrentLabels();
+  }, [labels])
 
   const [search, setSearch] = useState();
   const preparedLables = search ? labels.filter((el) => {
@@ -73,7 +95,7 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
           </Dropdown>
         </div>;
       })}
-      {preparedLables === labels && labels.map((item, i) => {
+      {preparedLables === labels && trueCardLabels.map((item, i) => {
         return <div className="label-item dropdown-item" id={`${item.id}`} key={i}>
           <input className={`label ${item.status ? "active" : ""} ${item.color}`} disabled value={`${item.value}`} data-color={`${item.color}`}/>
           <Dropdown>

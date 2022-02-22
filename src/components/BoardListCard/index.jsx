@@ -20,9 +20,7 @@ const BoardListCard = ({
   cardsVisible,
   handleColumnDelete,
   boardId,
-  changeCardPos,
-  downloadCard,
-  setDownloadCard
+  getData
 }) => {
   const [isEditTitleColumn, setIsEditTitleColum] = useState(false);
   const { client } = useAuth();
@@ -67,11 +65,11 @@ const BoardListCard = ({
   }, [labelsUpdate]);
 
   const saveBoardLabels = async () => {
-    //console.log('labels = ', labels);
     const { data, error } = await client
       .from('boards')
       .update({ brd_labels: JSON.stringify(labels) })
       .eq('id', boardId);
+    getData('cards', null);
   };
 
   /*end board labels */
@@ -132,10 +130,7 @@ const BoardListCard = ({
                       setLabels={setLabels}
                       labels={labels}
                       setLabelsUpdate={setLabelsUpdate}
-                      changeCardPos={changeCardPos}
-
-                      downloadCard={downloadCard}
-                      setDownloadCard={setDownloadCard}
+                      getData={getData}
                     />
                   ))}
                 {provided.placeholder}
