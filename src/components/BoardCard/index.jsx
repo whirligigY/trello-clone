@@ -24,6 +24,8 @@ const BoardCard = ({
   setLabels,
   setLabelsUpdate,
   changeCardPos,
+  downloadCard,
+  setDownloadCard
 }) => {
   const [visible, setVisible] = useState(false);
   const { client } = useAuth();
@@ -189,7 +191,7 @@ const BoardCard = ({
 
   const changeLabels = (val) => {
     const newItem = val;
-    console.log('newItem = ', newItem)
+    //console.log('newItem = ', newItem)
     if (!newItem.id) {
       newItem.id = labels.length + 1;
     }
@@ -437,6 +439,7 @@ const BoardCard = ({
 
   /* download values from database */
   useEffect(() => {
+    if (downloadCard) {
     client
       .from('tsk_cards')
       .select('*')
@@ -494,7 +497,9 @@ const BoardCard = ({
           }
         }
       });
-  }, []);
+      setDownloadCard(false)
+    }
+  }, [downloadCard]);
   /* end modal states */
 
   return (
