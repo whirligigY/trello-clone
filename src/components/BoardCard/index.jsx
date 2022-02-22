@@ -444,6 +444,7 @@ const BoardCard = ({
 
   /* download values from database */
   useEffect(() => {
+    if(cardId) {
     client
       .from('tsk_cards')
       .select('*')
@@ -501,6 +502,7 @@ const BoardCard = ({
           }
         }
       });
+    }
   }, []);
   /* end modal states */
 
