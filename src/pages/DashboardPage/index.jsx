@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styles from './DashboardPage.module.css';
@@ -17,6 +17,7 @@ import {
 import { BoardAside } from '../../components/BoardAside';
 import { useAuth } from '../../contexts/Auth';
 import { useInput } from '../../hooks/useInput';
+import { BgContext } from '../../contexts/BgContext';
 
 // TODO: Объект задачи отдельная сущность, массив с досками о
 //  тдельная сущность. Когда открываем страницу Dashboard мы должны сделать фетч всех досок
@@ -37,7 +38,8 @@ const DashboardPage = () => {
   const { value } = inputSearch;
   const boardID = Number(boardId);
   
-  const [downloadCard, setDownloadCard] = useState(true)
+  const [downloadCard, setDownloadCard] = useState(true);
+  const { changeWrapperBg } = useContext(BgContext);
 
   const getData = async (type, id) => {
     if (type === 'columns') {
@@ -112,12 +114,23 @@ const DashboardPage = () => {
     writeCardToDataBase(newCard);
   };
 
+  const getBackground = async (id) => {
+    const {data} = await
+    client
+      .from('boards')
+      .select('background')
+      .eq('id', id)
+    changeWrapperBg(data[0].background);
+    navigate(`/dashboard/${id}`);
+  }
+
   useEffect(() => {
+    getBackground(boardID);
     getData('cards', null);
     getData('columns', boardID);
     getBoardData();
   }, []);
-
+  
   useEffect(() => {
     getData('cards', null);
   }, [columns]);
