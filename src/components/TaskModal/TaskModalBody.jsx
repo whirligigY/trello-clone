@@ -5,11 +5,9 @@ import { CheckList } from './CheckList/CheckList';
 import { LabelsDropdown } from './SideMenu/LabelDropdown/LabelsDropdown';
 import { CheckListDropdown } from './SideMenu/CheckListDropdown';
 import { DeadlineDropdown } from './SideMenu/DeadlineDropdown/DeadlineDropdown';
-import { MembersDropdown } from './SideMenu/MembersDropdown/MembersDropdown';
 import { CoversDropdown } from './SideMenu/CoversDropdown/CoversDropdown';
 import { CurrentLabels } from './ServicesPanel/CurrentLabels';
 import { CurrentDeadline } from './ServicesPanel/CurrentDeadline';
-import { CurrentMembers } from './ServicesPanel/CurrentMembers';
 
 const TaskModalBody = ({
   dateValue,

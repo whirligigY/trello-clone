@@ -23,9 +23,7 @@ const BoardCard = ({
   labels,
   setLabels,
   setLabelsUpdate,
-  changeCardPos,
-  downloadCard,
-  setDownloadCard
+  getData
 }) => {
   const [visible, setVisible] = useState(false);
   const { client } = useAuth();
@@ -105,6 +103,7 @@ const BoardCard = ({
       .from('tsk_cards')
       .update({ crd_coverColor: colorCover })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   const savePictureCover = async () => {
@@ -112,6 +111,7 @@ const BoardCard = ({
       .from('tsk_cards')
       .update({ crd_coverPic: pictureCover })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   /* end cover states */
@@ -164,10 +164,12 @@ const BoardCard = ({
         crd_deadlineTime: savedTime,
       })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   /* end of deadline states */
 
+  /* card labels state */
   const [activeLabels, setActiveLabels] = useState([]);
   const [activeLabelsUpdate, setActiveLabelsUpdate] = useState(false);
 
@@ -183,15 +185,15 @@ const BoardCard = ({
     if (savedLabels.length === 0) {
       savedLabels = [];
     }
-    const { data, error } = await client
+    await client
       .from('tsk_cards')
       .update({ crd_labels: JSON.stringify(savedLabels) })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   const changeLabels = (val) => {
     const newItem = val;
-    //console.log('newItem = ', newItem)
     if (!newItem.id) {
       newItem.id = labels.length + 1;
     }
@@ -271,6 +273,7 @@ const BoardCard = ({
       .from('tsk_cards')
       .update({ lists: JSON.stringify(savedCardLists) })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   const saveCheckboxes = async () => {
@@ -284,6 +287,7 @@ const BoardCard = ({
       .from('tsk_cards')
       .update({ checkboxes: JSON.stringify(savedCardCheckboxes) })
       .eq('crd_id', cardId);
+    getData('cards', null);
   };
 
   useEffect(() => {
@@ -440,7 +444,6 @@ const BoardCard = ({
 
   /* download values from database */
   useEffect(() => {
-    if (downloadCard) {
     client
       .from('tsk_cards')
       .select('*')
@@ -498,9 +501,7 @@ const BoardCard = ({
           }
         }
       });
-      setDownloadCard(false)
-    }
-  }, [downloadCard]);
+  }, []);
   /* end modal states */
 
   return (
