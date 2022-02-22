@@ -121,7 +121,6 @@ const DashboardPage = () => {
       .select('background')
       .eq('id', id)
     changeWrapperBg(data[0].background);
-    navigate(`/dashboard/${id}`);
   }
 
   useEffect(() => {
@@ -151,10 +150,28 @@ const DashboardPage = () => {
     if (type === 'cards') {
       await arr.forEach((item) => {
         if (item.crd_id) {
+          console.log('1')
           client
           .from('tsk_cards')
           .update({
             crd_columnid: item.crd_columnid,
+            //crd_coverColor: item.crd_coverColor,
+            //crd_coverPic: item.crd_coverPic,
+            //crd_deadlineTime: item.crd_deadlineTime,
+            //crd_description: item.crd_description,
+            //crd_id: item.crd_id,
+            //crd_labels: item.crd_labels,
+            crd_order: item.crd_order,
+            //crd_startDate: item.crd_startDate,
+            crd_title: item.crd_title,
+            //lists: item.lists
+            })
+          .eq('crd_id', item.crd_id);
+        } else {
+          console.log('2')
+          client
+          .from('tsk_cards')
+          .upsert({crd_columnid: item.crd_columnid,
             crd_coverColor: item.crd_coverColor,
             crd_coverPic: item.crd_coverPic,
             crd_deadlineTime: item.crd_deadlineTime,
@@ -164,13 +181,7 @@ const DashboardPage = () => {
             crd_order: item.crd_order,
             crd_startDate: item.crd_startDate,
             crd_title: item.crd_title,
-            lists: item.lists
-            })
-          .eq('crd_id', item.crd_id);
-        } else {
-          client
-          .from('tsk_cards')
-          .upsert(item)
+            lists: item.lists})
         }
         setDownloadCard(true)
       })

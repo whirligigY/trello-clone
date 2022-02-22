@@ -338,11 +338,12 @@ const BoardCard = ({
     });
   };
 
-  const changeProgress = (e) => {
-    const id = Number(e.target.closest('.subtask').id);
-    const listId = Number(e.target.closest('.check-list').dataset.num);
+  const changeProgress = (target) => {
+    const id = Number(target.closest('.subtask').id);
+    const listId = Number(target.closest('.check-list').dataset.num);
     const item = { id, listId };
-    if (e.target.checked) {
+
+    if (target.checked) {
       if (
         checkedCheckboxes.findIndex(
           (x) => x.id === id && x.listId === listId
@@ -368,7 +369,7 @@ const BoardCard = ({
         if (index === prevState.length - 1) {
           return [...prevState.slice(0, index)];
         } else if (index === 0) {
-          return [...prevState.slice(index, prevState.length)];
+          return [...prevState.slice(1, prevState.length)];
         }
         return [...prevState.slice(0, index), ...prevState.slice(index + 1)];
       });
