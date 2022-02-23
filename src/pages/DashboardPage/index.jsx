@@ -125,7 +125,7 @@ const DashboardPage = () => {
   }
 
   useEffect(() => {
-    getBackground();
+    getBackground(boardID);
     getData('cards', null);
     getData('columns', boardID);
     getBoardData();
