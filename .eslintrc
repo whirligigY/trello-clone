@@ -8,6 +8,12 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "moduleDirectory": ["node_modules", "src/"]
+      }
     }
   },
 
@@ -25,9 +31,24 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier", "react-hooks"],
-
+  "plugins": ["react", "prettier", "react-hooks", "@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
+    "extends": ["plugin:react/recommended", "airbnb", "prettier"],
+    "react/jsx-filename-extension": [
+      1,
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    "import/extensions": [
+      "warn",
+      "always",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "no-unused-vars": "warn",
     "react/prop-types": "off",
     "import/prefer-default-export": "off",
