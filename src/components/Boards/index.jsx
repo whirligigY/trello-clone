@@ -39,14 +39,13 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
   useKeyPress(['b'], ['Control'], handleModal);
 
   const getBackground = async (id) => {
-    const {data} = await
-    client
+    const { data } = await client
       .from('boards')
       .select('background')
-      .eq('id', id)
+      .eq('id', id);
     changeWrapperBg(data[0].background);
     navigate(`/dashboard/${id}`);
-  }
+  };
 
   return (
     <>

@@ -105,3 +105,13 @@ export const useDebauncer = (value, timeout, callback) => {
     }
   }, [value]);
 };
+
+export const getNewColumnsArr = (columns, columnId, colOrder) => {
+  const columnsWithNewOrder = columns.map((el) => {
+    if (el.col_order > colOrder) {
+      return { ...el, col_order: el.col_order - 1 };
+    }
+    return el;
+  });
+  return columnsWithNewOrder.filter((col) => col.col_id !== columnId);
+};

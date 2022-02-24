@@ -25,7 +25,7 @@ const BoardCard = ({
   setLabelsUpdate,
   changeCardPos,
   downloadCard,
-  setDownloadCard
+  setDownloadCard,
 }) => {
   const [visible, setVisible] = useState(false);
   const { client } = useAuth();
@@ -440,64 +440,64 @@ const BoardCard = ({
   /* download values from database */
   useEffect(() => {
     if (downloadCard) {
-    client
-      .from('tsk_cards')
-      .select('*')
-      .eq('crd_id', cardId)
-      .then(({ data, error }) => {
-        if (data) {
-          if (data.length > 0) {
-            if (!error) {
-              setActiveLabels(() =>
-                data[0].crd_labels ? JSON.parse(data[0].crd_labels) : []
-              );
-              if (data[0].crd_deadlineDate) {
-                if (data[0].crd_startDate) {
-                  setIsActiveRange(true);
-                  onChange([
-                    new Date(data[0].crd_startDate),
-                    new Date(data[0].crd_deadlineDate),
-                  ]);
-                } else {
-                  let deadlineDate = new Date(data[0].crd_deadlineDate);
-                  if (deadlineDate != new Date()) {
-                    deadlineDate.setDate(deadlineDate.getDate() + 1);
+      client
+        .from('tsk_cards')
+        .select('*')
+        .eq('crd_id', cardId)
+        .then(({ data, error }) => {
+          if (data) {
+            if (data.length > 0) {
+              if (!error) {
+                setActiveLabels(() =>
+                  data[0].crd_labels ? JSON.parse(data[0].crd_labels) : []
+                );
+                if (data[0].crd_deadlineDate) {
+                  if (data[0].crd_startDate) {
+                    setIsActiveRange(true);
+                    onChange([
+                      new Date(data[0].crd_startDate),
+                      new Date(data[0].crd_deadlineDate),
+                    ]);
+                  } else {
+                    let deadlineDate = new Date(data[0].crd_deadlineDate);
+                    if (deadlineDate != new Date()) {
+                      deadlineDate.setDate(deadlineDate.getDate() + 1);
+                    }
+                    onChange(deadlineDate);
                   }
-                  onChange(deadlineDate);
+                  if (data[0].crd_deadlineTime) {
+                    setDeadlineTime(data[0].crd_deadlineTime);
+                  }
+                  setShowDeadline(true);
                 }
-                if (data[0].crd_deadlineTime) {
-                  setDeadlineTime(data[0].crd_deadlineTime);
+                if (data[0].crd_coverPic) {
+                  setPictureCover(data[0].crd_coverPic);
                 }
-                setShowDeadline(true);
+                if (data[0].crd_coverColor) {
+                  setColorCover(data[0].crd_coverColor);
+                }
+                setCheckList(() =>
+                  data[0].lists ? JSON.parse(data[0].lists) : []
+                );
+                setCheckboxes(() =>
+                  data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
+                );
+                setCheckedCheckboxes(() =>
+                  data[0].checkboxes
+                    ? JSON.parse(data[0].checkboxes)
+                        .map((item) => {
+                          return item.status
+                            ? { id: item.id, listId: item.listId }
+                            : 0;
+                        })
+                        .filter((item) => item !== 0)
+                    : []
+                );
               }
-              if (data[0].crd_coverPic) {
-                setPictureCover(data[0].crd_coverPic);
-              }
-              if (data[0].crd_coverColor) {
-                setColorCover(data[0].crd_coverColor);
-              }
-              setCheckList(() =>
-                data[0].lists ? JSON.parse(data[0].lists) : []
-              );
-              setCheckboxes(() =>
-                data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
-              );
-              setCheckedCheckboxes(() =>
-                data[0].checkboxes
-                  ? JSON.parse(data[0].checkboxes)
-                      .map((item) => {
-                        return item.status
-                          ? { id: item.id, listId: item.listId }
-                          : 0;
-                      })
-                      .filter((item) => item !== 0)
-                  : []
-              );
             }
           }
-        }
-      });
-      setDownloadCard(false)
+        });
+      setDownloadCard(false);
     }
   }, [downloadCard]);
   /* end modal states */
@@ -558,13 +558,13 @@ const BoardCard = ({
             >
               <Card.Body>
                 <div>
-                  {colorCover && (
+                  {card?.crd_coverColor && (
                     <div
                       className={styles.cover__color}
                       style={{ backgroundColor: colorCover }}
                     ></div>
                   )}
-                  {pictureCover && (
+                  {card?.crd_coverPic && (
                     <div className={styles.cover__pic}>
                       <img src={`${pictureCover}`} alt="" />
                     </div>
@@ -601,8 +601,10 @@ const BoardCard = ({
                     </div>
                   )}
                 </div>
-                <div className='card_metrics'>
-                  {showDeadline && (
+                <div className="card_metrics">
+                  {(card?.crd_deadlineDate ||
+                    card?.crd_deadlineTime ||
+                    card?.crd_startDate) && (
                     <Card.Link href="#" className="p-1 btn btn-secondary">
                       <i className="bi bi-clock-fill" />
                       <span className={styles.ml}>
@@ -612,7 +614,7 @@ const BoardCard = ({
                       </span>
                     </Card.Link>
                   )}
-                  {checkboxes.length > 0 && (
+                  {(card?.checkboxes?.length > 0 || card?.lists) && (
                     <Card.Link href="#" draggable={false}>
                       <i className="bi bi-check2-square btn-light"></i>
                       <span className={'btn-light ' + styles.ml}>
@@ -621,7 +623,7 @@ const BoardCard = ({
                     </Card.Link>
                   )}
 
-                  {activeLabels.length > 0 && (
+                  {card?.crd_labels?.length > 0 && (
                     <div className={styles.card_labels}>
                       {activeLabels.map(
                         (item) =>

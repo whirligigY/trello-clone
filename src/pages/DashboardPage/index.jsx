@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styles from './DashboardPage.module.css';
-import { getNewColumn, getNewCard } from '../../utils';
-
-import { BoardListCard } from '../../components/BoardListCard';
-import { AddButton } from '../../components/AddButton';
-
-import { BoardNavigation } from '../../components/BoardNavigation';
 import {
   sortCards,
   sortColumns,
   getCardsAfterDragAndDrop,
   getColumnsAfterDragAndDrop,
+  getNewColumn,
+  getNewCard,
+  getNewColumnsArr,
 } from '../../utils';
+import { BoardListCard } from '../../components/BoardListCard';
+import { AddButton } from '../../components/AddButton';
+import { BoardNavigation } from '../../components/BoardNavigation';
 import { BoardAside } from '../../components/BoardAside';
 import { useAuth } from '../../contexts/Auth';
 import { useInput } from '../../hooks/useInput';
@@ -36,8 +36,8 @@ const DashboardPage = () => {
   const inputSearch = useInput();
   const { value } = inputSearch;
   const boardID = Number(boardId);
-  
-  const [downloadCard, setDownloadCard] = useState(true)
+
+  const [downloadCard, setDownloadCard] = useState(true);
 
   const getData = async (type, id) => {
     if (type === 'columns') {
@@ -48,13 +48,42 @@ const DashboardPage = () => {
       data.sort(sortColumns);
       setColumns(data);
     } else {
-      const res = await client.from('tsk_cards').select('*');
-      const arrColumns = columns.map((el) => el.col_id);
-      if (columns.length) {
-        const updatedRes = await res.data.filter(
+      const { data } = await client.from('tsk_cards').select('*');
+      const res = await client
+        .from('tsk_columns')
+        .select('*')
+        .eq('col_boardid', boardID);
+      if (data && res.data && data.length > 0) {
+        const arrColumns = res.data.map((el) => el.col_id);
+        /*const cardsNew = [];
+        columns.forEach(async (el, index, arr) => {
+          const { data } = await client
+            .from('tsk_cards')
+            .select('*')
+            .eq('crd_columnid', el.col_id);
+          cardsNew.push(...data);
+          if (index === arr.length - 1) {
+            cardsNew.sort(sortCards);
+            //setCards(updatedRes);
+          }
+         
+        }); */
+        const updatedRes = await data.filter(
           (el) =>
             el.crd_columnid ===
             arrColumns.find((item) => el.crd_columnid === item)
+        );
+        console.log(
+          'data.length',
+          data.length,
+          'arrColumns',
+          arrColumns,
+          'columns',
+
+          columns,
+
+          'updatedRes',
+          updatedRes
         );
         updatedRes.sort(sortCards);
         setCards(updatedRes);
@@ -67,22 +96,14 @@ const DashboardPage = () => {
     setBoardTitle({ title: data[0].title, username: res.data[0].username });
   };
   /* eslint-disable */
-  const getOrderForColumnOrCard = async (id, type) => {
-    const res = await client
-      .from(type === 'columns' ? 'tsk_columns' : 'tsk_cards')
-      .select('*')
-      .eq(type === 'columns' ? 'col_boardid' : 'crd_columnid', id);
-    if (res.data) return res.data.length;
-  };
-
   const writeColumnToDatabase = async (id, newObj) => {
     await client.from('tsk_columns').insert([newObj]);
     const { data } = await client
       .from('tsk_columns')
       .select('*')
       .eq('col_boardid', id);
-    data.sort(sortColumns);
-    setColumns(data);
+    //data.sort(sortColumns);
+    //setColumns(data);
   };
   const addColumn = (text, boardID) => {
     const newCol = getNewColumn(boardID, text, columns);
@@ -92,7 +113,8 @@ const DashboardPage = () => {
 
   const writeCardToDataBase = async (newObj) => {
     await client.from('tsk_cards').insert([newObj]);
-    if (columns.length) {
+    //getData('cards', null);
+    /*if (columns.length) {
       const { data } = await client.from('tsk_cards').select('*');
       const arrColumns = columns.map((el) => el.col_id);
       const updatedRes = data.filter(
@@ -103,6 +125,7 @@ const DashboardPage = () => {
       if (updatedRes.length > 2) updatedRes.sort(sortCards);
       setCards(updatedRes);
     }
+    */
   };
 
   const AddTask = (text, idColumn) => {
@@ -113,14 +136,31 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    getData('cards', null);
     getData('columns', boardID);
+    getData('cards', null);
     getBoardData();
   }, []);
 
   useEffect(() => {
     getData('cards', null);
   }, [columns]);
+
+  useEffect(() => {
+    client
+      .from('tsk_columns')
+      .on('*', () => {
+        console.log('changed columns');
+        getData('columns', boardID);
+      })
+      .subscribe();
+    client
+      .from('tsk_cards')
+      .on('*', () => {
+        console.log('changed card');
+        getData('cards', null);
+      })
+      .subscribe();
+  }, [client]);
 
   useEffect(() => {
     if (cards.length) {
@@ -134,51 +174,11 @@ const DashboardPage = () => {
     }
   }, [value]);
 
-  const updateTable = async (type, arr) => {
-    if (type === 'cards') {
-      await arr.forEach((item) => {
-        if (item.crd_id) {
-          client
-          .from('tsk_cards')
-          .update({
-            crd_columnid: item.crd_columnid,
-            crd_coverColor: item.crd_coverColor,
-            crd_coverPic: item.crd_coverPic,
-            crd_deadlineTime: item.crd_deadlineTime,
-            crd_description: item.crd_description,
-            crd_id: item.crd_id,
-            crd_labels: item.crd_labels,
-            crd_order: item.crd_order,
-            crd_startDate: item.crd_startDate,
-            crd_title: item.crd_title,
-            lists: item.lists
-            })
-          .eq('crd_id', item.crd_id);
-        } else {
-          client
-          .from('tsk_cards')
-          .upsert(item)
-        }
-        setDownloadCard(true)
-      })
-    }
-    else {await client
-      .from('tsk_columns')
-      .upsert(arr);
-    }
-  };
-
-  useEffect(() => {
-    if (downloadCard) {
-      updateTable('cards', cards);
-    }
-  }, [downloadCard])
-
   const onDragEndHandle = async (result) => {
     if (result.type === 'cards') {
       setChangeCardPos((prev) => !prev);
-
-      const updatedCards = getCardsAfterDragAndDrop(result, cards);
+      console.log('result', result, 'cards', cards);
+      const updatedCards = getCardsAfterDragAndDrop(result, cards) ?? cards;
 
       let cardsUnion = [];
       if (updatedCards.length < cards.length) {
@@ -194,7 +194,8 @@ const DashboardPage = () => {
       cardsUnion.push(...updatedCards);
       cardsUnion.sort(sortCards);
       setCards(cardsUnion);
-      setDownloadCard(true)
+      await client.from('tsk_cards').upsert([...cardsUnion]);
+      //setDownloadCard(true);
     } else {
       const updatedColumns = getColumnsAfterDragAndDrop(result, columns);
       updatedColumns.sort(sortColumns);
@@ -227,22 +228,31 @@ const DashboardPage = () => {
     await client.from('tsk_cards').delete().match({ crd_id: id });
   };
 
+  const updateDatabase = async (updatedCardsArr) => {
+    await client.from('tsk_cards').upsert([...updatedCardsArr]);
+  };
+
   const handleCardDelete = (cardId, columnId, cardOrder) => {
+    console.log('columnId', columnId, 'cardOrder', cardOrder);
     const catdsArrWithNewOrder = cards.map((el) => {
       if (el.crd_columnid === columnId && el.crd_order > cardOrder) {
-        return { ...el, crd_order: el.crd_order - 1 };
+        console.log('el', { ...el, crd_order: el.crd_order - 1 });
+        return { ...el, ['crd_order']: el.crd_order - 1 };
+      } else {
+        return el;
       }
-      return el;
     });
     const updatedCardsArr = catdsArrWithNewOrder.filter(
       (card) => card.crd_id !== cardId
     );
+    console.log('updatedCardsArr', updatedCardsArr);
     setCards(updatedCardsArr);
     deleteElemFromDatabase(cardId);
-    updateTable(
+    updateDatabase(updatedCardsArr);
+    /*updateTable(
       'cards',
       updatedCardsArr.filter((el) => el.crd_columnid === columnId)
-    );
+    );*/
   };
 
   const handleColumnDelete = async (e, columnId, colOrder) => {
@@ -252,21 +262,15 @@ const DashboardPage = () => {
       .select('*')
       .eq('crd_columnid', columnId);
     if (!error && data.length === 0) {
-      const columnsWithNewOrder = columns.map((el) => {
-        if (el.col_order > colOrder) {
-          return { ...el, col_order: el.col_order - 1 };
-        }
-        return el;
-      });
-      const updatedColumns = columnsWithNewOrder.filter(
-        (col) => col.col_id !== columnId
-      );
-      setColumns(updatedColumns);
-      await client.from('tsk_columns').upsert(updatedColumns);
-      await client.from('tsk_columns').delete().match({ col_id: columnId });
     } else if (!error && data.length > 0) {
-      //TODO: delete with cards
+      const filteredCards = cards.filter((el) => el.crd_columnid !== columnId);
+      setCards(filteredCards);
+      await client.from('tsk_cards').delete().match({ crd_columnid: columnId });
     }
+    const updatedColumns = getNewColumnsArr(columns, columnId, colOrder);
+    setColumns(updatedColumns);
+    await client.from('tsk_columns').upsert(updatedColumns);
+    await client.from('tsk_columns').delete().match({ col_id: columnId });
   };
 
   return (

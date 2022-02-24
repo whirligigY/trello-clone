@@ -22,12 +22,12 @@ const BoardListCard = ({
   boardId,
   changeCardPos,
   downloadCard,
-  setDownloadCard
+  setDownloadCard,
 }) => {
   const [isEditTitleColumn, setIsEditTitleColum] = useState(false);
   const { client } = useAuth();
 
-  const upsertTitle = async (val, idColumn) => {
+  const updateTitleInDatabase = async (val, idColumn) => {
     await client
       .from('tsk_columns')
       .upsert([{ col_id: idColumn, col_title: val }]);
@@ -36,7 +36,7 @@ const BoardListCard = ({
   const handleBlur = (val, idCol) => {
     updateColumnTitle(val, idCol);
     setIsEditTitleColum(false);
-    upsertTitle(val, idCol);
+    updateTitleInDatabase(val, idCol);
   };
 
   /* board labels*/
@@ -133,7 +133,6 @@ const BoardListCard = ({
                       labels={labels}
                       setLabelsUpdate={setLabelsUpdate}
                       changeCardPos={changeCardPos}
-
                       downloadCard={downloadCard}
                       setDownloadCard={setDownloadCard}
                     />

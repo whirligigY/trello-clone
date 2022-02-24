@@ -10,11 +10,10 @@ const RenderFormAddButton = ({
   handleAddActivity,
 }) => {
   const { value, onChange, onClear } = input;
-
   const handleActivity = (value) => {
-    onClear();
     handleAddActivity(value);
   };
+
   return (
     <Form>
       <textarea
@@ -33,6 +32,7 @@ const RenderFormAddButton = ({
           className={'mt-2 ' + styles.btn_side}
           onClick={() => {
             handleActivity(value);
+            //onClear();
           }}
         >
           Add {textBtn}
@@ -41,9 +41,12 @@ const RenderFormAddButton = ({
         <Button
           variant={'light' + styles.btn_transparent}
           className="mt-2"
-          onClick={() => onChangeState(false)}
+          onClick={() => {
+            onChangeState(false);
+            //onClear();
+          }}
         >
-          <i className={'bi bi-x-lg ' + styles.cross} onClick={onClear} />
+          <i className={'bi bi-x-lg ' + styles.cross} />
         </Button>
       </div>
     </Form>
