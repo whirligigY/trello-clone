@@ -33,8 +33,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "redux": "^4.1.2",
-    "styled-components": "^5.3.3",
-    "typescript": "^3.9.10"
+    "styled-components": "^5.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -74,6 +73,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "history": "^5.2.0",
     "husky": "^7.0.4",
-    "prettier": "2.5.1"
+    "prettier": "2.5.1",
+    "typescript": "^3.9.10"
   }
 }
