@@ -2,53 +2,10 @@ import React, { useState, useEffect, FC } from 'react';
 import { Modal } from 'react-bootstrap';
 import { TaskModalBody } from './TaskModalBody';
 import { useAuth } from '../../contexts/Auth';
+import { TaskModalProps } from './types';
 import './TaskModalWindow.css';
 
-interface Props {
-  visible: boolean;
-  closeHandle: () => void;
-  title: string;
-  column: string;
-  dateValue: string | Array<string>;
-  changeDeadline: () => void;
-  showDeadline: boolean;
-  setDeadlineView: () => void;
-  useDeadlineRange: boolean;
-  setDeadlineRange: () => void;
-  deadlineTime: string;
-  changeDeadlineTime: () => void;
-  activeLabels: Array<object>;
-  changeActiveLabels: () => void;
-  labels: Array<object>;
-  changeLabels: () => void;
-  removeLabel: () => void;
-  changeCheckList: () => void;
-  checkLists: Array<object>;
-  cardId: number;
-  addCheckBox: () => void;
-  changeCheckboxTitle: () => void;
-  removeCheckBox: () => void;
-  changeProgress: () => void;
-  removeCheckList: () => void;
-  removeCheckListItem: () => void;
-  checkboxes: Array<object>;
-  checkedCheckboxes: Array<object>;
-  setSaveDeadline: () => void;
-  colorCover: string;
-  pictureCover: string;
-  addColorCover: () => void;
-  addPictureCover: () => void;
-  removeCover: () => void;
-}
-interface Data {
-  0: DataNull;
-}
-
-interface DataNull {
-  crd_description: string;
-}
-
-const TaskModalWindow: FC<Props> = ({
+const TaskModalWindow: FC<TaskModalProps> = ({
   visible,
   closeHandle,
   title,
@@ -84,9 +41,9 @@ const TaskModalWindow: FC<Props> = ({
   addPictureCover,
   removeCover
 }) => {
-  const { user, client } = useAuth();
+  const { client } = useAuth();
 
-  const [taskDescription, setTaskDescription] = useState('');
+  const [taskDescription, setTaskDescription] = useState<string>('');
   useEffect(() => {
     if (visible) {
       client
@@ -94,7 +51,6 @@ const TaskModalWindow: FC<Props> = ({
         .select('crd_description')
         .eq('crd_id', cardId)
         .then(({ data, error }) => {
-          console.log(typeof data[0])
           if (!error) {
             if (data[0].crd_description) {
               setTaskDescription(data[0].crd_description);
