@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { LabelsDropdownMenu } from '../SideMenu/LabelDropdown/LabelsDropdownMenu';
 import '../TaskModalWindow.css'
+import { CurrentLabelProps } from './types';
 
-const CurrentLabel = ({ item, activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
+const CurrentLabel: FC<CurrentLabelProps> = ({ item, activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
 
   return (
     <Dropdown>

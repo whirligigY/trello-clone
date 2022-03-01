@@ -7,7 +7,7 @@ interface TaskModal {
   setDeadlineRange: () => void;
   deadlineTime: string;
   changeDeadlineTime: () => void;
-  activeLabels: Array<object>;
+  activeLabels: Array<Label>;
   changeActiveLabels: () => void;
   labels: Array<Label>;
   changeLabels: () => void;
@@ -30,14 +30,14 @@ interface TaskModal {
   removeCover: () => void;
 }
 
-interface Label {
+export interface Label {
   id: number;
   value: string;
   status: boolean;
   color: string;
 }
 
-interface CheckList {
+export interface CheckList {
   id: number;
   title: string;
   card: number
