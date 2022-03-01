@@ -22,8 +22,6 @@
     //"plugin:react/recommended",
     //"plugin:import/recommended",
     "plugin:@typescript-eslint/recommended",
-    // "airbnb",
-    // "airbnb/hooks",
     "prettier"
   ],
   "parserOptions": {
@@ -37,10 +35,17 @@
   "plugins": ["react", "prettier", "react-hooks", "@typescript-eslint", "import"],
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "extends": ["prettier"],
     "react/jsx-filename-extension": [
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "semi": true,
+        "singleQuote": true,
+        "trailingComma": "es5"
+      }
     ],
     "import/extensions": [
       "error",

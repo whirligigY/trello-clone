@@ -9,7 +9,10 @@ import { WorkspaceBoarModal } from '../WorkspaceBoardModal';
 import { useKeyPress } from '../../hooks/hotKeys';
 import { BgContext } from '../../contexts/BgContext';
 
+import { definitions } from '../../../types/supabase';
+
 import './boards.css';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 const Boards = ({ handleBoardIdChange, ...props }) => {
   const [boards, setBoards] = useState([]);
@@ -19,18 +22,21 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
   const { user, client, authState, userProfile } = useAuth();
 
   useEffect(() => {
-    if (user) {
-      client
-        .from('boards')
-        .select('*')
-        .eq('user_id', user?.id)
-        .order('id', { ascending: true })
-        .then(({ data, error }) => {
-          if (!error) {
-            setBoards(data);
-          }
-        });
-    }
+    const getBoards = async () => {
+      if (user) {
+        try {
+          const res = await client
+            .from<definitions['boards']>('boards')
+            .select('*')
+            .eq('user_id', user?.id)
+            .order('id', { ascending: true });
+          setBoards(res);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    getBoards();
   }, [user, modalShow, client]);
 
   const handleModal = () => setModalShow(true);
@@ -96,7 +102,6 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
           onHide={() => {
             setModalShow(false);
           }}
-          // saveModalData={(...args) => handleModalData(args)}
         />
       ) : null}
     </>
