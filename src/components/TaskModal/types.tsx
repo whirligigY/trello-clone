@@ -14,10 +14,10 @@ interface TaskModal {
   changeCheckList: () => void;
   checkLists: Array<CheckList>;
   cardId: number;
-  addCheckBox: () => void;
+  addCheckBox: (id: number) => void;
   changeCheckboxTitle: () => void;
   removeCheckBox: (id: number, listId: number) => void;
-  changeProgress: () => void;
+  changeProgress: (arg: HTMLElement) => void;
   removeCheckList: () => void;
   removeCheckListItem: () => void;
   checkboxes: Array<Checkbox>;
@@ -43,7 +43,7 @@ interface CheckList {
   card: number
 }
 
-interface Checkbox{
+export interface Checkbox{
   id: number;
   title: string;
   status: boolean;

@@ -78,7 +78,10 @@ const TaskModalBody: FC<TaskModalBodyProps> = ({
               cardId={cardId}
             />
             {checkLists.map((item) => (
-              <CheckList key={item.id} id={item.id} title={item.title} 
+              <CheckList 
+              key={item.id} 
+              id={item.id} 
+              title={item.title} 
               addCheckBox={addCheckBox}
               changeCheckboxTitle={changeCheckboxTitle}
               removeCheckBox={removeCheckBox}
@@ -86,7 +89,8 @@ const TaskModalBody: FC<TaskModalBodyProps> = ({
               removeCheckList={removeCheckList}
               removeCheckListItem={removeCheckListItem}
               checkboxes={checkboxes}
-              checkedCheckboxes={checkedCheckboxes}/>
+              checkedCheckboxes={checkedCheckboxes}
+              />
             ))}
           </Col>
           <Col className="side-buttons" xs={4} md={2}>
