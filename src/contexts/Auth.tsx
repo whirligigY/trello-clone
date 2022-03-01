@@ -2,14 +2,18 @@ import {
   SupabaseClientOptions,
   UserCredentials,
   User,
+  SupabaseClient,
 } from '@supabase/supabase-js';
+
 import React, {
   useContext,
   useState,
   useEffect,
   useMemo,
   ReactNode,
+  Context,
 } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '../client';
@@ -23,13 +27,17 @@ import { supabase } from '../client';
 
 // TODO: refactor checkUser() not sure if checkUser() is required check
 
-const AuthContext = React.createContext(undefined || {});
+const AuthContext = React.createContext(undefined);
 
 export type Props = {
   children: ReactNode;
 };
 
-export function useAuth() {
+export function useAuth(): {
+  client: SupabaseClient;
+  user: User;
+  userProfile: () => User;
+} {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
