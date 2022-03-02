@@ -1,7 +1,6 @@
 import { Checkbox } from '../types';
 
 export interface CheckListProps {
-  key: number;
   id: number;
   title: string;
   addCheckBox: (id: number) => void;
@@ -13,3 +12,5 @@ export interface CheckListProps {
   checkboxes: Array<Checkbox>;
   checkedCheckboxes: Array<Checkbox>;
 }
+
+export { Checkbox } from '../types';

@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useAuth } from '../../../contexts/Auth';
 import '../TaskModalWindow.css';
+import { EditFormProps } from './types';
 
-const EditForm = ({ setHeigth, taskDescription, setTaskDescription, cardId }) => {
+const EditForm: FC<EditFormProps> = ({ setHeigth, taskDescription, setTaskDescription, cardId }) => {
   
-  const [isTextAreaActive, setIsTextAreaActive] = useState(false);
-  const [isTextareaVisible, setIsTextareaVisible] = useState(true);
-  const [tempDescription, setTempDescription] = useState(taskDescription);
+  const [isTextAreaActive, setIsTextAreaActive] = useState<boolean>(false);
+  const [isTextareaVisible, setIsTextareaVisible] = useState<boolean>(true);
+  const [tempDescription, setTempDescription] = useState<string>(taskDescription);
   const { user, client } = useAuth();
 
   useEffect(() => {

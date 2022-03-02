@@ -1,10 +1,10 @@
 import React, { useState, useEffect, FC } from 'react';
 import { ProgressBar, Button, InputGroup, FormControl } from 'react-bootstrap';
 import '../TaskModalWindow.css'
-import { CheckListProps } from './types';
-import { Checkbox } from '../types';
+import { CheckListProps, Checkbox } from './types';
 
-const CheckList: FC<CheckListProps> = ({ title,
+const CheckList: FC<CheckListProps> = ({ 
+   title,
    id,
    addCheckBox,
    changeCheckboxTitle,
