@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-  "/": {
+  '/': {
     get: {
       responses: {
         /** OK */
@@ -12,40 +12,40 @@ export interface paths {
       };
     };
   };
-  "/boards": {
+  '/boards': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.boards.id"];
-          user_id?: parameters["rowFilter.boards.user_id"];
-          title?: parameters["rowFilter.boards.title"];
-          description?: parameters["rowFilter.boards.description"];
-          isComplete?: parameters["rowFilter.boards.isComplete"];
-          insertedat?: parameters["rowFilter.boards.insertedat"];
-          brd_labels?: parameters["rowFilter.boards.brd_labels"];
-          background?: parameters["rowFilter.boards.background"];
+          id?: parameters['rowFilter.boards.id'];
+          user_id?: parameters['rowFilter.boards.user_id'];
+          title?: parameters['rowFilter.boards.title'];
+          description?: parameters['rowFilter.boards.description'];
+          isComplete?: parameters['rowFilter.boards.isComplete'];
+          insertedat?: parameters['rowFilter.boards.insertedat'];
+          brd_labels?: parameters['rowFilter.boards.brd_labels'];
+          background?: parameters['rowFilter.boards.background'];
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select'];
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order'];
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset'];
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
+          limit?: parameters['limit'];
         };
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range'];
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit'];
           /** Preference */
-          Prefer?: parameters["preferCount"];
+          Prefer?: parameters['preferCount'];
         };
       };
       responses: {
         /** OK */
         200: {
-          schema: definitions["boards"][];
+          schema: definitions['boards'][];
         };
         /** Partial Content */
         206: unknown;
@@ -55,15 +55,15 @@ export interface paths {
       parameters: {
         body: {
           /** boards */
-          boards?: definitions["boards"];
+          boards?: definitions['boards'];
         };
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -74,18 +74,18 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.boards.id"];
-          user_id?: parameters["rowFilter.boards.user_id"];
-          title?: parameters["rowFilter.boards.title"];
-          description?: parameters["rowFilter.boards.description"];
-          isComplete?: parameters["rowFilter.boards.isComplete"];
-          insertedat?: parameters["rowFilter.boards.insertedat"];
-          brd_labels?: parameters["rowFilter.boards.brd_labels"];
-          background?: parameters["rowFilter.boards.background"];
+          id?: parameters['rowFilter.boards.id'];
+          user_id?: parameters['rowFilter.boards.user_id'];
+          title?: parameters['rowFilter.boards.title'];
+          description?: parameters['rowFilter.boards.description'];
+          isComplete?: parameters['rowFilter.boards.isComplete'];
+          insertedat?: parameters['rowFilter.boards.insertedat'];
+          brd_labels?: parameters['rowFilter.boards.brd_labels'];
+          background?: parameters['rowFilter.boards.background'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -96,22 +96,22 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.boards.id"];
-          user_id?: parameters["rowFilter.boards.user_id"];
-          title?: parameters["rowFilter.boards.title"];
-          description?: parameters["rowFilter.boards.description"];
-          isComplete?: parameters["rowFilter.boards.isComplete"];
-          insertedat?: parameters["rowFilter.boards.insertedat"];
-          brd_labels?: parameters["rowFilter.boards.brd_labels"];
-          background?: parameters["rowFilter.boards.background"];
+          id?: parameters['rowFilter.boards.id'];
+          user_id?: parameters['rowFilter.boards.user_id'];
+          title?: parameters['rowFilter.boards.title'];
+          description?: parameters['rowFilter.boards.description'];
+          isComplete?: parameters['rowFilter.boards.isComplete'];
+          insertedat?: parameters['rowFilter.boards.insertedat'];
+          brd_labels?: parameters['rowFilter.boards.brd_labels'];
+          background?: parameters['rowFilter.boards.background'];
         };
         body: {
           /** boards */
-          boards?: definitions["boards"];
+          boards?: definitions['boards'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -120,43 +120,43 @@ export interface paths {
       };
     };
   };
-  "/profiles": {
+  '/profiles': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles.id"];
-          updated_at?: parameters["rowFilter.profiles.updated_at"];
-          username?: parameters["rowFilter.profiles.username"];
-          avatar_url?: parameters["rowFilter.profiles.avatar_url"];
-          website?: parameters["rowFilter.profiles.website"];
-          name?: parameters["rowFilter.profiles.name"];
-          surname?: parameters["rowFilter.profiles.surname"];
-          mail?: parameters["rowFilter.profiles.mail"];
-          birthdate?: parameters["rowFilter.profiles.birthdate"];
-          phone?: parameters["rowFilter.profiles.phone"];
-          nickname?: parameters["rowFilter.profiles.nickname"];
+          id?: parameters['rowFilter.profiles.id'];
+          updated_at?: parameters['rowFilter.profiles.updated_at'];
+          username?: parameters['rowFilter.profiles.username'];
+          avatar_url?: parameters['rowFilter.profiles.avatar_url'];
+          website?: parameters['rowFilter.profiles.website'];
+          name?: parameters['rowFilter.profiles.name'];
+          surname?: parameters['rowFilter.profiles.surname'];
+          mail?: parameters['rowFilter.profiles.mail'];
+          birthdate?: parameters['rowFilter.profiles.birthdate'];
+          phone?: parameters['rowFilter.profiles.phone'];
+          nickname?: parameters['rowFilter.profiles.nickname'];
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select'];
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order'];
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset'];
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
+          limit?: parameters['limit'];
         };
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range'];
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit'];
           /** Preference */
-          Prefer?: parameters["preferCount"];
+          Prefer?: parameters['preferCount'];
         };
       };
       responses: {
         /** OK */
         200: {
-          schema: definitions["profiles"][];
+          schema: definitions['profiles'][];
         };
         /** Partial Content */
         206: unknown;
@@ -166,15 +166,15 @@ export interface paths {
       parameters: {
         body: {
           /** profiles */
-          profiles?: definitions["profiles"];
+          profiles?: definitions['profiles'];
         };
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -185,21 +185,21 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles.id"];
-          updated_at?: parameters["rowFilter.profiles.updated_at"];
-          username?: parameters["rowFilter.profiles.username"];
-          avatar_url?: parameters["rowFilter.profiles.avatar_url"];
-          website?: parameters["rowFilter.profiles.website"];
-          name?: parameters["rowFilter.profiles.name"];
-          surname?: parameters["rowFilter.profiles.surname"];
-          mail?: parameters["rowFilter.profiles.mail"];
-          birthdate?: parameters["rowFilter.profiles.birthdate"];
-          phone?: parameters["rowFilter.profiles.phone"];
-          nickname?: parameters["rowFilter.profiles.nickname"];
+          id?: parameters['rowFilter.profiles.id'];
+          updated_at?: parameters['rowFilter.profiles.updated_at'];
+          username?: parameters['rowFilter.profiles.username'];
+          avatar_url?: parameters['rowFilter.profiles.avatar_url'];
+          website?: parameters['rowFilter.profiles.website'];
+          name?: parameters['rowFilter.profiles.name'];
+          surname?: parameters['rowFilter.profiles.surname'];
+          mail?: parameters['rowFilter.profiles.mail'];
+          birthdate?: parameters['rowFilter.profiles.birthdate'];
+          phone?: parameters['rowFilter.profiles.phone'];
+          nickname?: parameters['rowFilter.profiles.nickname'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -210,25 +210,25 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles.id"];
-          updated_at?: parameters["rowFilter.profiles.updated_at"];
-          username?: parameters["rowFilter.profiles.username"];
-          avatar_url?: parameters["rowFilter.profiles.avatar_url"];
-          website?: parameters["rowFilter.profiles.website"];
-          name?: parameters["rowFilter.profiles.name"];
-          surname?: parameters["rowFilter.profiles.surname"];
-          mail?: parameters["rowFilter.profiles.mail"];
-          birthdate?: parameters["rowFilter.profiles.birthdate"];
-          phone?: parameters["rowFilter.profiles.phone"];
-          nickname?: parameters["rowFilter.profiles.nickname"];
+          id?: parameters['rowFilter.profiles.id'];
+          updated_at?: parameters['rowFilter.profiles.updated_at'];
+          username?: parameters['rowFilter.profiles.username'];
+          avatar_url?: parameters['rowFilter.profiles.avatar_url'];
+          website?: parameters['rowFilter.profiles.website'];
+          name?: parameters['rowFilter.profiles.name'];
+          surname?: parameters['rowFilter.profiles.surname'];
+          mail?: parameters['rowFilter.profiles.mail'];
+          birthdate?: parameters['rowFilter.profiles.birthdate'];
+          phone?: parameters['rowFilter.profiles.phone'];
+          nickname?: parameters['rowFilter.profiles.nickname'];
         };
         body: {
           /** profiles */
-          profiles?: definitions["profiles"];
+          profiles?: definitions['profiles'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -237,45 +237,45 @@ export interface paths {
       };
     };
   };
-  "/tsk_cards": {
+  '/tsk_cards': {
     get: {
       parameters: {
         query: {
-          crd_id?: parameters["rowFilter.tsk_cards.crd_id"];
-          crd_columnid?: parameters["rowFilter.tsk_cards.crd_columnid"];
-          crd_title?: parameters["rowFilter.tsk_cards.crd_title"];
-          crd_description?: parameters["rowFilter.tsk_cards.crd_description"];
-          crd_labels?: parameters["rowFilter.tsk_cards.crd_labels"];
-          crd_order?: parameters["rowFilter.tsk_cards.crd_order"];
-          checkboxes?: parameters["rowFilter.tsk_cards.checkboxes"];
-          lists?: parameters["rowFilter.tsk_cards.lists"];
-          crd_startDate?: parameters["rowFilter.tsk_cards.crd_startDate"];
-          crd_deadlineDate?: parameters["rowFilter.tsk_cards.crd_deadlineDate"];
-          crd_deadlineTime?: parameters["rowFilter.tsk_cards.crd_deadlineTime"];
-          crd_coverPic?: parameters["rowFilter.tsk_cards.crd_coverPic"];
-          crd_coverColor?: parameters["rowFilter.tsk_cards.crd_coverColor"];
+          crd_id?: parameters['rowFilter.tsk_cards.crd_id'];
+          crd_columnid?: parameters['rowFilter.tsk_cards.crd_columnid'];
+          crd_title?: parameters['rowFilter.tsk_cards.crd_title'];
+          crd_description?: parameters['rowFilter.tsk_cards.crd_description'];
+          crd_labels?: parameters['rowFilter.tsk_cards.crd_labels'];
+          crd_order?: parameters['rowFilter.tsk_cards.crd_order'];
+          checkboxes?: parameters['rowFilter.tsk_cards.checkboxes'];
+          lists?: parameters['rowFilter.tsk_cards.lists'];
+          crd_startDate?: parameters['rowFilter.tsk_cards.crd_startDate'];
+          crd_deadlineDate?: parameters['rowFilter.tsk_cards.crd_deadlineDate'];
+          crd_deadlineTime?: parameters['rowFilter.tsk_cards.crd_deadlineTime'];
+          crd_coverPic?: parameters['rowFilter.tsk_cards.crd_coverPic'];
+          crd_coverColor?: parameters['rowFilter.tsk_cards.crd_coverColor'];
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select'];
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order'];
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset'];
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
+          limit?: parameters['limit'];
         };
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range'];
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit'];
           /** Preference */
-          Prefer?: parameters["preferCount"];
+          Prefer?: parameters['preferCount'];
         };
       };
       responses: {
         /** OK */
         200: {
-          schema: definitions["tsk_cards"][];
+          schema: definitions['tsk_cards'][];
         };
         /** Partial Content */
         206: unknown;
@@ -285,15 +285,15 @@ export interface paths {
       parameters: {
         body: {
           /** tsk_cards */
-          tsk_cards?: definitions["tsk_cards"];
+          tsk_cards?: definitions['tsk_cards'];
         };
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -304,23 +304,23 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          crd_id?: parameters["rowFilter.tsk_cards.crd_id"];
-          crd_columnid?: parameters["rowFilter.tsk_cards.crd_columnid"];
-          crd_title?: parameters["rowFilter.tsk_cards.crd_title"];
-          crd_description?: parameters["rowFilter.tsk_cards.crd_description"];
-          crd_labels?: parameters["rowFilter.tsk_cards.crd_labels"];
-          crd_order?: parameters["rowFilter.tsk_cards.crd_order"];
-          checkboxes?: parameters["rowFilter.tsk_cards.checkboxes"];
-          lists?: parameters["rowFilter.tsk_cards.lists"];
-          crd_startDate?: parameters["rowFilter.tsk_cards.crd_startDate"];
-          crd_deadlineDate?: parameters["rowFilter.tsk_cards.crd_deadlineDate"];
-          crd_deadlineTime?: parameters["rowFilter.tsk_cards.crd_deadlineTime"];
-          crd_coverPic?: parameters["rowFilter.tsk_cards.crd_coverPic"];
-          crd_coverColor?: parameters["rowFilter.tsk_cards.crd_coverColor"];
+          crd_id?: parameters['rowFilter.tsk_cards.crd_id'];
+          crd_columnid?: parameters['rowFilter.tsk_cards.crd_columnid'];
+          crd_title?: parameters['rowFilter.tsk_cards.crd_title'];
+          crd_description?: parameters['rowFilter.tsk_cards.crd_description'];
+          crd_labels?: parameters['rowFilter.tsk_cards.crd_labels'];
+          crd_order?: parameters['rowFilter.tsk_cards.crd_order'];
+          checkboxes?: parameters['rowFilter.tsk_cards.checkboxes'];
+          lists?: parameters['rowFilter.tsk_cards.lists'];
+          crd_startDate?: parameters['rowFilter.tsk_cards.crd_startDate'];
+          crd_deadlineDate?: parameters['rowFilter.tsk_cards.crd_deadlineDate'];
+          crd_deadlineTime?: parameters['rowFilter.tsk_cards.crd_deadlineTime'];
+          crd_coverPic?: parameters['rowFilter.tsk_cards.crd_coverPic'];
+          crd_coverColor?: parameters['rowFilter.tsk_cards.crd_coverColor'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -331,27 +331,27 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          crd_id?: parameters["rowFilter.tsk_cards.crd_id"];
-          crd_columnid?: parameters["rowFilter.tsk_cards.crd_columnid"];
-          crd_title?: parameters["rowFilter.tsk_cards.crd_title"];
-          crd_description?: parameters["rowFilter.tsk_cards.crd_description"];
-          crd_labels?: parameters["rowFilter.tsk_cards.crd_labels"];
-          crd_order?: parameters["rowFilter.tsk_cards.crd_order"];
-          checkboxes?: parameters["rowFilter.tsk_cards.checkboxes"];
-          lists?: parameters["rowFilter.tsk_cards.lists"];
-          crd_startDate?: parameters["rowFilter.tsk_cards.crd_startDate"];
-          crd_deadlineDate?: parameters["rowFilter.tsk_cards.crd_deadlineDate"];
-          crd_deadlineTime?: parameters["rowFilter.tsk_cards.crd_deadlineTime"];
-          crd_coverPic?: parameters["rowFilter.tsk_cards.crd_coverPic"];
-          crd_coverColor?: parameters["rowFilter.tsk_cards.crd_coverColor"];
+          crd_id?: parameters['rowFilter.tsk_cards.crd_id'];
+          crd_columnid?: parameters['rowFilter.tsk_cards.crd_columnid'];
+          crd_title?: parameters['rowFilter.tsk_cards.crd_title'];
+          crd_description?: parameters['rowFilter.tsk_cards.crd_description'];
+          crd_labels?: parameters['rowFilter.tsk_cards.crd_labels'];
+          crd_order?: parameters['rowFilter.tsk_cards.crd_order'];
+          checkboxes?: parameters['rowFilter.tsk_cards.checkboxes'];
+          lists?: parameters['rowFilter.tsk_cards.lists'];
+          crd_startDate?: parameters['rowFilter.tsk_cards.crd_startDate'];
+          crd_deadlineDate?: parameters['rowFilter.tsk_cards.crd_deadlineDate'];
+          crd_deadlineTime?: parameters['rowFilter.tsk_cards.crd_deadlineTime'];
+          crd_coverPic?: parameters['rowFilter.tsk_cards.crd_coverPic'];
+          crd_coverColor?: parameters['rowFilter.tsk_cards.crd_coverColor'];
         };
         body: {
           /** tsk_cards */
-          tsk_cards?: definitions["tsk_cards"];
+          tsk_cards?: definitions['tsk_cards'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -360,36 +360,36 @@ export interface paths {
       };
     };
   };
-  "/tsk_columns": {
+  '/tsk_columns': {
     get: {
       parameters: {
         query: {
-          col_id?: parameters["rowFilter.tsk_columns.col_id"];
-          col_boardid?: parameters["rowFilter.tsk_columns.col_boardid"];
-          col_title?: parameters["rowFilter.tsk_columns.col_title"];
-          col_order?: parameters["rowFilter.tsk_columns.col_order"];
+          col_id?: parameters['rowFilter.tsk_columns.col_id'];
+          col_boardid?: parameters['rowFilter.tsk_columns.col_boardid'];
+          col_title?: parameters['rowFilter.tsk_columns.col_title'];
+          col_order?: parameters['rowFilter.tsk_columns.col_order'];
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select'];
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order'];
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset'];
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
+          limit?: parameters['limit'];
         };
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range'];
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit'];
           /** Preference */
-          Prefer?: parameters["preferCount"];
+          Prefer?: parameters['preferCount'];
         };
       };
       responses: {
         /** OK */
         200: {
-          schema: definitions["tsk_columns"][];
+          schema: definitions['tsk_columns'][];
         };
         /** Partial Content */
         206: unknown;
@@ -399,15 +399,15 @@ export interface paths {
       parameters: {
         body: {
           /** tsk_columns */
-          tsk_columns?: definitions["tsk_columns"];
+          tsk_columns?: definitions['tsk_columns'];
         };
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -418,14 +418,14 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          col_id?: parameters["rowFilter.tsk_columns.col_id"];
-          col_boardid?: parameters["rowFilter.tsk_columns.col_boardid"];
-          col_title?: parameters["rowFilter.tsk_columns.col_title"];
-          col_order?: parameters["rowFilter.tsk_columns.col_order"];
+          col_id?: parameters['rowFilter.tsk_columns.col_id'];
+          col_boardid?: parameters['rowFilter.tsk_columns.col_boardid'];
+          col_title?: parameters['rowFilter.tsk_columns.col_title'];
+          col_order?: parameters['rowFilter.tsk_columns.col_order'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -436,18 +436,18 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          col_id?: parameters["rowFilter.tsk_columns.col_id"];
-          col_boardid?: parameters["rowFilter.tsk_columns.col_boardid"];
-          col_title?: parameters["rowFilter.tsk_columns.col_title"];
-          col_order?: parameters["rowFilter.tsk_columns.col_order"];
+          col_id?: parameters['rowFilter.tsk_columns.col_id'];
+          col_boardid?: parameters['rowFilter.tsk_columns.col_boardid'];
+          col_title?: parameters['rowFilter.tsk_columns.col_title'];
+          col_order?: parameters['rowFilter.tsk_columns.col_order'];
         };
         body: {
           /** tsk_columns */
-          tsk_columns?: definitions["tsk_columns"];
+          tsk_columns?: definitions['tsk_columns'];
         };
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
+          Prefer?: parameters['preferReturn'];
         };
       };
       responses: {
@@ -579,17 +579,17 @@ export interface parameters {
    * @description Preference
    * @enum {string}
    */
-  preferParams: "params=single-object";
+  preferParams: 'params=single-object';
   /**
    * @description Preference
    * @enum {string}
    */
-  preferReturn: "return=representation" | "return=minimal" | "return=none";
+  preferReturn: 'return=representation' | 'return=minimal' | 'return=none';
   /**
    * @description Preference
    * @enum {string}
    */
-  preferCount: "count=none";
+  preferCount: 'count=none';
   /** @description Filtering Columns */
   select: string;
   /** @description On Conflict */
@@ -608,87 +608,83 @@ export interface parameters {
   /** @description Limiting and Pagination */
   limit: string;
   /** @description boards */
-  "body.boards": definitions["boards"];
+  'body.boards': definitions['boards'];
   /** Format: bigint */
-  "rowFilter.boards.id": string;
+  'rowFilter.boards.id': string;
   /** Format: uuid */
-  "rowFilter.boards.user_id": string;
+  'rowFilter.boards.user_id': string;
   /** Format: text */
-  "rowFilter.boards.title": string;
+  'rowFilter.boards.title': string;
   /** Format: text */
-  "rowFilter.boards.description": string;
+  'rowFilter.boards.description': string;
   /** Format: boolean */
-  "rowFilter.boards.isComplete": string;
+  'rowFilter.boards.isComplete': string;
   /** Format: timestamp with time zone */
-  "rowFilter.boards.insertedat": string;
+  'rowFilter.boards.insertedat': string;
   /** Format: json */
-  "rowFilter.boards.brd_labels": string;
+  'rowFilter.boards.brd_labels': string;
   /** Format: text */
-  "rowFilter.boards.background": string;
+  'rowFilter.boards.background': string;
   /** @description profiles */
-  "body.profiles": definitions["profiles"];
+  'body.profiles': definitions['profiles'];
   /** Format: uuid */
-  "rowFilter.profiles.id": string;
+  'rowFilter.profiles.id': string;
   /** Format: timestamp with time zone */
-  "rowFilter.profiles.updated_at": string;
+  'rowFilter.profiles.updated_at': string;
   /** Format: text */
-  "rowFilter.profiles.username": string;
+  'rowFilter.profiles.username': string;
   /** Format: text */
-  "rowFilter.profiles.avatar_url": string;
+  'rowFilter.profiles.avatar_url': string;
   /** Format: text */
-  "rowFilter.profiles.website": string;
+  'rowFilter.profiles.website': string;
   /** Format: text */
-  "rowFilter.profiles.name": string;
+  'rowFilter.profiles.name': string;
   /** Format: text */
-  "rowFilter.profiles.surname": string;
+  'rowFilter.profiles.surname': string;
   /** Format: text */
-  "rowFilter.profiles.mail": string;
+  'rowFilter.profiles.mail': string;
   /** Format: date */
-  "rowFilter.profiles.birthdate": string;
+  'rowFilter.profiles.birthdate': string;
   /** Format: text */
-  "rowFilter.profiles.phone": string;
+  'rowFilter.profiles.phone': string;
   /** Format: text */
-  "rowFilter.profiles.nickname": string;
+  'rowFilter.profiles.nickname': string;
   /** @description tsk_cards */
-  "body.tsk_cards": definitions["tsk_cards"];
+  'body.tsk_cards': definitions['tsk_cards'];
   /** Format: bigint */
-  "rowFilter.tsk_cards.crd_id": string;
+  'rowFilter.tsk_cards.crd_id': string;
   /** Format: bigint */
-  "rowFilter.tsk_cards.crd_columnid": string;
+  'rowFilter.tsk_cards.crd_columnid': string;
   /** Format: text */
-  "rowFilter.tsk_cards.crd_title": string;
+  'rowFilter.tsk_cards.crd_title': string;
   /** Format: text */
-  "rowFilter.tsk_cards.crd_description": string;
+  'rowFilter.tsk_cards.crd_description': string;
   /** Format: json */
-  "rowFilter.tsk_cards.crd_labels": string;
+  'rowFilter.tsk_cards.crd_labels': string;
   /** Format: bigint */
-  "rowFilter.tsk_cards.crd_order": string;
+  'rowFilter.tsk_cards.crd_order': string;
   /** Format: json */
-  "rowFilter.tsk_cards.checkboxes": string;
+  'rowFilter.tsk_cards.checkboxes': string;
   /** Format: json */
-  "rowFilter.tsk_cards.lists": string;
+  'rowFilter.tsk_cards.lists': string;
   /** Format: date */
-  "rowFilter.tsk_cards.crd_startDate": string;
+  'rowFilter.tsk_cards.crd_startDate': string;
   /** Format: date */
-  "rowFilter.tsk_cards.crd_deadlineDate": string;
+  'rowFilter.tsk_cards.crd_deadlineDate': string;
   /** Format: time without time zone */
-  "rowFilter.tsk_cards.crd_deadlineTime": string;
+  'rowFilter.tsk_cards.crd_deadlineTime': string;
   /** Format: text */
-  "rowFilter.tsk_cards.crd_coverPic": string;
+  'rowFilter.tsk_cards.crd_coverPic': string;
   /** Format: text */
-  "rowFilter.tsk_cards.crd_coverColor": string;
+  'rowFilter.tsk_cards.crd_coverColor': string;
   /** @description tsk_columns */
-  "body.tsk_columns": definitions["tsk_columns"];
+  'body.tsk_columns': definitions['tsk_columns'];
   /** Format: bigint */
-  "rowFilter.tsk_columns.col_id": string;
+  'rowFilter.tsk_columns.col_id': string;
   /** Format: bigint */
-  "rowFilter.tsk_columns.col_boardid": string;
+  'rowFilter.tsk_columns.col_boardid': string;
   /** Format: text */
-  "rowFilter.tsk_columns.col_title": string;
+  'rowFilter.tsk_columns.col_title': string;
   /** Format: bigint */
-  "rowFilter.tsk_columns.col_order": string;
+  'rowFilter.tsk_columns.col_order': string;
 }
-
-export interface operations {}
-
-export interface external {}

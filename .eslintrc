@@ -31,7 +31,13 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier", "react-hooks", "@typescript-eslint", "import"],
+  "plugins": [
+    "react",
+    "prettier",
+    "react-hooks",
+    "@typescript-eslint",
+    "import"
+  ],
   "parser": "@typescript-eslint/parser",
   "rules": {
     "react/jsx-filename-extension": [
