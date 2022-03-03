@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { Dropdown } from "react-bootstrap";
 import { AddLabelMenu } from './AddLabelMenu'
 import "../../TaskModalWindow.css";
 import { useEffect } from 'react';
+import { LabelsDropdownProps } from './types'
+import { Label } from '../../types'
 
-const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
-  const [trueCardLabels, setTrueCardLabels] = useState([]);
+const LabelsDropdownMenu: FC<LabelsDropdownProps> = ({ 
+  activeLabels,
+  changeActiveLabels,
+  labels,
+  changeLabels,
+  remove
+}) => {
+
+  const [trueCardLabels, setTrueCardLabels] = useState<Array<Label>>([]);
 
   const setCurrentLabels = () => {
     const tempArr = [];

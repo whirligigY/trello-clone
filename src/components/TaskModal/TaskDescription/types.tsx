@@ -1,4 +1,3 @@
-import { FormControlProps } from "react-bootstrap";
 import { KeyboardEvent } from 'react';
 
 export interface TaskDescriptionProps {

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { DeadlineDropdownMenu } from './DeadlineDropdownMenu'
+import { DeadlineDropdownProps } from './types'
 
-const DeadlineDropdown = ({ dateValue,
+const DeadlineDropdown: FC<DeadlineDropdownProps> = ({ dateValue,
   changeDeadline,
   setDeadlineView,
   useDeadlineRange,

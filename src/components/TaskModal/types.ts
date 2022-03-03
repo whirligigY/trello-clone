@@ -1,17 +1,18 @@
 interface TaskModal {
-  dateValue: string | Array<string>;
-  changeDeadline: () => void;
-  showDeadline: boolean;
-  setDeadlineView: () => void;
+  dateValue: Date | Array<Date>;
+  changeDeadline: (arg: Date) => void;
+  setDeadlineView: (arg: boolean) => void;
   useDeadlineRange: boolean;
-  setDeadlineRange: () => void;
+  setDeadlineRange: (arg: boolean) => void;
   deadlineTime: string;
-  changeDeadlineTime: () => void;
+  changeDeadlineTime: (arg: string) => void;
+  showDeadline: boolean;
+  setSaveDeadline: (arg: boolean) => void;
   activeLabels: Array<Label>;
   changeActiveLabels: () => void;
   labels: Array<Label>;
   changeLabels: () => void;
-  changeCheckList: () => void;
+  changeCheckList: (name: string) => void;
   checkLists: Array<CheckList>;
   cardId: number;
   addCheckBox: (id: number) => void;
@@ -22,11 +23,10 @@ interface TaskModal {
   removeCheckListItem: () => void;
   checkboxes: Array<Checkbox>;
   checkedCheckboxes: Array<Checkbox>;
-  setSaveDeadline: () => void;
   colorCover: string;
   pictureCover: string;
   addColorCover: () => void;
-  addPictureCover: () => void;
+  addPictureCover: (pictureCover: string) => void;
   removeCover: () => void;
 }
 
@@ -53,7 +53,7 @@ export interface Checkbox{
 
 
 export interface TaskModalBodyProps extends TaskModal {
-  remove: () => void;
+  remove: (index: number) => void;
   taskDescription: string;
   setTaskDescription: (value: string) => void;
 }
@@ -63,5 +63,5 @@ export interface TaskModalProps extends TaskModal {
   closeHandle: () => void;
   title: string;
   column: string;
-  removeLabel: () => void;
+  removeLabel: (index: number) => void;
 }
