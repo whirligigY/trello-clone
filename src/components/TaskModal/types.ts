@@ -1,13 +1,13 @@
 interface TaskModal {
   dateValue: Date | Array<Date>;
-  changeDeadline: (arg: Date) => void;
-  setDeadlineView: (arg: boolean) => void;
+  changeDeadline: () => void;
+  setDeadlineView: () => void;
   useDeadlineRange: boolean;
-  setDeadlineRange: (arg: boolean) => void;
+  setDeadlineRange: () => void;
   deadlineTime: string;
-  changeDeadlineTime: (arg: string) => void;
+  changeDeadlineTime: () => void;
   showDeadline: boolean;
-  setSaveDeadline: (arg: boolean) => void;
+  setSaveDeadline: () => void;
   activeLabels: Array<Label>;
   changeActiveLabels: () => void;
   labels: Array<Label>;
@@ -51,9 +51,8 @@ export interface Checkbox{
   card: number
 }
 
-
 export interface TaskModalBodyProps extends TaskModal {
-  remove: (index: number) => void;
+  remove: () => void;
   taskDescription: string;
   setTaskDescription: (value: string) => void;
 }
@@ -63,5 +62,5 @@ export interface TaskModalProps extends TaskModal {
   closeHandle: () => void;
   title: string;
   column: string;
-  removeLabel: (index: number) => void;
+  removeLabel: () => void;
 }

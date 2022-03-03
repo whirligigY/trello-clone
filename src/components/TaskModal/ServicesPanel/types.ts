@@ -13,7 +13,7 @@ export interface CurrentLabelProps extends CurrentLabelsProps {
 }
 
 export interface CurrentDeadlineProps {
-  dateValue: string | Array<string>;
+  dateValue: Date | Array<Date>;
   changeDeadline: () => void;
   setDeadlineView: () => void;
   useDeadlineRange: boolean;
