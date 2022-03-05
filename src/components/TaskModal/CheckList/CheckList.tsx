@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { ProgressBar, Button, InputGroup, FormControl } from 'react-bootstrap';
 import '../TaskModalWindow.css'
+import { CheckListProps, Checkbox } from './types';
 
-const CheckList = ({ title,
+const CheckList: FC<CheckListProps> = ({ 
+   title,
    id,
    addCheckBox,
    changeCheckboxTitle,
@@ -12,9 +14,9 @@ const CheckList = ({ title,
    checkboxes,
    checkedCheckboxes
    }) => {
-  const [progress, setProgress] = useState();
-  const [listCheckboxes, setListCheckboxes] = useState([]);
-  const [listCheckedCheckboxes, setListCheckedCheckboxes] = useState([]);
+  const [progress, setProgress] = useState<number>();
+  const [listCheckboxes, setListCheckboxes] = useState<Array<Checkbox>>([]);
+  const [listCheckedCheckboxes, setListCheckedCheckboxes] = useState<Array<Checkbox>>([]);
 
   useEffect (
     () => {
@@ -63,11 +65,11 @@ const CheckList = ({ title,
       <ProgressBar striped now={progress} label={`${progress}%`} max={100}/>
         {listCheckboxes.length != 0 && (
           <div className="check-list-items">
-            { checkboxes.map((item, i) => {
+            { checkboxes.map((item) => {
               if (item.listId == id) {
-                return <InputGroup className="mb-3 subtask" key={item.id} id={item.id}>
+                return <InputGroup className="mb-3 subtask" key={item.id} id={String(item.id)}>
                   <InputGroup.Checkbox id={item.id} aria-label="Checkbox for following text input" checked={item.status} 
-                  onChange={(e) => changeProgress(e.target)}
+                  onChange={(e: Event) => changeProgress(e.target as HTMLElement)}
                   data-status={item.status}/>
                   <FormControl aria-label="Text input with checkbox" value={item.title} onChange={changeCheckboxTitle}/>
                   <Button className='remove-check-list' variant="outline-secondary" onClick={removeCheckListItem}>Remove</Button>

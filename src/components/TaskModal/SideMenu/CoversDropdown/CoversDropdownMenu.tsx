@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { Dropdown, Button, ToggleButtonGroup, ToggleButton } from "react-bootstrap";
 import "../../TaskModalWindow.css";
 import './coversDropdown.css'
 import { useEffect } from 'react';
+import { CoversDropdownProps } from './types'
 
-const CoversDropdownMenu = ({
+const CoversDropdownMenu: FC<CoversDropdownProps> = ({
   colorCover,
   pictureCover,
   addColorCover,
   addPictureCover,
   removeCover
 }) => {
-  const [unsplashCovers, setUnsplashCovers] = useState([]);
-  const [inputTag, setInputTag]=useState('');
+  const [unsplashCovers, setUnsplashCovers] = useState<Array<string>>([]);
+  const [inputTag, setInputTag]=useState<string>('');
   useEffect (() => {
     downloadUnsplash();
   }, [inputTag, pictureCover])
@@ -46,7 +47,7 @@ const CoversDropdownMenu = ({
       <p className='deadline-text'>Cover</p>
       {(pictureCover || colorCover) && 
       <div className='used_cover'>
-        <div className='cover_example' style={colorCover ? {backgroundColor: colorCover} : pictureCover ? {backgroundImage: `url(${pictureCover})`} : ''}></div>
+        <div className='cover_example' style={colorCover ? {backgroundColor: colorCover} : pictureCover ? {backgroundImage: `url(${pictureCover})`} : {backgroundColor: ''}}></div>
         <Button className='delete_cover' variant='outline-secondary' onClick={removeCover}>Remove cover</Button>
       </div>}
       <Dropdown.Divider />

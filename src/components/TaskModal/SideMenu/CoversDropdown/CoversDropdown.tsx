@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { CoversDropdownMenu } from './CoversDropdownMenu'
+import { CoversDropdownProps } from './types'
 
-const CoversDropdown = ({
+const CoversDropdown: FC<CoversDropdownProps> = ({
   colorCover,
   pictureCover,
   addColorCover,

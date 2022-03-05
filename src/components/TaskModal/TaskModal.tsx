@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { Modal } from 'react-bootstrap';
 import { TaskModalBody } from './TaskModalBody';
 import { useAuth } from '../../contexts/Auth';
+import { TaskModalProps } from './types';
 import './TaskModalWindow.css';
 
-const TaskModalWindow = ({
+const TaskModalWindow: FC<TaskModalProps> = ({
   visible,
   closeHandle,
   title,
@@ -40,9 +41,9 @@ const TaskModalWindow = ({
   addPictureCover,
   removeCover
 }) => {
-  const { user, client } = useAuth();
+  const { client } = useAuth();
 
-  const [taskDescription, setTaskDescription] = useState('');
+  const [taskDescription, setTaskDescription] = useState<string>('');
   useEffect(() => {
     if (visible) {
       client

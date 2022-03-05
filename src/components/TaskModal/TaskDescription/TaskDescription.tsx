@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { EditForm } from './EditForm';
 import '../TaskModalWindow.css';
+import { TaskDescriptionProps } from './types';
 
-const TaskDescription = ({ cardId, taskDescription, setTaskDescription,}) => {
+const TaskDescription: FC<TaskDescriptionProps> = ({ cardId, taskDescription, setTaskDescription,}) => {
   const setHeigth = (e) => {
     e.target.style.height = 'inherit';
     e.target.style.height = `${e.target.scrollHeight}px`;
