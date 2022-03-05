@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import styles from './DashboardPage.module.css';
-import { getNewColumn, getNewCard } from '../../utils';
 
 import { BoardListCard } from '../../components/BoardListCard';
 import { AddButton } from '../../components/AddButton';
@@ -13,33 +12,38 @@ import {
   sortColumns,
   getCardsAfterDragAndDrop,
   getColumnsAfterDragAndDrop,
+  getNewColumn,
+  getNewCard,
 } from '../../utils';
 import { BoardAside } from '../../components/BoardAside';
 import { useAuth } from '../../contexts/Auth';
 import { useInput } from '../../hooks/useInput';
 import { BgContext } from '../../contexts/BgContext';
+import {
+  ColumnType,
+  CardType,
+  boardTitleProps,
+  ArrVisibleProps,
+} from './index.props';
 
-// TODO: Объект задачи отдельная сущность, массив с досками о
-//  тдельная сущность. Когда открываем страницу Dashboard мы должны сделать фетч всех досок
-
-// TODO: Колонка это отдельный компонент который должен сделать
-//  фетч всех задач и отрендерить в себе только те которые привязаны к ней
-
-// TODO: Постоянный перерендер. Исправить срочно!!!
 const DashboardPage = () => {
-  const [columns, setColumns] = useState([]);
-  const [cards, setCards] = useState([]);
-  const [cardsVisible, setCardsVisible] = useState([]);
+  const [columns, setColumns] = useState<ColumnType[] | []>([]);
+  const [cards, setCards] = useState<CardType[] | []>([]);
+  const [cardsVisible, setCardsVisible] = useState<ArrVisibleProps[] | []>([]);
   const [changeCardPos, setChangeCardPos] = useState(false);
   const { user, client } = useAuth();
   const { boardId } = useParams();
-  const [boardTitle, setBoardTitle] = useState({});
-  const inputSearch = useInput();
+  const initial: boardTitleProps = {
+    title: '',
+    username: '',
+  };
+  const [boardTitle, setBoardTitle] = useState(initial);
+  const inputSearch = useInput('');
   const { value } = inputSearch;
   const boardID = Number(boardId);
   const { changeWrapperBg } = useContext(BgContext);
 
-  const getData = async (type, id) => {
+  const getData = async (type: string, id: number | null) => {
     if (type === 'columns') {
       const { data } = await client
         .from('tsk_columns')
@@ -50,10 +54,10 @@ const DashboardPage = () => {
     } else {
       const res = await client.from('tsk_cards').select('*');
 
-      const arrColumns = columns.map((el) => el.col_id);
+      const arrColumns = columns.map((el: ColumnType) => el.col_id);
       if (columns.length) {
         const updatedRes = await res.data.filter(
-          (el) =>
+          (el: CardType) =>
             el.crd_columnid ===
             arrColumns.find((item) => el.crd_columnid === item)
         );
@@ -70,7 +74,7 @@ const DashboardPage = () => {
     setBoardTitle({ title: data[0].title, username: res.data[0].username });
   };
   /* eslint-disable */
-  const getOrderForColumnOrCard = async (id, type) => {
+  const getOrderForColumnOrCard = async (id: number, type: string) => {
     const res = await client
       .from(type === 'columns' ? 'tsk_columns' : 'tsk_cards')
       .select('*')
@@ -78,7 +82,7 @@ const DashboardPage = () => {
     if (res.data) return res.data.length;
   };
 
-  const writeColumnToDatabase = async (id, newObj) => {
+  const writeColumnToDatabase = async (id: number, newObj: ColumnType) => {
     await client.from('tsk_columns').insert([newObj]);
     const { data } = await client
       .from('tsk_columns')
@@ -87,19 +91,20 @@ const DashboardPage = () => {
     data.sort(sortColumns);
     setColumns(data);
   };
-  const addColumn = (text, boardID) => {
-    const newCol = getNewColumn(boardID, text, columns);
+
+  const addColumn = (text: string, boardID: number): void => {
+    const newCol: ColumnType = getNewColumn(boardID, text, columns);
     setColumns([...columns, newCol]);
     writeColumnToDatabase(boardID, newCol);
   };
 
-  const writeCardToDataBase = async (newObj) => {
+  const writeCardToDataBase = async (newObj: CardType) => {
     await client.from('tsk_cards').insert([newObj]);
     if (columns.length) {
       const { data } = await client.from('tsk_cards').select('*');
-      const arrColumns = columns.map((el) => el.col_id);
+      const arrColumns = columns.map((el: ColumnType) => el.col_id);
       const updatedRes = data.filter(
-        (el) =>
+        (el: CardType) =>
           el.crd_columnid ===
           arrColumns.find((item) => el.crd_columnid === item)
       );
@@ -108,21 +113,23 @@ const DashboardPage = () => {
     }
   };
 
-  const AddTask = (text, idColumn) => {
-    const numElemInColumn = cards.filter((el) => el.crd_columnid === idColumn);
+  const AddTask = (text: string, idColumn: number): void => {
+    const numElemInColumn = cards.filter(
+      (el: CardType) => el.crd_columnid === idColumn
+    );
     const newCard = getNewCard(idColumn, text, numElemInColumn);
-    setCards([...cards, newCard]);
+    const arrayForSet: CardType[] = [...cards, newCard];
+    setCards(arrayForSet);
     writeCardToDataBase(newCard);
   };
 
-  const getBackground = async (id) => {
-    const {data} = await
-    client
+  const getBackground = async (id: number) => {
+    const { data } = await client
       .from('boards')
       .select('background')
-      .eq('id', id)
+      .eq('id', id);
     changeWrapperBg(data[0].background);
-  }
+  };
 
   useEffect(() => {
     //getBackground();
@@ -136,9 +143,9 @@ const DashboardPage = () => {
   }, [columns]);
 
   useEffect(() => {
-    if (cards.length) {
+    if (cards && cards.length) {
       const ar = cards.map((el) => {
-        if (el.crd_title.toLowerCase().indexOf(value) >= 0) {
+        if (el.crd_title && el.crd_title.toLowerCase().indexOf(value) >= 0) {
           return { crd_id: el.crd_id, visible: true };
         }
         return { crd_id: el.crd_id, visible: false };
@@ -147,19 +154,17 @@ const DashboardPage = () => {
     }
   }, [value]);
 
-  const updateTable = async (type, arr) => {
+  const updateTable = async (type: string, arr: CardType[] | ColumnType[]) => {
     await client
       .from(type === 'columns' ? 'tsk_columns' : 'tsk_cards')
       .upsert(arr);
   };
 
-  const onDragEndHandle = async (result) => {
+  const onDragEndHandle = async (result: DropResult) => {
+    let cardsUnion = [];
     if (result.type === 'cards') {
       setChangeCardPos((prev) => !prev);
-
-      const updatedCards = getCardsAfterDragAndDrop(result, cards);
-
-      let cardsUnion = [];
+      const updatedCards = getCardsAfterDragAndDrop(result, cards) || [];
       if (updatedCards.length < cards.length) {
         const arrWithoutModifiedElems = cards.filter(
           (card) =>
@@ -171,20 +176,19 @@ const DashboardPage = () => {
         cardsUnion.push(...arrWithoutModifiedElems);
       }
       cardsUnion.push(...updatedCards);
-      cardsUnion.sort(sortCards);
-
+      if (cardsUnion.length > 1) cardsUnion.sort(sortCards);
       setCards(cardsUnion);
       updateTable('cards', updatedCards);
     } else {
-      const updatedColumns = getColumnsAfterDragAndDrop(result, columns);
-      updatedColumns.sort(sortColumns);
+      const updatedColumns = getColumnsAfterDragAndDrop(result, columns) || [];
+      if (updatedColumns.length > 1) updatedColumns.sort(sortColumns);
       setColumns(updatedColumns);
       await client.from('tsk_columns').upsert([...updatedColumns]);
     }
   };
 
-  const updateColumnTitle = (val, idColumn) => {
-    const newArrColumn = columns.map((col) => {
+  const updateColumnTitle = (val: string, idColumn: number) => {
+    const newArrColumn = columns.map((col: ColumnType) => {
       if (col.col_id === idColumn) {
         return { ...col, col_title: val };
       }
@@ -193,7 +197,7 @@ const DashboardPage = () => {
     setColumns(newArrColumn);
   };
 
-  const updateCardTitle = (val, cardId) => {
+  const updateCardTitle = (val: string, cardId: number) => {
     const newArrCard = cards.map((card) => {
       if (card.crd_id === cardId) {
         return { ...card, crd_title: val };
@@ -203,11 +207,15 @@ const DashboardPage = () => {
     setCards(newArrCard);
   };
 
-  const deleteElemFromDatabase = async (id) => {
+  const deleteElemFromDatabase = async (id: number) => {
     await client.from('tsk_cards').delete().match({ crd_id: id });
   };
 
-  const handleCardDelete = (cardId, columnId, cardOrder) => {
+  const handleCardDelete = (
+    cardId: number,
+    columnId: number,
+    cardOrder: number
+  ) => {
     const catdsArrWithNewOrder = cards.map((el) => {
       if (el.crd_columnid === columnId && el.crd_order > cardOrder) {
         return { ...el, crd_order: el.crd_order - 1 };
@@ -225,7 +233,11 @@ const DashboardPage = () => {
     );
   };
 
-  const handleColumnDelete = async (e, columnId, colOrder) => {
+  const handleColumnDelete = async (
+    e: React.MouseEvent,
+    columnId: number,
+    colOrder: number
+  ) => {
     e.stopPropagation();
     const { data, error } = await client
       .from('tsk_cards')
@@ -268,14 +280,14 @@ const DashboardPage = () => {
                 ref={provided.innerRef}
               >
                 {user ? (
-                  columns.map((column, index) => (
+                  columns.map((column: ColumnType, index: number) => (
                     <BoardListCard
                       title={column.col_title}
                       columnId={column.col_id}
                       columnOrder={column.col_order}
                       key={column.col_id}
                       cards={cards.filter(
-                        (el) => el.crd_columnid === column.col_id
+                        (el: CardType) => el.crd_columnid === column.col_id
                       )}
                       AddTask={AddTask}
                       index={index}
@@ -286,17 +298,15 @@ const DashboardPage = () => {
                       handleCardDelete={handleCardDelete}
                       cardsVisible={cardsVisible}
                       handleColumnDelete={handleColumnDelete}
-                      changeCardPos={changeCardPos}
                     />
                   ))
                 ) : (
                   <p></p>
                 )}
                 <AddButton
-                  text="another column"
                   type="list"
                   placeholder="Enter column title"
-                  onClick={(text) => {
+                  onClick={(text: string) => {
                     addColumn(text, boardID);
                   }}
                   textBtn="column"

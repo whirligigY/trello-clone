@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useInput } from '../../hooks/useInput';
 import { RenderFormAddButton } from '../RenderFormAddButton';
 import { RenderAddButton } from '../RenderAddButton';
 import { useClick } from './hooks/useClick';
+import { AddButtonProps } from './index.props';
 
-const AddButton = ({ type, placeholder, textBtn, onClick }) => {
-  const handleAddActivity = (text) => {
+const AddButton: FC<AddButtonProps> = ({
+  type,
+  placeholder,
+  textBtn,
+  onClick,
+}) => {
+  const handleAddActivity = (text: string) => {
     if (typeof onClick === 'function') {
       setIsFormActive(false);
       if (text) onClick(text);
@@ -16,7 +22,7 @@ const AddButton = ({ type, placeholder, textBtn, onClick }) => {
 
   const input = useInput('');
 
-  const onChangeState = (value) => {
+  const onChangeState = (value: boolean) => {
     setIsFormActive(value);
   };
 

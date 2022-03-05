@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Button } from 'react-bootstrap';
+import { RenderAddButtonProps } from './index.props';
 import styles from './RenderAddButton.module.css';
 
-const RenderAddButton = ({ type, textBtn, onChangeState }) => {
+const RenderAddButton: FC<RenderAddButtonProps> = ({
+  type,
+  textBtn,
+  onChangeState,
+}) => {
   return (
     <Button
       variant="light"

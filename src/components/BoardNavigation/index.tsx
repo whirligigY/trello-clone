@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Nav, Navbar, Container } from 'react-bootstrap';
 import styles from './BoardNavigation.module.css';
 import { BoardFilterModal } from '../BoardFilterModal';
 import { useToggleModal } from '../../pages/DashboardPage/hooks';
+import { BoardNavigationProps } from './index.props';
 
-const BoardNavigation = ({ title, inputSearch }) => {
+const BoardNavigation: FC<BoardNavigationProps> = ({ title, inputSearch }) => {
   const { showFilter, handleShow, handleClose } = useToggleModal();
 
   return (

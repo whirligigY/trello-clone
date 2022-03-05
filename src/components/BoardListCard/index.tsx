@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, FC } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styles from './BoardListCard.module.css';
 import { BoardCard } from '../BoardCard';
 import { AddButton } from '../AddButton';
 import { RenderColumnTitle } from '../RenderColumnTitle';
 import { useAuth } from '../../contexts/Auth';
+import { BoardListCardProps } from './index.props';
 
-const BoardListCard = ({
+const BoardListCard: FC<BoardListCardProps> = ({
   title,
   columnId,
   columnOrder,
@@ -20,26 +20,26 @@ const BoardListCard = ({
   cardsVisible,
   handleColumnDelete,
   boardId,
-  getData
+  getData,
 }) => {
-  const [isEditTitleColumn, setIsEditTitleColum] = useState(false);
+  const [isEditTitleColumn, setIsEditTitleColumn] = useState(false);
   const { client } = useAuth();
 
-  const upsertTitle = async (val, idColumn) => {
+  const upsertTitle = async (val: string, idColumn: number) => {
     await client
       .from('tsk_columns')
       .upsert([{ col_id: idColumn, col_title: val }]);
   };
 
-  const handleBlur = (val, idCol) => {
+  const handleBlur = (val: string, idCol: number) => {
     updateColumnTitle(val, idCol);
-    setIsEditTitleColum(false);
+    setIsEditTitleColumn(false);
     upsertTitle(val, idCol);
   };
 
   /* board labels*/
   const [labels, setLabels] = useState([]);
-  const [labelsUpdate, setLabelsUpdate] = useState(false);
+  const [labelsUpdate, setLabelsUpdate] = useState<boolean>(false);
 
   useEffect(() => {
     client
@@ -72,6 +72,13 @@ const BoardListCard = ({
     getData('cards', null);
   };
 
+  interface KonvaTextEventTarget extends EventTarget {
+    value: string;
+  }
+  interface KonvaMouseEvent extends React.MouseEvent<HTMLElement> {
+    target: KonvaTextEventTarget;
+  }
+
   /*end board labels */
 
   return (
@@ -100,17 +107,17 @@ const BoardListCard = ({
                   ) : (
                     <div
                       className={styles.title_container}
-                      onClick={() => setIsEditTitleColum(true)}
+                      onClick={(e) => setIsEditTitleColumn(true)}
                     >
                       <h4>{title}</h4>
-                      <span
+                      <button
                         className={styles.delete}
-                        onClick={(e) =>
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
                           handleColumnDelete(e, columnId, columnOrder)
                         }
                       >
                         delete
-                      </span>
+                      </button>
                     </div>
                   )}
                 </div>
@@ -135,12 +142,10 @@ const BoardListCard = ({
                   ))}
                 {provided.placeholder}
                 <AddButton
-                  text="task"
                   type="card"
-                  listId={columnId}
                   placeholder="Enter a title for this card"
                   textBtn="task"
-                  onClick={(text) => AddTask(text, columnId)}
+                  onClick={(text: string) => AddTask(text, columnId)}
                 />
               </div>
             )}

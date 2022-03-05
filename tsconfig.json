@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "es2021",
     "module": "commonjs",
     "allowJs": true,
     "checkJs": false,
@@ -17,6 +17,6 @@
     "outDir": "./build",
     "jsx": "preserve"
   },
-  "exclude": ["node_modules", "/"],
-  "include": ["**.ts", "**.tsx"]
+  "include": ["*/.ts", "*/.tsx", "./declaration.d.ts"],
+  "exclude": ["node_modules", "/"]
 }
