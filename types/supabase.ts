@@ -688,7 +688,3 @@ export interface parameters {
   /** Format: bigint */
   'rowFilter.tsk_columns.col_order': string;
 }
-
-export interface operations {}
-
-export interface external {}

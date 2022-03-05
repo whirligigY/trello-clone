@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { DeadlineDropdownMenu } from '../SideMenu/DeadlineDropdown/DeadlineDropdownMenu'
 import '../TaskModalWindow.css'
 import moment from 'moment';
+import { CurrentDeadlineProps } from './types';
 
-const CurrentDeadline = ({ dateValue,
+const CurrentDeadline: FC<CurrentDeadlineProps> = ({ 
+  dateValue,
   changeDeadline,
   setDeadlineView,
   useDeadlineRange,

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { LabelsDropdownMenu } from './LabelsDropdownMenu'
+import { LabelsDropdownProps } from './types'
 
-const LabelsDropdown = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
+const LabelsDropdown: FC<LabelsDropdownProps> = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
 
   return (
     <Dropdown>

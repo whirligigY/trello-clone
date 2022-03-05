@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Modal, Container, Row, Col } from 'react-bootstrap';
 import { TaskDescription } from './TaskDescription/TaskDescription';
 import { CheckList } from './CheckList/CheckList';
@@ -8,8 +8,9 @@ import { DeadlineDropdown } from './SideMenu/DeadlineDropdown/DeadlineDropdown';
 import { CoversDropdown } from './SideMenu/CoversDropdown/CoversDropdown';
 import { CurrentLabels } from './ServicesPanel/CurrentLabels';
 import { CurrentDeadline } from './ServicesPanel/CurrentDeadline';
+import { TaskModalBodyProps } from './types';
 
-const TaskModalBody = ({
+const TaskModalBody: FC<TaskModalBodyProps> = ({
   dateValue,
   changeDeadline,
   showDeadline,
@@ -77,7 +78,10 @@ const TaskModalBody = ({
               cardId={cardId}
             />
             {checkLists.map((item) => (
-              <CheckList key={item.id} id={item.id} title={item.title} 
+              <CheckList 
+              key={item.id} 
+              id={item.id} 
+              title={item.title} 
               addCheckBox={addCheckBox}
               changeCheckboxTitle={changeCheckboxTitle}
               removeCheckBox={removeCheckBox}
@@ -85,7 +89,8 @@ const TaskModalBody = ({
               removeCheckList={removeCheckList}
               removeCheckListItem={removeCheckListItem}
               checkboxes={checkboxes}
-              checkedCheckboxes={checkedCheckboxes}/>
+              checkedCheckboxes={checkedCheckboxes}
+              />
             ))}
           </Col>
           <Col className="side-buttons" xs={4} md={2}>

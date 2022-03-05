@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import '../TaskModalWindow.css'
+import { CheckListDropdownProps } from './types'
 
-const CheckListDropdown = ({ changeCheckList }) => {
+
+const CheckListDropdown: FC<CheckListDropdownProps> = ({ changeCheckList }) => {
   const addCheckList = () => {
-    const input = document.querySelector('.check-list-name-input');
+    const input = document.querySelector('.check-list-name-input') as HTMLInputElement;
     const name = input.value;
     changeCheckList(name);
     input.value = '';

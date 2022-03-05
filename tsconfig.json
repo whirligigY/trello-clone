@@ -17,6 +17,6 @@
     "outDir": "./build",
     "jsx": "preserve"
   },
-  "include": ["*/.ts", "*/.tsx", "./declaration.d.ts"],
-  "exclude": ["node_modules", "/"]
+  "exclude": ["node_modules", "/"],
+  "include": ["*/**.ts", "*/**.tsx", "./declaration.d.ts"]
 }

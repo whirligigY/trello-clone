@@ -21,13 +21,12 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    // "airbnb",
-    // "airbnb/hooks",
     "prettier"
   ],
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": true
+      "jsx": true,
+      "tsx": true
     },
     "ecmaVersion": 12,
     "sourceType": "module"
@@ -41,10 +40,17 @@
   ],
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "extends": ["prettier"],
     "react/jsx-filename-extension": [
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "semi": true,
+        "singleQuote": true,
+        "trailingComma": "es5"
+      }
     ],
     "import/extensions": [
       "error",

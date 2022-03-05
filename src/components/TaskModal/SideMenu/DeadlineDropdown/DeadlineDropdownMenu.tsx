@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
+import { DeadlineDropdownProps } from './types'
 
-const DeadlineDropdownMenu = ({ dateValue,
+const DeadlineDropdownMenu: FC<DeadlineDropdownProps>  = ({ dateValue,
   changeDeadline,
   setDeadlineView,
   useDeadlineRange,
@@ -16,8 +17,8 @@ const DeadlineDropdownMenu = ({ dateValue,
     setDeadlineRange(!useDeadlineRange);
   }
 
-  const addDeadlineTime = (e) => {
-    changeDeadlineTime(e.target.value);
+  const addDeadlineTime = (e: React.FormEvent<HTMLInputElement>) => {
+    changeDeadlineTime((e.target as HTMLInputElement).value);
   }
 
   const addDeadline = () => 
