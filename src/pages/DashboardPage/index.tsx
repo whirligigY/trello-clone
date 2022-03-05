@@ -38,8 +38,14 @@ const DashboardPage = () => {
     username: '',
   };
   const [boardTitle, setBoardTitle] = useState(initial);
-  const inputSearch = useInput('');
-  const { value } = inputSearch;
+  const inputSearch = useInput('') as {
+    value: string;
+    onChange: (
+      ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | undefined
+    ) => void;
+    onClear: () => void;
+  };
+
   const boardID = Number(boardId);
   const { changeWrapperBg } = useContext(BgContext);
 
@@ -145,14 +151,17 @@ const DashboardPage = () => {
   useEffect(() => {
     if (cards && cards.length) {
       const ar = cards.map((el) => {
-        if (el.crd_title && el.crd_title.toLowerCase().indexOf(value) >= 0) {
+        if (
+          el.crd_title &&
+          el.crd_title.toLowerCase().indexOf(inputSearch.value) >= 0
+        ) {
           return { crd_id: el.crd_id, visible: true };
         }
         return { crd_id: el.crd_id, visible: false };
       });
       setCardsVisible(ar);
     }
-  }, [value]);
+  }, [inputSearch.value]);
 
   const updateTable = async (type: string, arr: CardType[] | ColumnType[]) => {
     await client

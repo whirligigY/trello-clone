@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Modal, Form } from 'react-bootstrap';
+import { BoardFilterModalProps } from './index.props';
 import styles from './BoardFilterModal.module.css';
 
-const BoardFilterModal = ({ showFilter, handleClose, inputSearch }) => {
+const BoardFilterModal: FC<BoardFilterModalProps> = ({
+  showFilter,
+  handleClose,
+  inputSearch,
+}) => {
   return (
     <div
       className={
@@ -10,7 +15,7 @@ const BoardFilterModal = ({ showFilter, handleClose, inputSearch }) => {
       }
     >
       <Modal.Dialog className={styles.modal__dialog}>
-        <Modal.Header closeButton onClick={(e) => handleClose(e, 'filter')}>
+        <Modal.Header closeButton onClick={(e) => handleClose('filter')}>
           <Modal.Title>Filter</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -22,7 +27,8 @@ const BoardFilterModal = ({ showFilter, handleClose, inputSearch }) => {
                 placeholder="Enter task name"
                 className="me-2"
                 aria-label="Search"
-                {...inputSearch}
+                value={inputSearch.value}
+                onChange={inputSearch.onChange}
               />
             </Form.Group>
           </Form>

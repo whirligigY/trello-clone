@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, LegacyRef } from 'react';
 import { useInput } from '../../hooks/useInput';
 import { RenderFormAddButton } from '../RenderFormAddButton';
 import { RenderAddButton } from '../RenderAddButton';
@@ -11,6 +11,12 @@ const AddButton: FC<AddButtonProps> = ({
   textBtn,
   onClick,
 }) => {
+  const [formRef, isFormActive, setIsFormActive] = useClick(false) as [
+    formRef: LegacyRef<HTMLDivElement>,
+    isFormActive: boolean,
+    setIsFormActive: any
+  ];
+
   const handleAddActivity = (text: string) => {
     if (typeof onClick === 'function') {
       setIsFormActive(false);
@@ -18,11 +24,9 @@ const AddButton: FC<AddButtonProps> = ({
     }
   };
 
-  const [formRef, isFormActive, setIsFormActive] = useClick(false);
-
   const input = useInput('');
 
-  const onChangeState = (value: boolean) => {
+  const onChangeState = (value: boolean): void => {
     setIsFormActive(value);
   };
 

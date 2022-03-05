@@ -72,13 +72,6 @@ const BoardListCard: FC<BoardListCardProps> = ({
     getData('cards', null);
   };
 
-  interface KonvaTextEventTarget extends EventTarget {
-    value: string;
-  }
-  interface KonvaMouseEvent extends React.MouseEvent<HTMLElement> {
-    target: KonvaTextEventTarget;
-  }
-
   /*end board labels */
 
   return (

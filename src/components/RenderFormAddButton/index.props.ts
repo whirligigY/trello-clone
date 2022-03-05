@@ -1,6 +1,6 @@
 export interface RenderProps {
   value: string;
-  onChange: (ev: React.MouseEventHandler<HTMLSpanElement> | undefined) => void;
+  onChange: (ev: React.MouseEvent<HTMLSpanElement> | undefined) => void;
   onClear: () => void;
 }
 
@@ -8,7 +8,9 @@ export interface RenderFormAddButtonProps {
   placeholder: string;
   input: {
     value: string;
-    onChange: (ev: React.ChangeEvent<HTMLTextAreaElement> | undefined) => void;
+    onChange: (
+      ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | undefined
+    ) => void;
     onClear: () => void;
   };
   textBtn: string;

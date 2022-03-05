@@ -1,5 +1,6 @@
-export interface BoardNavigationProps {
-  title: string;
+export interface BoardFilterModalProps {
+  showFilter: boolean;
+  handleClose: (type: string) => void;
   inputSearch: {
     value: string;
     onChange: (
