@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import './searchContentCard.css';
+import { IBoards } from './types';
 
-export const SearchContentCard = (props) => {
-  const { data } = props;
-
-  const [dateConverted, setDateConverted] = useState('');
+export const SearchContentCard: FC<IBoards> = ({ data }) => {
+  const [dateConverted, setDateConverted] = useState<string>('');
 
   useEffect(() => {
     const dateNew = new Date(data.insertedat).toLocaleString('ru-RU');
     setDateConverted(dateNew);
-  }, [data, props]);
+  }, [data]);
 
   return (
     <div className="search__content__DB" key={data.id}>
