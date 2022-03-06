@@ -105,4 +105,4 @@ const Boards = () => {
   );
 };
 
-export default Boards;
+export { Boards };
