@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { CurrentLabel } from './CurrentLabel';
 import '../TaskModalWindow.css'
+import { CurrentLabelsProps } from './types';
 
-const CurrentLabels = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
+const CurrentLabels: FC<CurrentLabelsProps> = ({ activeLabels, changeActiveLabels, labels, changeLabels, remove }) => {
   
   return (
     <div>
@@ -10,7 +11,8 @@ const CurrentLabels = ({ activeLabels, changeActiveLabels, labels, changeLabels,
       <div className="current-labels">
         { activeLabels.map((item, i) => {
           if (item.status) {
-            return <CurrentLabel item={item} key={i} 
+            return <CurrentLabel 
+            item={item} key={i} 
             activeLabels={activeLabels} 
             changeActiveLabels={changeActiveLabels} 
             labels={labels} 
