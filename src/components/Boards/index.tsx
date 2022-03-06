@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+
 import { Row, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,36 +10,41 @@ import { WorkspaceBoarModal } from '../WorkspaceBoardModal';
 import { useKeyPress } from '../../hooks/hotKeys';
 import { BgContext } from '../../contexts/BgContext';
 
+import { IBoards } from './types';
+
 import './boards.css';
 
-const Boards = ({ handleBoardIdChange, ...props }) => {
-  const [boards, setBoards] = useState([]);
+const Boards = () => {
+  const [boards, setBoards] = useState<IBoards[] | []>([]);
   const [modalShow, setModalShow] = useState(false);
   const { changeWrapperBg } = useContext(BgContext);
 
-  const { user, client, authState, userProfile } = useAuth();
+  const { user, client, userProfile } = useAuth();
 
   useEffect(() => {
-    if (user) {
-      client
-        .from('boards')
-        .select('*')
-        .eq('user_id', user?.id)
-        .order('id', { ascending: true })
-        .then(({ data, error }) => {
-          if (!error) {
-            setBoards(data);
-          }
-        });
-    }
-  }, [user, modalShow, client]);
+    const getBoards = async () => {
+      if (user) {
+        try {
+          const { data } = await client
+            .from('boards')
+            .select('*')
+            .eq('user_id', user?.id)
+            .order('id', { ascending: true });
+          setBoards(data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    getBoards();
+  }, [modalShow]);
 
   const handleModal = () => setModalShow(true);
   const navigate = useNavigate();
 
   useKeyPress(['b'], ['Control'], handleModal);
 
-  const getBackground = async (id) => {
+  const getBackground = async (id: number) => {
     const { data } = await client
       .from('boards')
       .select('background')
@@ -52,12 +58,11 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
       <WorkspaceBoards>
         <Row className="workspace__boards board__list">
           {userProfile()?.aud === 'authenticated' ? (
-            boards.map((item) => (
+            boards.map((item: IBoards) => (
               <div
                 key={item.id}
                 className="board__list__board card"
                 onClick={() => {
-                  //  handleBoardIdChange(item.id);
                   getBackground(item.id);
                 }}
                 role="none"
@@ -73,7 +78,7 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
               <p>You need to sign in to view your boards.</p>
             </div>
           )}
-          {userProfile()?.aud === 'authenticated' ? (
+          {userProfile()?.aud === 'authenticated' && (
             <div className="board__list__board card card_add-new-board">
               <Button
                 variant="light"
@@ -85,20 +90,17 @@ const Boards = ({ handleBoardIdChange, ...props }) => {
                 Add new Board
               </Button>
             </div>
-          ) : null}
+          )}
         </Row>
       </WorkspaceBoards>
-      {modalShow ? (
+      {modalShow && (
         <WorkspaceBoarModal
           show={modalShow}
-          handleBoardIdChange={handleBoardIdChange}
-          {...props}
           onHide={() => {
             setModalShow(false);
           }}
-          // saveModalData={(...args) => handleModalData(args)}
         />
-      ) : null}
+      )}
     </>
   );
 };
