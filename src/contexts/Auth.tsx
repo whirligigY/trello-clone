@@ -1,8 +1,8 @@
 import {
-  SupabaseClientOptions,
   UserCredentials,
   User,
   SupabaseClient,
+  ApiError,
 } from '@supabase/supabase-js';
 
 import React, {
@@ -11,21 +11,11 @@ import React, {
   useEffect,
   useMemo,
   ReactNode,
-  Context,
 } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '../client';
-
-// TODO: password restore
-/**
- * fix password restore
- * when password is restared user is singed in directly without asking to reset the assword
- *  see here: https://dev.to/misha_wtf/user-authentication-in-nextjs-with-supabase-4l12
- * */
-
-// TODO: refactor checkUser() not sure if checkUser() is required check
 
 const AuthContext = React.createContext(undefined);
 
@@ -37,6 +27,9 @@ export function useAuth(): {
   client: SupabaseClient;
   user: User;
   userProfile: () => User;
+  signOut: () => Promise<{
+    error: ApiError;
+  }>;
 } {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -73,7 +66,6 @@ export const AuthProvider = (props: { children: Props }) => {
           if (!error) {
             setAuthState('authenticated');
           } else {
-            // navigate to 404
             setAuthState('non-authenticated');
           }
         }
@@ -96,22 +88,15 @@ export const AuthProvider = (props: { children: Props }) => {
     };
   }, []);
 
-  // type clientT = {
-  //   supabaseUrl: string;
-  //   supabaseKey: string;
-  //   options?: SupabaseClientOptions | undefined;
-  // };
-
   const value = useMemo(
     () => ({
       signIn: (data: UserCredentials) => supabase.auth.signIn(data),
       signOut: () => supabase.auth.signOut(),
       userProfile: () => supabase.auth.user(),
       client: supabase,
-      user,
       authState,
     }),
-    [authState, user]
+    [authState]
   );
 
   return (
