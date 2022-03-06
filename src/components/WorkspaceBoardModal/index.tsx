@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
 import { BgContext } from '../../contexts/BgContext';
 import './WorkspaceBoardModal.css';
-import { WorkspaceBoardModalProps } from './types';
+import { IWorkspaceBoardModalProps } from './types';
 
-const WorkspaceBoarModal: FC<WorkspaceBoardModalProps> = ({ ...props }) => {
+const WorkspaceBoarModal: FC<IWorkspaceBoardModalProps> = ({ ...props }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +34,6 @@ const WorkspaceBoarModal: FC<WorkspaceBoardModalProps> = ({ ...props }) => {
     if (res) {
       getBackground(res.data[0].id);
     }
-
     if (!res.error) closeHandler();
   };
   const getBackground = async (id: number) => {
@@ -47,7 +46,7 @@ const WorkspaceBoarModal: FC<WorkspaceBoardModalProps> = ({ ...props }) => {
   };
 
   function Delay() {
-    return new Promise<void | void>((res, rej) => {
+    return new Promise<void | void>((res, _rej) => {
       setTimeout(() => res(), 500);
     });
   }
