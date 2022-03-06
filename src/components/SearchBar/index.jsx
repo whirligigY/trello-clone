@@ -3,7 +3,7 @@ import './searchBar.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useClickOutside } from 'react-click-outside-hook';
-import { useDebauncer } from '../../utils';
+import { useDebauncer } from '../../hooks/useDebauncer';
 import { useAuth } from '../../contexts/Auth';
 import { SearchContentCard } from '../SearchContentCard';
 

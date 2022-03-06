@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 export const getNewColumn = (id, text, columns) => {
   return {
     col_boardid: id,
@@ -87,21 +85,4 @@ export const getColumnsAfterDragAndDrop = (result, columns) => {
     return getNewOrderArray(columns, 'col_order', prevOrder, nextOrder);
   }
   return columns;
-};
-
-export const useDebauncer = (value, timeout, callback) => {
-  const [timer, setTimer] = useState(null);
-
-  const clearTimer = () => {
-    if (timer) clearTimeout(timer);
-  };
-
-  useEffect(() => {
-    clearTimer();
-
-    if (value && callback) {
-      const newTimer = setTimeout(callback, timeout);
-      setTimer(newTimer);
-    }
-  }, [value]);
 };
