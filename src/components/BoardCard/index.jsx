@@ -193,6 +193,7 @@ const BoardCard = ({
   };
 
   const changeLabels = (val) => {
+    console.log('value= ', val);
     const newItem = val;
     if (!newItem.id) {
       newItem.id = labels.length + 1;

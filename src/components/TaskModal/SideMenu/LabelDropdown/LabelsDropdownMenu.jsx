@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, Button } from "react-bootstrap";
 import { AddLabelMenu } from './AddLabelMenu'
+import { EditLabel } from './EditLabel'
 import "../../TaskModalWindow.css";
 import { useEffect } from 'react';
 
@@ -29,13 +30,13 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
   }, [labels])
 
   const [search, setSearch] = useState();
-  const preparedLables = search ? labels.filter((el) => {
+  let preparedLables = search ? labels.filter((el) => {
     const searchReg = new RegExp(`${search}`, 'i');
     return String(el.value).match(searchReg)
   }) : labels;
 
   useEffect(() => {
-    const preparedLables = search ? labels.filter((el) => {
+    preparedLables = search ? labels.filter((el) => {
       const searchReg = new RegExp(`${search}`, 'i');
       return String(el.value).match(searchReg)
     }) : labels;
@@ -45,7 +46,10 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
     setSearch(e.target.value);
   }
 
+  const [upload, setUpload] = useState(-1);
+
   const addLabel = (e) => {
+    console.log('hi')
     const { target } = e;
     let active = true;
     if (target.classList.contains("label")) {
@@ -69,73 +73,81 @@ const LabelsDropdownMenu = ({ activeLabels, changeActiveLabels, labels, changeLa
     }
   };
 
+  const test = (e) => {
+    //console.log('upload = ', upload);
+    console.log('clickTarget= ', e.target);
+    if (e.target.classList.contains("edit-button")) {
+      const { id }= e.target.closest(".label-item");
+      setUpload(Number(id))
+    } else if (e.target.classList.contains("add-button")) {
+      setUpload(0)
+    } else  if (e.target.classList.contains("btn-check") || e.target.classList.contains("rectangle")) {
+      e.stopPropagation();
+    }
+  }
+
   return (
     <Dropdown.Menu>
       <input className="search-input" type="text" placeholder="Search label" onInput={changeSearchValue}/>
       <Dropdown.Divider />
-      <div className="labels-list" onClick={addLabel}>
+      <div className="labels-list">
       {preparedLables !== labels && preparedLables.map((item, i) => {
-        return <div className="label-item dropdown-item" id={`${item.id}`} key={i}>
+        return <div className="label-item" id={`${item.id}`} key={i} onClick={addLabel}>
           <input className={`label ${item.status ? "active" : ""} ${item.color}`} disabled value={`${item.value}`} data-color={`${item.color}`}/>
-          <Dropdown>
+          <Dropdown onClick={test}>
             <Dropdown.Toggle
               className="edit-button"
               >
             </Dropdown.Toggle>
-            <AddLabelMenu
-              id={item.id}
-              title={item.value}
-              itemColor={item.color}
-              itemStatus={item.status}
+            <EditLabel
+              id={Number(item.id)}
               activeLabels={activeLabels}
               changeActiveLabels={changeActiveLabels}
-              labels={labels}
+              cardLabels={trueCardLabels}
               changeLabels={changeLabels}
-              remove={remove}/>
+              remove={remove}
+              upload={upload}
+              setUpload={setUpload}/>
           </Dropdown>
         </div>;
       })}
       {preparedLables === labels && trueCardLabels.map((item, i) => {
-        return <div className="label-item dropdown-item" id={`${item.id}`} key={i}>
-          <input className={`label ${item.status ? "active" : ""} ${item.color}`} disabled value={`${item.value}`} data-color={`${item.color}`}/>
-          <Dropdown>
+        return <div className="label-item" id={`${item.id}`} key={i} >
+          <Button onClick={addLabel}>
+            <input className={`label ${item.status ? "active" : ""} ${item.color}`} disabled value={`${item.value}`} data-color={`${item.color}`} /></Button>
+          <Dropdown onClick={test}>
             <Dropdown.Toggle
               className="edit-button"
               >
             </Dropdown.Toggle>
-            <AddLabelMenu
+            <EditLabel
               id={Number(item.id)}
-              title={item.value}
-              itemColor={item.color}
-              itemStatus={item.status}
               activeLabels={activeLabels}
               changeActiveLabels={changeActiveLabels}
-              labels={labels}
+              cardLabels={trueCardLabels}
               changeLabels={changeLabels}
-              remove={remove}/>
+              remove={remove}
+              upload={upload}
+              setUpload={setUpload}
+              />
           </Dropdown>
         </div>;
       })}
       </div>
       <Dropdown.Divider />
-      <Dropdown>
+      <Dropdown onClick={test} autoClose="outside">
         <Dropdown.Toggle
-          className="dropdown-item"
+          className="add-button"
           variant="primary"
           id="add-new-label"
           >
           Add new label
         </Dropdown.Toggle>
         <AddLabelMenu
-          id={0}
-          title={''}
-          itemColor={''}
-          itemStatus={false}
-          activeLabels={activeLabels}
-          changeActiveLabels={changeActiveLabels}
           labels={labels}
           changeLabels={changeLabels}
-          remove={remove}/>
+          upload={upload}
+          setUpload={setUpload}/>
       </Dropdown>
     </Dropdown.Menu>
   );

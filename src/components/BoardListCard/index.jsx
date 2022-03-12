@@ -59,6 +59,7 @@ const BoardListCard = ({
 
   useEffect(() => {
     if (labelsUpdate) {
+      console.log('labels = ', labels)
       saveBoardLabels();
       setLabelsUpdate(false);
     }

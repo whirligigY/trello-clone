@@ -1,3 +1,10 @@
+/*test */
+
+.labels-colors .btn-check {
+  width: 45px;
+  height:20px;
+}
+
 /*modal header styles */
 .modal-header .btn-close {
   position: absolute;

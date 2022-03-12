@@ -3,29 +3,31 @@ import { Dropdown, ToggleButtonGroup, ToggleButton } from "react-bootstrap";
 import "../../TaskModalWindow.css";
 
 const AddLabelMenu = ({ 
-  changeActiveLabels,
   labels,
   changeLabels,
-  id,
-  title,
-  itemColor,
-  itemStatus }) => {
-  const [newLabel, setNewLabel] = useState({id: id, color: itemColor, value: title, status: ''});
-  const [labelTitle, setLabelTitle] = useState(title || '');
-  const [value, setValue] = useState(itemColor || '');
+  upload,
+  setUpload
+ }) => {
+  const [newLabel, setNewLabel] = useState({});
+  const [labelTitle, setLabelTitle] = useState('');
+  const [value, setValue] = useState('blue');
 
-  const addColor = (val) => {
-    setValue(val);
-    setNewLabel((prevState) => {return {...prevState, color: val}});
+  const addNewColor = (e) => {
+    if (newLabel.color !== e.target.value) {
+      console.log('add color for new Label = ', e.target.value);
+      setValue(String(e.target.value));
+      setNewLabel((prevState) => {return {...prevState, color: e.target.value}});
+    }
   }
 
+  useEffect(()=>{console.log('new Color for new Label= ', value)}, [value])
+
   useEffect (()=>{
-    if (itemStatus) {
-      setNewLabel((prevState) => {return {...prevState, status: true}});
-    } else {
-      setNewLabel((prevState) => {return {...prevState, status: false}});
+    if (upload == 0) {
+      setNewLabel({id: labels.length + 1, color: 'blue', value: '', status: false});
     }
-  }, [itemStatus]
+    setUpload(labels.length + 1);
+  }, [upload]
   )
 
   const addTitle = (e) => {
@@ -34,24 +36,20 @@ const AddLabelMenu = ({
   }
 
   const addNewLabel = () => {
-    if (id) {
-      setNewLabel((prevState) => {return {...prevState, id: Number(id)}});
-    } else {
-      setNewLabel((prevState) => {return {...prevState, id: Number(labels.length + 1)}});
-    }
+    console.log('addNewLabel = ', newLabel)
     changeLabels(newLabel);
-    if (itemStatus) {
-      changeActiveLabels(newLabel);
-    }
+    //setNewLabel({id: 0, color: 'blue', value: '', status: false})
+    setLabelTitle('');
+    setValue('blue');
   };
 
   return (
-    <Dropdown.Menu>
+    <Dropdown.Menu className='add'>
       <input className="label-name-input" type="text" placeholder="Label name" value={labelTitle} onChange={addTitle}/>
       <Dropdown.Divider />
 
-      <ToggleButtonGroup className='labels-colors' type="radio" name="options" value={value} onChange={addColor}>
-        <ToggleButton className='rectangle blue' id="tbg-radio-1" value={'blue'} />
+      <ToggleButtonGroup className='new-labels-colors' type="radio" name="options" value={value} onClick={addNewColor}>
+        <ToggleButton className='rectangle blue' id="tbg-radio-1" value={'blue'}/>
         <ToggleButton className='rectangle yellow' id="tbg-radio-2" value={'yellow'} />
         <ToggleButton className='rectangle red' id="tbg-radio-3" value={'red'} />
         <ToggleButton className='rectangle green' id="tbg-radio-4" value={'green'} />
