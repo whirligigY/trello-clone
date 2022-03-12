@@ -20,21 +20,49 @@ const BoardCard = ({
   updateCardTitle,
   handleCardDelete,
   cardsVisible,
-  labels,
-  setLabels,
-  setLabelsUpdate,
-  getData
+  boardId,
+  getData,
 }) => {
   const [visible, setVisible] = useState(false);
+  const [activeLabels, setActiveLabels] = useState([]);
+  const [activeLabelsUpdate, setActiveLabelsUpdate] = useState(false);
+  const [isEditTitleCard, setIsEditTitleCard] = useState(false);
+  const [colorCover, setColorCover] = useState('');
+  const [pictureCover, setPictureCover] = useState('');
+  const [saveCover, setSaveCover] = useState(false);
+  const [value, onChange] = useState(new Date());
+  const [showDeadline, setShowDeadline] = useState(false);
+  const [isActiveRange, setIsActiveRange] = useState(false);
+  const [deadlineTime, setDeadlineTime] = useState('');
+  const [saveDeadline, setSaveDeadline] = useState(false);
+  const [checkLists, setCheckList] = useState([]);
+  const [checkboxes, setCheckboxes] = useState([]);
+  const [checkedCheckboxes, setCheckedCheckboxes] = useState([]);
+  const [changes, setChanges] = useState(false);
+  const [labels, setLabels] = useState([]);
   const { client } = useAuth();
 
-  const [isEditTitleCard, setIsEditTitleCard] = useState(false);
+  useEffect(() => {
+    client
+        .from('boards')
+        .select('brd_labels')
+        .eq('id', boardId)
+        .then(({ data, error }) => {
+          if (data) {
+            if (data.length > 0) {
+              if (!error) {
+                setLabels(JSON.parse(data[0].brd_labels));
+              }
+            }
+          }
+        });
+  }, []);
 
-  function closeHandle() {
+  const onCloseModal = () => {
     setVisible(false);
   }
 
-  function openHandle() {
+  const onShowModal = () => {
     setVisible(true);
   }
 
@@ -63,14 +91,8 @@ const BoardCard = ({
 
   const isCardVisible = () => {
     const currentCard = cardsVisible.find((el) => el.crd_id === card.crd_id);
-    return currentCard === undefined || currentCard.visible ? true : false;
+    return currentCard === undefined || currentCard.visible;
   };
-
-  /* task modal window state */
-  /* cover states */
-  const [colorCover, setColorCover] = useState('');
-  const [pictureCover, setPictureCover] = useState('');
-  const [saveCover, setSaveCover] = useState(false);
 
   const addColorCover = (val) => {
     setColorCover(val);
@@ -113,16 +135,6 @@ const BoardCard = ({
       .eq('crd_id', cardId);
     getData('cards', null);
   };
-
-  /* end cover states */
-
-  /* deadline states */
-
-  const [value, onChange] = useState(new Date());
-  const [showDeadline, setShowDeadline] = useState(false);
-  const [isActiveRange, setIsActiveRange] = useState(false);
-  const [deadlineTime, setDeadlineTime] = useState('');
-  const [saveDeadline, setSaveDeadline] = useState(false);
 
   const changeDeadlineView = (val) => {
     setShowDeadline(val);
@@ -167,12 +179,6 @@ const BoardCard = ({
     getData('cards', null);
   };
 
-  /* end of deadline states */
-
-  /* card labels state */
-  const [activeLabels, setActiveLabels] = useState([]);
-  const [activeLabelsUpdate, setActiveLabelsUpdate] = useState(false);
-
   useEffect(() => {
     if (activeLabelsUpdate) {
       saveСardLabels();
@@ -192,29 +198,24 @@ const BoardCard = ({
     getData('cards', null);
   };
 
-  const changeLabels = (val) => {
-    console.log('value= ', val);
-    const newItem = val;
-    if (!newItem.id) {
-      newItem.id = labels.length + 1;
+  const changeLabels = async (newLabel) => {
+
+    const { data, error } = await client
+      .from('tsk_cards')
+      .update({
+        crd_labels: JSON.stringify([
+          ...labels.filter((label) => label.id !== newLabel.id),
+          newLabel,
+        ]),
+      })
+      .eq('crd_id', cardId);
+
+    if (!error) {
+      setLabels(data.crd_labels);
     }
-    if (Number(newItem.id) <= Number(labels.length)) {
-      setLabels((prevState) =>
-        prevState.map((item) => {
-          if (Number(newItem.id) === Number(item.id)) {
-            item.id = newItem.id;
-            item.color = newItem.color;
-            item.status = newItem.status;
-            item.value = newItem.value;
-          }
-          return item;
-        })
-      );
-      setLabelsUpdate(true);
-    } else {
-      setLabels([...labels, newItem]);
-      setLabelsUpdate(true);
-    }
+
+    // TODO: Сетать нормально setLabels (сетается не туда и не то)
+    // TODO: Добавить getData()
   };
 
   const changeActiveLabels = (value) => {
@@ -226,6 +227,7 @@ const BoardCard = ({
 
       return item;
     });
+
     if (index !== -1) {
       setActiveLabels((prevState) =>
         prevState.map((item) => {
@@ -250,13 +252,6 @@ const BoardCard = ({
     ]);
     setActiveLabelsUpdate(true);
   };
-  /* end of labels states */
-
-  /* checklists states */
-  const [checkLists, setCheckList] = useState([]);
-  const [checkboxes, setCheckboxes] = useState([]);
-  const [checkedCheckboxes, setCheckedCheckboxes] = useState([]);
-  const [changes, setChanges] = useState(false);
 
   const changeCheckList = (value) => {
     setCheckList([
@@ -445,64 +440,64 @@ const BoardCard = ({
 
   /* download values from database */
   useEffect(() => {
-    if(cardId) {
-    client
-      .from('tsk_cards')
-      .select('*')
-      .eq('crd_id', cardId)
-      .then(({ data, error }) => {
-        if (data) {
-          if (data.length > 0) {
-            if (!error) {
-              setActiveLabels(() =>
-                data[0].crd_labels ? JSON.parse(data[0].crd_labels) : []
-              );
-              if (data[0].crd_deadlineDate) {
-                if (data[0].crd_startDate) {
-                  setIsActiveRange(true);
-                  onChange([
-                    new Date(data[0].crd_startDate),
-                    new Date(data[0].crd_deadlineDate),
-                  ]);
-                } else {
-                  let deadlineDate = new Date(data[0].crd_deadlineDate);
-                  if (deadlineDate != new Date()) {
-                    deadlineDate.setDate(deadlineDate.getDate() + 1);
+    if (cardId) {
+      client
+        .from('tsk_cards')
+        .select('*')
+        .eq('crd_id', cardId)
+        .then(({ data, error }) => {
+          if (data) {
+            if (data.length > 0) {
+              if (!error) {
+                setActiveLabels(() =>
+                  data[0].crd_labels ? JSON.parse(data[0].crd_labels) : []
+                );
+                if (data[0].crd_deadlineDate) {
+                  if (data[0].crd_startDate) {
+                    setIsActiveRange(true);
+                    onChange([
+                      new Date(data[0].crd_startDate),
+                      new Date(data[0].crd_deadlineDate),
+                    ]);
+                  } else {
+                    let deadlineDate = new Date(data[0].crd_deadlineDate);
+                    if (deadlineDate != new Date()) {
+                      deadlineDate.setDate(deadlineDate.getDate() + 1);
+                    }
+                    onChange(deadlineDate);
                   }
-                  onChange(deadlineDate);
+                  if (data[0].crd_deadlineTime) {
+                    setDeadlineTime(data[0].crd_deadlineTime);
+                  }
+                  setShowDeadline(true);
                 }
-                if (data[0].crd_deadlineTime) {
-                  setDeadlineTime(data[0].crd_deadlineTime);
+                if (data[0].crd_coverPic) {
+                  setPictureCover(data[0].crd_coverPic);
                 }
-                setShowDeadline(true);
+                if (data[0].crd_coverColor) {
+                  setColorCover(data[0].crd_coverColor);
+                }
+                setCheckList(() =>
+                  data[0].lists ? JSON.parse(data[0].lists) : []
+                );
+                setCheckboxes(() =>
+                  data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
+                );
+                setCheckedCheckboxes(() =>
+                  data[0].checkboxes
+                    ? JSON.parse(data[0].checkboxes)
+                        .map((item) => {
+                          return item.status
+                            ? { id: item.id, listId: item.listId }
+                            : 0;
+                        })
+                        .filter((item) => item !== 0)
+                    : []
+                );
               }
-              if (data[0].crd_coverPic) {
-                setPictureCover(data[0].crd_coverPic);
-              }
-              if (data[0].crd_coverColor) {
-                setColorCover(data[0].crd_coverColor);
-              }
-              setCheckList(() =>
-                data[0].lists ? JSON.parse(data[0].lists) : []
-              );
-              setCheckboxes(() =>
-                data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
-              );
-              setCheckedCheckboxes(() =>
-                data[0].checkboxes
-                  ? JSON.parse(data[0].checkboxes)
-                      .map((item) => {
-                        return item.status
-                          ? { id: item.id, listId: item.listId }
-                          : 0;
-                      })
-                      .filter((item) => item !== 0)
-                  : []
-              );
             }
           }
-        }
-      });
+        });
     }
   }, []);
   /* end modal states */
@@ -518,7 +513,7 @@ const BoardCard = ({
           {
             <TaskModalWindow
               visible={visible}
-              closeHandle={closeHandle}
+              closeHandle={onCloseModal}
               title={card['crd_title']}
               column={columnTitle}
               dateValue={value}
@@ -559,7 +554,7 @@ const BoardCard = ({
               className={
                 !isCardVisible() ? styles.card + ' ' + styles.hide : styles.card
               }
-              onClick={openHandle}
+              onClick={onShowModal}
             >
               <Card.Body>
                 <div>
@@ -606,7 +601,7 @@ const BoardCard = ({
                     </div>
                   )}
                 </div>
-                <div className='card_metrics'>
+                <div className="card_metrics">
                   {showDeadline && (
                     <Card.Link href="#" className="p-1 btn btn-secondary">
                       <i className="bi bi-clock-fill" />

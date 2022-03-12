@@ -23,6 +23,7 @@ const BoardListCard = ({
   getData
 }) => {
   const [isEditTitleColumn, setIsEditTitleColum] = useState(false);
+
   const { client } = useAuth();
 
   const upsertTitle = async (val, idColumn) => {
@@ -36,44 +37,6 @@ const BoardListCard = ({
     setIsEditTitleColum(false);
     upsertTitle(val, idCol);
   };
-
-  /* board labels*/
-  const [labels, setLabels] = useState([]);
-  const [labelsUpdate, setLabelsUpdate] = useState(false);
-
-  useEffect(() => {
-    client
-      .from('boards')
-      .select('brd_labels')
-      .eq('id', boardId)
-      .then(({ data, error }) => {
-        if (data) {
-          if (data.length > 0) {
-            if (!error) {
-              setLabels(JSON.parse(data[0].brd_labels));
-            }
-          }
-        }
-      });
-  }, []);
-
-  useEffect(() => {
-    if (labelsUpdate) {
-      console.log('labels = ', labels)
-      saveBoardLabels();
-      setLabelsUpdate(false);
-    }
-  }, [labelsUpdate]);
-
-  const saveBoardLabels = async () => {
-    const { data, error } = await client
-      .from('boards')
-      .update({ brd_labels: JSON.stringify(labels) })
-      .eq('id', boardId);
-    getData('cards', null);
-  };
-
-  /*end board labels */
 
   return (
     <Draggable draggableId={`${columnId}`} index={index}>
@@ -128,10 +91,8 @@ const BoardListCard = ({
                       updateCardTitle={updateCardTitle}
                       handleCardDelete={handleCardDelete}
                       cardsVisible={cardsVisible}
-                      setLabels={setLabels}
-                      labels={labels}
-                      setLabelsUpdate={setLabelsUpdate}
                       getData={getData}
+                      boardId={boardId}
                     />
                   ))}
                 {provided.placeholder}
