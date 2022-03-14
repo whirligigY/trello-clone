@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
 import { BgContext } from '../../contexts/BgContext';
 import './WorkspaceBoardModal.css';
-import { IWorkspaceBoardModalProps } from './types';
+import { IWorkspaceBoardModalProps, IUnsplash } from './types';
 
 const WorkspaceBoarModal: FC<IWorkspaceBoardModalProps> = ({ ...props }) => {
   const [title, setTitle] = useState('');
@@ -21,7 +21,7 @@ const WorkspaceBoarModal: FC<IWorkspaceBoardModalProps> = ({ ...props }) => {
     setIsComplete(false);
   };
 
-  const submitHandler = async (event) => {
+  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const res = await client
@@ -46,7 +46,7 @@ const WorkspaceBoarModal: FC<IWorkspaceBoardModalProps> = ({ ...props }) => {
   };
 
   function Delay() {
-    return new Promise<void | void>((res, _rej) => {
+    return new Promise<void | void>((res) => {
       setTimeout(() => res(), 500);
     });
   }
@@ -71,7 +71,7 @@ const WorkspaceBoarModal: FC<IWorkspaceBoardModalProps> = ({ ...props }) => {
     if (inputTag) tag = inputTag;
     const url = `https://api.unsplash.com/search/photos?query=${tag}&per_page=31&orientation=landscape&client_id=fNbe10hInNaKsDNkqXVOAUxSkOxj1Qt_qcPHwcaFlmk`;
     const res = await fetch(url);
-    const data = await res.json();
+    const data: IUnsplash = await res.json();
     const urlsArr = [];
     data.results.map((item) => {
       if (urlsArr.length < 40) {
@@ -81,11 +81,11 @@ const WorkspaceBoarModal: FC<IWorkspaceBoardModalProps> = ({ ...props }) => {
     setUnsplashCovers(urlsArr);
   }
 
-  const changeSearchValue = (e) => {
+  const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputTag(e.target.value);
   };
 
-  const addDackground = (val) => {
+  const addDackground = (val: string) => {
     setBackgroundImage(val);
   };
 
@@ -139,7 +139,7 @@ const WorkspaceBoarModal: FC<IWorkspaceBoardModalProps> = ({ ...props }) => {
               {unsplashCovers.map((item, i) => {
                 return (
                   <Button
-                    key={i}
+                    key={i + 'unsplash'}
                     className="cover_btn"
                     onClick={() => addDackground(item.raw)}
                   >
@@ -161,7 +161,7 @@ const WorkspaceBoarModal: FC<IWorkspaceBoardModalProps> = ({ ...props }) => {
             <Button variant="primary" disabled={isLoading} type="submit">
               {isLoading ? (
                 <>
-                  <span className="spinner-border spinner-border-sm" />{' '}
+                  <span className="spinner-border spinner-border-sm" />
                   Saving...
                 </>
               ) : (
