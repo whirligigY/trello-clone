@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { routesConfig } from './routesConfig';
+import { noLoginRoutesConfig } from './no-login-routesConfig';
 
 import { Header } from './components/Header';
 import Footer from './components/Footer';
 import { AuthProvider } from './contexts/Auth';
 import { BgContext } from './contexts/BgContext';
+import { supabase } from './client';
+
 import './App.css';
 
 const App = () => {
@@ -13,6 +16,8 @@ const App = () => {
     'https://fyddxppvkwjfodizkufq.supabase.in/storage/v1/object/public/avatars/beautiful.jpeg'
   );
   const routes = useRoutes(routesConfig);
+
+  const noLoginRoute = useRoutes(noLoginRoutesConfig);
 
   const changeWrapperBg = (newBg) => {
     setWrapperBg(newBg);
@@ -41,7 +46,10 @@ const App = () => {
           style={{ backgroundImage: `url('${wrapperBg}')` }}
         >
           <Header />
-          {routes}
+          {/* remove supabase import */}
+          {supabase.auth.session()?.user?.aud === 'authenticated'
+            ? routes
+            : noLoginRoute}
           <Footer />
         </div>
       </BgContext.Provider>

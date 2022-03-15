@@ -7,7 +7,6 @@ import { Profile } from './components/Profile';
 import { NotFound } from './pages/NotFound';
 import { NewPass } from './components/NewPass';
 
-
 const routesConfig = [
   {
     path: '/',
