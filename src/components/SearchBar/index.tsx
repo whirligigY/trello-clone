@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './searchBar.css';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useClickOutside } from 'react-click-outside-hook';
 import { useDebauncer } from '../../hooks/useDebauncer';
@@ -20,7 +20,7 @@ export const SearchBar = () => {
   const inputRef = useRef<HTMLInputElement>();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [searchDataDB, setSearchDataDB] = useState<IBoards[] | []>([]);
+  const [searchDataDB, setSearchDataDB] = useState<IBoards[]>([]);
   const [searchFieldHeight, setSearchFieldHeight] = useState<string>('150');
   const [notFound, setNotFound] = useState<boolean>(false);
 
@@ -34,9 +34,6 @@ export const SearchBar = () => {
       zIndex: '10',
     },
   };
-
-  //TODO: remove this const?
-  const isEmpty = !searchDataDB || searchDataDB.length === 0;
 
   const { user, client } = useAuth();
 
