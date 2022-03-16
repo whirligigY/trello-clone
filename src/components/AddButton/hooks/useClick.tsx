@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
 
-const useClick = (initialStatus) => {
-  const node = useRef();
+const useClick = (initialStatus: boolean) => {
+  const node = useRef<HTMLDivElement>();
   const [open, setOpen] = useState(initialStatus || false);
-  const toggle = (status) => {
+  const toggle = (status: boolean): void => {
     if (typeof status === 'undefined') {
       /* eslint-disable */
       status = !open;

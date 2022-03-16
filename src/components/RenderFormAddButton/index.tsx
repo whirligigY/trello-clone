@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './RenderFormAddButton.module.css';
 import { Form, Button } from 'react-bootstrap';
+import { RenderFormAddButtonProps } from './index.props';
+import { RenderProps } from '../RenderFormAddButton/index.props';
 
-const RenderFormAddButton = ({
+const RenderFormAddButton: FC<RenderFormAddButtonProps> = ({
   placeholder,
   input,
   textBtn,
   onChangeState,
   handleAddActivity,
 }) => {
-  const { value, onChange, onClear } = input;
-
   const handleActivity = (value) => {
-    onClear();
+    input.onClear();
     handleAddActivity(value);
   };
   return (
@@ -20,11 +20,11 @@ const RenderFormAddButton = ({
       <textarea
         className={'form-control ' + styles.textarea}
         id="form-control"
-        rows="3"
+        rows={3}
         placeholder={placeholder}
         autoFocus
-        value={value}
-        onChange={onChange}
+        value={input.value}
+        onChange={input.onChange}
       />
       <div className="input-group d-flex align-items-center">
         <Button
@@ -32,7 +32,7 @@ const RenderFormAddButton = ({
           type="button"
           className={'mt-2 ' + styles.btn_side}
           onClick={() => {
-            handleActivity(value);
+            handleActivity(input.value);
           }}
         >
           Add {textBtn}
@@ -43,7 +43,7 @@ const RenderFormAddButton = ({
           className="mt-2"
           onClick={() => onChangeState(false)}
         >
-          <i className={'bi bi-x-lg ' + styles.cross} onClick={onClear} />
+          <i className={'bi bi-x-lg ' + styles.cross} onClick={input.onClear} />
         </Button>
       </div>
     </Form>

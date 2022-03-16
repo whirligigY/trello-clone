@@ -524,7 +524,7 @@ export interface definitions {
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    crd_id: number;
+    crd_id?: number;
     /**
      * Format: bigint
      * @description Note:
@@ -560,7 +560,7 @@ export interface definitions {
      * @description Note:
      * This is a Primary Key.<pk/>
      */
-    col_id: number;
+    col_id?: number;
     /**
      * Format: bigint
      * @description Note:

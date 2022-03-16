@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 
 import { Card } from 'react-bootstrap';
 import moment from 'moment';
@@ -8,10 +8,10 @@ import { useAuth } from '../../contexts/Auth';
 import styles from './BoardCard.module.css';
 import { TaskModalWindow } from '../TaskModal/TaskModal';
 import { RenderCardTitle } from '../RenderCardTitle';
-
+import { BoardCardProps } from './index.props';
 import { CardLabel } from '../CardLabel';
 
-const BoardCard = ({
+const BoardCard: FC<BoardCardProps> = ({
   columnId,
   card,
   columnTitle,
@@ -23,7 +23,7 @@ const BoardCard = ({
   labels,
   setLabels,
   setLabelsUpdate,
-  getData
+  getData,
 }) => {
   const [visible, setVisible] = useState(false);
   const { client } = useAuth();
@@ -38,17 +38,19 @@ const BoardCard = ({
     setVisible(true);
   }
 
-  const upsertCardTitle = async (val, cardId) => {
+  const upsertCardTitle = async (val: string, cardId: number) => {
     await client.from('tsk_cards').upsert([{ crd_id: cardId, crd_title: val }]);
   };
 
-  const handleCardSave = async (e, valueCard, cardId) => {
+  const handleCardSave = async (
+    e: Event,
+    valueCard: string,
+    cardId: number
+  ) => {
     e.stopPropagation();
     updateCardTitle(valueCard, cardId);
     setIsEditTitleCard(false);
     upsertCardTitle(valueCard, cardId);
-
-    //getData('cards', null);
   };
 
   const handleCardClose = (e) => {
@@ -72,7 +74,7 @@ const BoardCard = ({
   const [pictureCover, setPictureCover] = useState('');
   const [saveCover, setSaveCover] = useState(false);
 
-  const addColorCover = (val) => {
+  const addColorCover = (val: string) => {
     setColorCover(val);
     setPictureCover('');
     setSaveCover('true');
@@ -444,64 +446,64 @@ const BoardCard = ({
 
   /* download values from database */
   useEffect(() => {
-    if(cardId) {
-    client
-      .from('tsk_cards')
-      .select('*')
-      .eq('crd_id', cardId)
-      .then(({ data, error }) => {
-        if (data) {
-          if (data.length > 0) {
-            if (!error) {
-              setActiveLabels(() =>
-                data[0].crd_labels ? JSON.parse(data[0].crd_labels) : []
-              );
-              if (data[0].crd_deadlineDate) {
-                if (data[0].crd_startDate) {
-                  setIsActiveRange(true);
-                  onChange([
-                    new Date(data[0].crd_startDate),
-                    new Date(data[0].crd_deadlineDate),
-                  ]);
-                } else {
-                  let deadlineDate = new Date(data[0].crd_deadlineDate);
-                  if (deadlineDate != new Date()) {
-                    deadlineDate.setDate(deadlineDate.getDate() + 1);
+    if (cardId) {
+      client
+        .from('tsk_cards')
+        .select('*')
+        .eq('crd_id', cardId)
+        .then(({ data, error }) => {
+          if (data) {
+            if (data.length > 0) {
+              if (!error) {
+                setActiveLabels(() =>
+                  data[0].crd_labels ? JSON.parse(data[0].crd_labels) : []
+                );
+                if (data[0].crd_deadlineDate) {
+                  if (data[0].crd_startDate) {
+                    setIsActiveRange(true);
+                    onChange([
+                      new Date(data[0].crd_startDate),
+                      new Date(data[0].crd_deadlineDate),
+                    ]);
+                  } else {
+                    let deadlineDate = new Date(data[0].crd_deadlineDate);
+                    if (deadlineDate != new Date()) {
+                      deadlineDate.setDate(deadlineDate.getDate() + 1);
+                    }
+                    onChange(deadlineDate);
                   }
-                  onChange(deadlineDate);
+                  if (data[0].crd_deadlineTime) {
+                    setDeadlineTime(data[0].crd_deadlineTime);
+                  }
+                  setShowDeadline(true);
                 }
-                if (data[0].crd_deadlineTime) {
-                  setDeadlineTime(data[0].crd_deadlineTime);
+                if (data[0].crd_coverPic) {
+                  setPictureCover(data[0].crd_coverPic);
                 }
-                setShowDeadline(true);
+                if (data[0].crd_coverColor) {
+                  setColorCover(data[0].crd_coverColor);
+                }
+                setCheckList(() =>
+                  data[0].lists ? JSON.parse(data[0].lists) : []
+                );
+                setCheckboxes(() =>
+                  data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
+                );
+                setCheckedCheckboxes(() =>
+                  data[0].checkboxes
+                    ? JSON.parse(data[0].checkboxes)
+                        .map((item) => {
+                          return item.status
+                            ? { id: item.id, listId: item.listId }
+                            : 0;
+                        })
+                        .filter((item) => item !== 0)
+                    : []
+                );
               }
-              if (data[0].crd_coverPic) {
-                setPictureCover(data[0].crd_coverPic);
-              }
-              if (data[0].crd_coverColor) {
-                setColorCover(data[0].crd_coverColor);
-              }
-              setCheckList(() =>
-                data[0].lists ? JSON.parse(data[0].lists) : []
-              );
-              setCheckboxes(() =>
-                data[0].checkboxes ? JSON.parse(data[0].checkboxes) : []
-              );
-              setCheckedCheckboxes(() =>
-                data[0].checkboxes
-                  ? JSON.parse(data[0].checkboxes)
-                      .map((item) => {
-                        return item.status
-                          ? { id: item.id, listId: item.listId }
-                          : 0;
-                      })
-                      .filter((item) => item !== 0)
-                  : []
-              );
             }
           }
-        }
-      });
+        });
     }
   }, []);
   /* end modal states */
@@ -605,7 +607,7 @@ const BoardCard = ({
                     </div>
                   )}
                 </div>
-                <div className='card_metrics'>
+                <div className="card_metrics">
                   {showDeadline && (
                     <Card.Link href="#" className="p-1 btn btn-secondary">
                       <i className="bi bi-clock-fill" />

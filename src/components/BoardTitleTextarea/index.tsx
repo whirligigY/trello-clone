@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import styles from './BoardTitleTextarea.module.css';
 import { useInput } from '../../hooks/useInput';
 
