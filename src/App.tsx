@@ -19,7 +19,7 @@ const App = () => {
 
   const noLoginRoute = useRoutes(noLoginRoutesConfig);
 
-  const changeWrapperBg = (newBg) => {
+  const changeWrapperBg = (newBg: React.SetStateAction<string>) => {
     setWrapperBg(newBg);
   };
 
@@ -46,7 +46,7 @@ const App = () => {
           style={{ backgroundImage: `url('${wrapperBg}')` }}
         >
           <Header />
-          {/* remove supabase import */}
+          {/*TODO: remove supabase import */}
           {supabase.auth.session()?.user?.aud === 'authenticated'
             ? routes
             : noLoginRoute}
