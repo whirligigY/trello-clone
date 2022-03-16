@@ -100,7 +100,7 @@ const BoardListCard: FC<BoardListCardProps> = ({
                   ) : (
                     <div
                       className={styles.title_container}
-                      onClick={(e) => setIsEditTitleColumn(true)}
+                      onClick={() => setIsEditTitleColumn(true)}
                     >
                       <h4>{title}</h4>
                       <button
