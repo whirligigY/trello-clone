@@ -17,7 +17,7 @@ const containerTransition = {
 export const SearchBar = () => {
   const [isExpanded, setExpanded] = useState<boolean>(false);
   const [parentRef, isClickOutside] = useClickOutside();
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement | undefined>();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
   const [searchDataDB, setSearchDataDB] = useState<IBoards[]>([]);
@@ -111,7 +111,7 @@ export const SearchBar = () => {
   const searchDB = async () => {
     if (!searchQuery || searchQuery.trim() === '') return;
     setLoading(true);
-    const searchItems = [];
+    const searchItems: Array<IBoards> = [];
     if (user) {
       await client
         .from(`boards`)
