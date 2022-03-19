@@ -16,7 +16,7 @@ const RenderCardTitle = ({
       <textarea
         className="form-control"
         id="form-control2"
-        rows="2"
+        rows={2}
         placeholder={title}
         /* eslint-disable */
         autoFocus
