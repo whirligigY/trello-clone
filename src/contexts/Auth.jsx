@@ -1,9 +1,12 @@
 import {
-  UserCredentials,
-  User,
-  SupabaseClient,
   ApiError,
-} from '@supabase/supabase-js';
+  Provider,
+  Session,
+  User,
+  UserCredentials,
+} from '@supabase/gotrue-js';
+
+import { SupabaseClient } from '@supabase/supabase-js';
 
 import React, {
   useContext,
@@ -95,6 +98,7 @@ export const AuthProvider = (props: { children: Props }) => {
       userProfile: () => supabase.auth.user(),
       client: supabase,
       authState,
+      user,
     }),
     [authState]
   );
