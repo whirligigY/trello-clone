@@ -15,7 +15,7 @@ import { IBoards } from './types';
 import './boards.css';
 
 const Boards = () => {
-  const [boards, setBoards] = useState<IBoards[] | []>([]);
+  const [boards, setBoards] = useState<IBoards[]>([]);
   const [modalShow, setModalShow] = useState(false);
   const { changeWrapperBg } = useContext(BgContext);
 
@@ -30,7 +30,7 @@ const Boards = () => {
             .select('*')
             .eq('user_id', user?.id)
             .order('id', { ascending: true });
-          setBoards(data);
+          setBoards(!data ? [] : data);
         } catch (error) {
           console.error(error);
         }
@@ -49,7 +49,7 @@ const Boards = () => {
       .from('boards')
       .select('background')
       .eq('id', id);
-    changeWrapperBg(data[0].background);
+    changeWrapperBg(!data ? '' : data[0].background);
     navigate(`/dashboard/${id}`);
   };
 
@@ -58,7 +58,7 @@ const Boards = () => {
       <WorkspaceBoards>
         <Row className="workspace__boards board__list">
           {userProfile()?.aud === 'authenticated' ? (
-            boards.map((item: IBoards) => (
+            boards.map((item) => (
               <div
                 key={item.id}
                 className="board__list__board card"
