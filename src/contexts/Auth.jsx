@@ -1,19 +1,4 @@
-import {
-  SupabaseClientOptions,
-  UserCredentials,
-  User,
-  SupabaseClient,
-} from '@supabase/supabase-js';
-
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-  ReactNode,
-  Context,
-} from 'react';
-
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '../client';
@@ -27,17 +12,9 @@ import { supabase } from '../client';
 
 // TODO: refactor checkUser() not sure if checkUser() is required check
 
-const AuthContext = React.createContext(undefined);
+const AuthContext = React.createContext();
 
-export type Props = {
-  children: ReactNode;
-};
-
-export function useAuth(): {
-  client: SupabaseClient;
-  user: User;
-  userProfile: () => User;
-} {
+export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
@@ -45,11 +22,9 @@ export function useAuth(): {
   return context;
 }
 
-export const AuthProvider = (props: { children: Props }) => {
-  const { children } = props;
-
+export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>();
+  const [user, setUser] = useState();
   const [authState, setAuthState] = useState('non-authenticated');
   const [loading, setLoading] = useState(true);
 
@@ -65,9 +40,9 @@ export const AuthProvider = (props: { children: Props }) => {
 
         if (event === 'SIGNED_IN') {
           navigate('/');
-          const { error } = await supabase.from('profiles').upsert({
-            id: user?.id,
-            username: user?.email,
+          const { _data, error } = await supabase.from('profiles').upsert({
+            id: supabase.auth.user().id,
+            username: supabase.auth.user().email,
           });
 
           if (!error) {
@@ -96,15 +71,9 @@ export const AuthProvider = (props: { children: Props }) => {
     };
   }, []);
 
-  // type clientT = {
-  //   supabaseUrl: string;
-  //   supabaseKey: string;
-  //   options?: SupabaseClientOptions | undefined;
-  // };
-
   const value = useMemo(
     () => ({
-      signIn: (data: UserCredentials) => supabase.auth.signIn(data),
+      signIn: (data) => supabase.auth.signIn(data),
       signOut: () => supabase.auth.signOut(),
       userProfile: () => supabase.auth.user(),
       client: supabase,

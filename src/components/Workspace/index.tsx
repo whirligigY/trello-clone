@@ -1,13 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './workspace.css';
 
-//TODO: workspace remove this component?
-/**
- * remove or rewrite this component
- * move boards here from Components/Boards
- **/
+import { IWorkspace } from './types';
 
-const WorkspaceBoards = ({ children }) => {
+const WorkspaceBoards: FC<IWorkspace> = ({ children }) => {
   return (
     <div className="workspace__boards">
       <h2 className="heading-h3">

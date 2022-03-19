@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 import { Container, Button, Row, Col } from 'react-bootstrap';
 import { Button as ButtonAuth } from '@supabase/ui';
-import Main from '../Main';
+import { Main } from '../Main';
 import { useAuth } from '../../contexts/Auth';
 import { UploadAvatar } from '../UploadAvatar/UploadAvatar';
+
 import './profile.css';
 
 const Profile = () => {
@@ -14,7 +15,7 @@ const Profile = () => {
   const [birthdateEdit, setBirthdateEdit] = useState(false);
   const [phoneEdit, setPhoneEdit] = useState(false);
   const [emailEdit, setEmailEdit] = useState(false);
-  const [nicknameEdit, setNicknameEdit] = useState('');
+  const [nicknameEdit, setNicknameEdit] = useState(false);
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [birthdate, setBirthdate] = useState('');
@@ -55,37 +56,38 @@ const Profile = () => {
       });
   }, [client, user.email, user.id, visible]);
 
-  const saveName = async (value) => {
+  const saveName = async (value: string) => {
     await client.from('profiles').update({ name: value }).eq('id', user.id);
   };
 
-  const saveSurname = async (value) => {
+  const saveSurname = async (value: string) => {
     await client.from('profiles').update({ surname: value }).eq('id', user.id);
   };
 
-  const saveBirthdate = async (value) => {
+  const saveBirthdate = async (value: string) => {
     await client
       .from('profiles')
       .update({ birthdate: value })
       .eq('id', user.id);
   };
 
-  const savePhone = async (value) => {
+  const savePhone = async (value: string) => {
     await client.from('profiles').update({ phone: value }).eq('id', user.id);
   };
 
-  const saveEmail = async (value) => {
+  const saveEmail = async (value: string) => {
     await client.from('profiles').update({ mail: value }).eq('id', user.id);
   };
 
-  const saveNickname = async (value) => {
+  const saveNickname = async (value: string) => {
     await client.from('profiles').update({ nickname: value }).eq('id', user.id);
   };
 
-  const saveData = async (e) => {
+  const saveData = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let dataType = '';
     if (!e.target.dataset.type) {
-      dataType = e.target.closest('.personal_item').dataset.type;
+      const closest = e.target.closest('.personal_item') as HTMLElement;
+      dataType = closest.dataset.type;
     } else {
       dataType = e.target.dataset.type;
     }
@@ -114,14 +116,12 @@ const Profile = () => {
         setNickname(e.target.value);
         saveNickname(e.target.value);
         break;
-      default:
-        console.log('nothing');
     }
   };
 
   if (user) {
     return (
-      <Main {...[signinClass]}>
+      <Main modClass={signinClass}>
         <UploadAvatar visible={visible} closeHandle={closeHandle} />
         <div className="profile">
           <Container>
@@ -131,7 +131,7 @@ const Profile = () => {
                   className="profile__avatar"
                   src={avatar}
                   alt=""
-                  onClick={setVisible}
+                  onClick={() => setVisible((oldState) => !oldState)}
                 />
                 {nicknameEdit && (
                   <input
@@ -143,7 +143,7 @@ const Profile = () => {
                     value={nickname}
                     onChange={saveData}
                     data-type="nickname"
-                    maxLength="20"
+                    maxLength={20}
                   />
                 )}
                 {!nicknameEdit && (
@@ -177,7 +177,7 @@ const Profile = () => {
                       onBlur={() => setNameEdit(false)}
                       value={name}
                       onChange={saveData}
-                      maxLength="20"
+                      maxLength={20}
                     />
                   </label>
                   <Button
@@ -201,7 +201,7 @@ const Profile = () => {
                       onBlur={() => setSurnameEdit(false)}
                       value={surname}
                       onChange={saveData}
-                      maxLength="20"
+                      maxLength={20}
                     />
                   </label>
                   <Button

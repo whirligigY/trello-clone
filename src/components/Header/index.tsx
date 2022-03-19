@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Auth, Typography, Button } from '@supabase/ui';
+import { Button } from '@supabase/ui';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
 
@@ -8,16 +8,20 @@ import { SearchBar } from '../SearchBar';
 
 import { BgContext } from '../../contexts/BgContext';
 
+//TODO: place styles in a separate file
+
 const basicStyles = {
   color: '#fff',
   margin: '0 10px 0 10px',
 };
 
 export const Header = () => {
-  const { signOut, user, authState, userProfile } = useAuth();
+  const { signOut, userProfile } = useAuth();
   const { changeWrapperBg } = useContext(BgContext);
   const defaultBackground =
     'https://fyddxppvkwjfodizkufq.supabase.in/storage/v1/object/public/avatars/beautiful.jpeg';
+
+  //TODO: save image to localstorage on component render first time
 
   return (
     <header className="header">
@@ -32,7 +36,7 @@ export const Header = () => {
           Crello
         </Link>
         <div className="nav__button__sign-in">
-          {userProfile()?.aud === 'authenticated' ? (
+          {userProfile()?.aud === 'authenticated' && (
             <>
               <Link
                 to="/profile"
@@ -42,7 +46,7 @@ export const Header = () => {
                 Profile
               </Link>
             </>
-          ) : null}
+          )}
 
           {userProfile()?.aud !== 'authenticated' ? (
             <Link to="/sign-in" style={basicStyles}>

@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './searchBar.css';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useClickOutside } from 'react-click-outside-hook';
-import { useDebauncer } from '../../utils';
+import { useDebauncer } from '../../hooks/useDebauncer';
 import { useAuth } from '../../contexts/Auth';
 import { SearchContentCard } from '../SearchContentCard';
+import { IBoards } from './types';
 
 const containerTransition = {
   type: 'spring',
@@ -13,15 +14,15 @@ const containerTransition = {
   stiffness: 150,
 };
 
-export const SearchBar = (props) => {
-  const [isExpanded, setExpanded] = useState(false);
+export const SearchBar = () => {
+  const [isExpanded, setExpanded] = useState<boolean>(false);
   const [parentRef, isClickOutside] = useClickOutside();
-  const inputRef = useRef();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isLoading, setLoading] = useState(false);
-  const [searchDataDB, setSearchDataDB] = useState([]);
-  const [searchFieldHeight, setSearchFieldHeight] = useState('150');
-  const [notFound, setNotFound] = useState(false);
+  const inputRef = useRef<HTMLInputElement | undefined>();
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [searchDataDB, setSearchDataDB] = useState<IBoards[]>([]);
+  const [searchFieldHeight, setSearchFieldHeight] = useState<string>('150');
+  const [notFound, setNotFound] = useState<boolean>(false);
 
   const containerVariants = {
     expanded: {
@@ -34,13 +35,12 @@ export const SearchBar = (props) => {
     },
   };
 
-  const navigate = useNavigate();
-
-  const isEmpty = !searchDataDB || searchDataDB.length === 0;
-
   const { user, client } = useAuth();
 
-  const changeHandler = (e) => {
+  const changeHandler = (e: {
+    preventDefault: () => void;
+    target: { value: React.SetStateAction<string> };
+  }) => {
     e.preventDefault();
     setSearchQuery(e.target.value);
     if (!searchQuery || searchQuery.trim() === '') {
@@ -93,12 +93,12 @@ export const SearchBar = (props) => {
 
   //  TODO: implement user input sanitization ?
 
-  const sanitize = (query) => {
+  const sanitize = (query: string) => {
     const cleanedQuery = query.trim().toLowerCase();
     return cleanedQuery;
   };
 
-  const filterDubs = (arr) => {
+  const filterDubs = (arr: Array<IBoards>) => {
     const set = new Set();
     const unique = arr.filter((item) => {
       const isInSet = set.has(item.id);
@@ -111,7 +111,7 @@ export const SearchBar = (props) => {
   const searchDB = async () => {
     if (!searchQuery || searchQuery.trim() === '') return;
     setLoading(true);
-    const searchItems = [];
+    const searchItems: Array<IBoards> = [];
     if (user) {
       await client
         .from(`boards`)
@@ -174,14 +174,14 @@ export const SearchBar = (props) => {
         <SearchContent>
           {!isLoading && !!searchDataDB.length && (
             <>
-              {searchDataDB.map((data) => (
+              {searchDataDB.map((dataDB) => (
                 <Link
-                  key={data.id}
-                  to={`/dashboard/${data.id}`}
+                  key={dataDB.id}
+                  to={`/dashboard/${dataDB.id}`}
                   onClick={collapseSearchBar}
                   className="search__content__link"
                 >
-                  <SearchContentCard data={data} />
+                  <SearchContentCard data={dataDB} />
                 </Link>
               ))}
             </>
