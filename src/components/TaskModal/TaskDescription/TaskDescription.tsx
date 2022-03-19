@@ -4,9 +4,9 @@ import '../TaskModalWindow.css';
 import { TaskDescriptionProps } from './types';
 
 const TaskDescription: FC<TaskDescriptionProps> = ({ cardId, taskDescription, setTaskDescription,}) => {
-  const setHeigth = (e) => {
-    e.target.style.height = 'inherit';
-    e.target.style.height = `${e.target.scrollHeight}px`;
+  const setHeigth = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    (e.target as HTMLInputElement).style.height = 'inherit';
+    (e.target as HTMLInputElement).style.height = `${(e.target as HTMLInputElement).scrollHeight}px`;
   };
 
   return (

@@ -15,50 +15,46 @@ const LabelsDropdownMenu: FC<LabelsDropdownProps> = ({
 }) => {
 
   const [trueCardLabels, setTrueCardLabels] = useState<Array<Label>>([]);
+  const [search, setSearch] = useState<string>();
 
   const setCurrentLabels = () => {
-    const tempArr = [];
-    labels.map((item)=>{
-      const index = activeLabels.indexOf(activeLabels.find((el)=>el.id == item.id));
-      if (index != -1) {
+    const newLabels = labels.map((item)=>{
+      const isActive = activeLabels.find((el: Label)=> Number(el.id) === Number(item.id));
+      if (isActive) {
         item.status = true;
       } else {
         item.status = false;
       }
-      tempArr.push(item)
-      });
-      setTrueCardLabels(tempArr)
+      return item;
+    });
+    setTrueCardLabels(newLabels);
   }
+  
   useEffect(()=>{
     setCurrentLabels();
   }, [])
 
-  useEffect(()=>{
-    setCurrentLabels();
-  }, [labels])
-
-  const [search, setSearch] = useState();
-  const preparedLables = search ? labels.filter((el) => {
+  let preparedLables = search ? labels.filter((el) => {
     const searchReg = new RegExp(`${search}`, 'i');
     return String(el.value).match(searchReg)
   }) : labels;
 
   useEffect(() => {
-    const preparedLables = search ? labels.filter((el) => {
+    preparedLables = search ? labels.filter((el) => {
       const searchReg = new RegExp(`${search}`, 'i');
       return String(el.value).match(searchReg)
     }) : labels;
   }, [search])
 
-  const changeSearchValue = (e) => {
+  const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }
 
-  const addLabel = (e) => {
-    const { target } = e;
+  const addLabel = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLInputElement;
     let active = true;
     if (target.classList.contains("label")) {
-      const { id }= target.closest(".label-item");
+      const id = Number((target.closest(".label-item") as HTMLElement).id);
       if (target.classList.contains("active")) {
         active = false;
         activeLabels.forEach((item) => {
@@ -68,9 +64,9 @@ const LabelsDropdownMenu: FC<LabelsDropdownProps> = ({
           }
         });
       }
-      const color = target.dataset.color;
+      const color = String(target.dataset.color);
       const { value } = target;
-      const newItem = { id, value, status: active, color };
+      const newItem: Label = { id, value, status: active, color };
       changeLabels(newItem);
       if (!target.classList.contains("active")) {
         changeActiveLabels(newItem);

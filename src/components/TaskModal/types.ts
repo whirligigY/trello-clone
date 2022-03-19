@@ -1,31 +1,31 @@
 interface TaskModal {
   dateValue: Date | Array<Date>;
-  changeDeadline: () => void;
-  setDeadlineView: () => void;
+  changeDeadline: React.Dispatch<React.SetStateAction<Date | Date[]>>;
+  setDeadlineView: (val: boolean) => void;
   useDeadlineRange: boolean;
-  setDeadlineRange: () => void;
+  setDeadlineRange: (val: boolean) => void;
   deadlineTime: string;
-  changeDeadlineTime: () => void;
+  changeDeadlineTime: (val: string) => void;
   showDeadline: boolean;
-  setSaveDeadline: () => void;
+  setSaveDeadline: React.Dispatch<React.SetStateAction<boolean>>;
   activeLabels: Array<Label>;
-  changeActiveLabels: () => void;
+  changeActiveLabels: (value: Label) => void;
   labels: Array<Label>;
-  changeLabels: () => void;
+  changeLabels: (val: Label) => void;
   changeCheckList: (name: string) => void;
   checkLists: Array<CheckList>;
   cardId: number;
   addCheckBox: (id: number) => void;
-  changeCheckboxTitle: () => void;
+  changeCheckboxTitle: (e: Event) => void;
   removeCheckBox: (id: number, listId: number) => void;
   changeProgress: (arg: HTMLElement) => void;
-  removeCheckList: () => void;
-  removeCheckListItem: () => void;
+  removeCheckList: (e: Event) => void;
+  removeCheckListItem: (e: Event) => void;
   checkboxes: Array<Checkbox>;
-  checkedCheckboxes: Array<Checkbox>;
+  checkedCheckboxes: Array<CheckedCheckbox>;
   colorCover: string;
   pictureCover: string;
-  addColorCover: () => void;
+  addColorCover: (val: string) => void;
   addPictureCover: (pictureCover: string) => void;
   removeCover: () => void;
 }
@@ -50,9 +50,13 @@ export interface Checkbox{
   listId: number;
   card: number
 }
+export interface CheckedCheckbox {
+  id: number;
+  listId: number;
+}
 
 export interface TaskModalBodyProps extends TaskModal {
-  remove: () => void;
+  remove: (value: number) => void;
   taskDescription: string;
   setTaskDescription: (value: string) => void;
 }
@@ -62,5 +66,9 @@ export interface TaskModalProps extends TaskModal {
   closeHandle: () => void;
   title: string;
   column: string;
-  removeLabel: () => void;
+  removeLabel: (value: number) => void;
+}
+
+export interface Data {
+  crd_description: string | null;
 }

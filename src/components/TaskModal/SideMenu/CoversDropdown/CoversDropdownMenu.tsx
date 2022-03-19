@@ -4,6 +4,7 @@ import "../../TaskModalWindow.css";
 import './coversDropdown.css'
 import { useEffect } from 'react';
 import { CoversDropdownProps } from './types'
+import { Photo } from './types'
 
 const CoversDropdownMenu: FC<CoversDropdownProps> = ({
   colorCover,
@@ -29,7 +30,7 @@ const CoversDropdownMenu: FC<CoversDropdownProps> = ({
     if (pictureCover) {
       urlsArr.push(pictureCover)
     }
-    data.results.map((item, i) => {
+    data.results.map((item: Photo, i: number) => {
       if (urlsArr.length < 30) {
         if (item.urls.small !== pictureCover) {
           urlsArr.push(item.urls.small)
@@ -39,7 +40,7 @@ const CoversDropdownMenu: FC<CoversDropdownProps> = ({
     setUnsplashCovers(urlsArr);
   };
 
-  const changeSearchValue = (e) => {
+  const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputTag(e.target.value);
   }
   return (

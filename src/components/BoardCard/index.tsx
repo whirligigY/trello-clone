@@ -9,6 +9,10 @@ import styles from './BoardCard.module.css';
 import { TaskModalWindow } from '../TaskModal/TaskModal';
 import { RenderCardTitle } from '../RenderCardTitle';
 import { BoardCardProps } from './index.props';
+import { Label } from './index.props';
+import { CheckList } from './index.props';
+import { Checkbox } from './index.props';
+import { CheckedCheckbox } from './index.props';
 import { CardLabel } from '../CardLabel';
 
 const BoardCard: FC<BoardCardProps> = ({
@@ -25,10 +29,10 @@ const BoardCard: FC<BoardCardProps> = ({
   setLabelsUpdate,
   getData,
 }) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const { client } = useAuth();
 
-  const [isEditTitleCard, setIsEditTitleCard] = useState(false);
+  const [isEditTitleCard, setIsEditTitleCard] = useState<boolean>(false);
 
   function closeHandle() {
     setVisible(false);
@@ -53,12 +57,12 @@ const BoardCard: FC<BoardCardProps> = ({
     upsertCardTitle(valueCard, cardId);
   };
 
-  const handleCardClose = (e) => {
+  const handleCardClose = (e: Event) => {
     e.stopPropagation();
     setIsEditTitleCard(false);
   };
 
-  const handleCardEdit = (e) => {
+  const handleCardEdit = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     setIsEditTitleCard(true);
   };
@@ -70,26 +74,26 @@ const BoardCard: FC<BoardCardProps> = ({
 
   /* task modal window state */
   /* cover states */
-  const [colorCover, setColorCover] = useState('');
-  const [pictureCover, setPictureCover] = useState('');
-  const [saveCover, setSaveCover] = useState(false);
+  const [colorCover, setColorCover] = useState<string>('');
+  const [pictureCover, setPictureCover] = useState<string>('');
+  const [saveCover, setSaveCover] = useState<boolean>(false);
 
   const addColorCover = (val: string) => {
     setColorCover(val);
     setPictureCover('');
-    setSaveCover('true');
+    setSaveCover(true);
   };
 
-  const addPictureCover = (val) => {
+  const addPictureCover = (val: string) => {
     setPictureCover(val);
     setColorCover('');
-    setSaveCover('true');
+    setSaveCover(true);
   };
 
   const removeCover = () => {
     setPictureCover('');
     setColorCover('');
-    setSaveCover('true');
+    setSaveCover(true);
   };
 
   useEffect(() => {
@@ -120,21 +124,21 @@ const BoardCard: FC<BoardCardProps> = ({
 
   /* deadline states */
 
-  const [value, onChange] = useState(new Date());
-  const [showDeadline, setShowDeadline] = useState(false);
-  const [isActiveRange, setIsActiveRange] = useState(false);
-  const [deadlineTime, setDeadlineTime] = useState('');
-  const [saveDeadline, setSaveDeadline] = useState(false);
+  const [value, onChange] = useState<Date | Date[]>(new Date());
+  const [showDeadline, setShowDeadline] = useState<boolean>(false);
+  const [isActiveRange, setIsActiveRange] = useState<boolean>(false);
+  const [deadlineTime, setDeadlineTime] = useState<string>('');
+  const [saveDeadline, setSaveDeadline] = useState<boolean>(false);
 
-  const changeDeadlineView = (val) => {
+  const changeDeadlineView = (val: boolean) => {
     setShowDeadline(val);
   };
 
-  const setDeadlineRange = (val) => {
+  const setDeadlineRange = (val: boolean) => {
     setIsActiveRange(val);
   };
 
-  const changeDeadlineTime = (val) => {
+  const changeDeadlineTime = (val: string) => {
     setDeadlineTime(val);
   };
 
@@ -172,8 +176,8 @@ const BoardCard: FC<BoardCardProps> = ({
   /* end of deadline states */
 
   /* card labels state */
-  const [activeLabels, setActiveLabels] = useState([]);
-  const [activeLabelsUpdate, setActiveLabelsUpdate] = useState(false);
+  const [activeLabels, setActiveLabels] = useState<Label[]>([]);
+  const [activeLabelsUpdate, setActiveLabelsUpdate] = useState<boolean>(false);
 
   useEffect(() => {
     if (activeLabelsUpdate) {
@@ -194,14 +198,14 @@ const BoardCard: FC<BoardCardProps> = ({
     getData('cards', null);
   };
 
-  const changeLabels = (val) => {
+  const changeLabels = (val: Label) => {
     const newItem = val;
     if (!newItem.id) {
       newItem.id = labels.length + 1;
     }
     if (Number(newItem.id) <= Number(labels.length)) {
-      setLabels((prevState) =>
-        prevState.map((item) => {
+      setLabels((prevState: Label[]) =>
+        prevState.map((item: Label) => {
           if (Number(newItem.id) === Number(item.id)) {
             item.id = newItem.id;
             item.color = newItem.color;
@@ -218,9 +222,9 @@ const BoardCard: FC<BoardCardProps> = ({
     }
   };
 
-  const changeActiveLabels = (value) => {
+  const changeActiveLabels = (value: Label) => {
     let index = -1;
-    activeLabels.map((item) => {
+    activeLabels.map((item: Label) => {
       if (Number(value.id) === Number(item.id)) {
         index = activeLabels.indexOf(item);
       }
@@ -244,7 +248,7 @@ const BoardCard: FC<BoardCardProps> = ({
     setActiveLabelsUpdate(true);
   };
 
-  const removeActiveLabel = (value) => {
+  const removeActiveLabel = (value: number) => {
     setActiveLabels([
       ...activeLabels.slice(0, value),
       ...activeLabels.slice(value + 1),
@@ -254,12 +258,12 @@ const BoardCard: FC<BoardCardProps> = ({
   /* end of labels states */
 
   /* checklists states */
-  const [checkLists, setCheckList] = useState([]);
-  const [checkboxes, setCheckboxes] = useState([]);
-  const [checkedCheckboxes, setCheckedCheckboxes] = useState([]);
+  const [checkLists, setCheckList] = useState<CheckList[]>([]);
+  const [checkboxes, setCheckboxes] = useState<Checkbox[]>([]);
+  const [checkedCheckboxes, setCheckedCheckboxes] = useState<CheckedCheckbox[]>([]);
   const [changes, setChanges] = useState(false);
 
-  const changeCheckList = (value) => {
+  const changeCheckList = (value: string) => {
     setCheckList([
       ...checkLists,
       { title: value, id: checkLists.length + 1, card: cardId },
@@ -314,7 +318,7 @@ const BoardCard: FC<BoardCardProps> = ({
     }
   }, [checkboxes]);
 
-  const addCheckBox = (listId) => {
+  const addCheckBox = (listId: number) => {
     setCheckboxes((prevState) => {
       return [
         ...prevState,
@@ -331,9 +335,10 @@ const BoardCard: FC<BoardCardProps> = ({
     });
   };
 
-  const onChangeCheckboxTitle = (e) => {
-    const id = e.target.closest('.subtask').id;
-    const value = e.target.value;
+  const onChangeCheckboxTitle = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    const id = (target.closest('.subtask') as HTMLInputElement).id;
+    const value = target.value;
     setCheckboxes((prevState) => {
       return prevState.map((item) => {
         if (Number(id) === Number(item.id)) {
@@ -344,7 +349,7 @@ const BoardCard: FC<BoardCardProps> = ({
     });
   };
 
-  const changeProgress = (target) => {
+  const changeProgress = (target: any) => {
     const id = Number(target.closest('.subtask').id);
     const listId = Number(target.closest('.check-list').dataset.num);
     const item = { id, listId };
@@ -352,7 +357,7 @@ const BoardCard: FC<BoardCardProps> = ({
     if (target.checked) {
       if (
         checkedCheckboxes.findIndex(
-          (x) => x.id === id && x.listId === listId
+          (x: CheckedCheckbox) => x.id === id && x.listId === listId
         ) === -1
       ) {
         setCheckedCheckboxes((prevState) => {
@@ -390,8 +395,9 @@ const BoardCard: FC<BoardCardProps> = ({
     }
   };
 
-  const removeCheckList = (e) => {
-    const id = e.target.closest('.check-list').dataset.num;
+  const removeCheckList = (e: Event) => {
+    const target = e.target as HTMLElement;
+    const id = (target.closest('.check-list') as HTMLElement).dataset.num;
     const index = checkLists.findIndex(
       (x) => Number(x.card) == Number(cardId) && Number(x.id) == Number(id)
     );
@@ -405,17 +411,18 @@ const BoardCard: FC<BoardCardProps> = ({
     });
     setCheckboxes([
       ...checkboxes
-        .filter((item) => item.listId != id)
+        .filter((item) => Number(item.listId) !== Number(id))
         .filter((item) => item.card == cardId),
     ]);
     setChanges(true);
   };
 
-  const removeCheckListItem = (e) => {
-    const id = e.target.closest('.subtask').id;
-    const listId = e.target.closest('.check-list').dataset.num;
+  const removeCheckListItem = (e: Event) => {
+    const target = e.target as HTMLElement;
+    const id = (target.closest('.subtask') as HTMLElement).id;
+    const listId = (target.closest('.check-list') as HTMLElement).dataset.num;
     const index = checkedCheckboxes.findIndex(
-      (x) => x.listId == listId && x.id == id
+      (x) => Number(x.listId) === Number(listId) && Number(x.id) === Number(id)
     );
     if (index !== -1) {
       setCheckedCheckboxes([
@@ -423,10 +430,10 @@ const BoardCard: FC<BoardCardProps> = ({
         ...checkedCheckboxes.slice(index + 1),
       ]);
     }
-    removeCheckbox(id, listId);
+    removeCheckbox(Number(id), Number(listId));
   };
 
-  const removeCheckbox = (id, listId) => {
+  const removeCheckbox = (id: number, listId: number) => {
     let index = 0;
     checkboxes.map((item) => {
       if (
@@ -492,12 +499,12 @@ const BoardCard: FC<BoardCardProps> = ({
                 setCheckedCheckboxes(() =>
                   data[0].checkboxes
                     ? JSON.parse(data[0].checkboxes)
-                        .map((item) => {
+                        .map((item: Checkbox) => {
                           return item.status
                             ? { id: item.id, listId: item.listId }
                             : 0;
                         })
-                        .filter((item) => item !== 0)
+                        .filter((item: CheckedCheckbox | number) => item !== 0)
                     : []
                 );
               }
@@ -520,7 +527,7 @@ const BoardCard: FC<BoardCardProps> = ({
             <TaskModalWindow
               visible={visible}
               closeHandle={closeHandle}
-              title={card['crd_title']}
+              title={String(card['crd_title'])}
               column={columnTitle}
               dateValue={value}
               changeDeadline={onChange}
@@ -596,9 +603,9 @@ const BoardCard: FC<BoardCardProps> = ({
                         className={styles.blosk_close}
                         onClick={() =>
                           handleCardDelete(
-                            card.crd_id,
+                            Number(card.crd_id),
                             columnId,
-                            card.crd_order
+                            Number(card.crd_order)
                           )
                         }
                       >

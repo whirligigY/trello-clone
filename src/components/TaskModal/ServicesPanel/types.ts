@@ -2,9 +2,9 @@ import { Label } from "../types"
 
 export interface CurrentLabelsProps {
   activeLabels: Array<Label>;
-  changeActiveLabels: () => void;
+  changeActiveLabels: (value: Label) => void;
   labels: Array<Label>;
-  changeLabels: () => void;
+  changeLabels: (val: Label) => void;
   remove: () => void;
 }
 
@@ -14,11 +14,11 @@ export interface CurrentLabelProps extends CurrentLabelsProps {
 
 export interface CurrentDeadlineProps {
   dateValue: Date | Array<Date>;
-  changeDeadline: () => void;
-  setDeadlineView: () => void;
+  changeDeadline: React.Dispatch<React.SetStateAction<Date | Date[]>>;
+  setDeadlineView: (val: boolean) => void;
   useDeadlineRange: boolean;
-  setDeadlineRange: () => void;
+  setDeadlineRange: (val: boolean) => void;
   deadlineTime: string;
-  changeDeadlineTime: () => void;
-  setSaveDeadline: () => void;
+  changeDeadlineTime: (val: string) => void;
+  setSaveDeadline: React.Dispatch<React.SetStateAction<boolean>>;
 }

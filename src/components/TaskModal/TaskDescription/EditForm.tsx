@@ -29,7 +29,7 @@ const EditForm: FC<EditFormProps> = ({ setHeigth, taskDescription, setTaskDescri
     saveCompleted(tempDescription);
   }
   
-  const saveCompleted = async (savedDescription) => {
+  const saveCompleted = async (savedDescription: string) => {
     const { data, error } = await client
       .from('tsk_cards')
       .update({ crd_description: savedDescription })
@@ -49,7 +49,7 @@ const EditForm: FC<EditFormProps> = ({ setHeigth, taskDescription, setTaskDescri
     setIsTextAreaActive(false);
   };
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempDescription(e.target.value);
   };
 

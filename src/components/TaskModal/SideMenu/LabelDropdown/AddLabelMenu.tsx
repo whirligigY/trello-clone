@@ -16,7 +16,7 @@ const AddLabelMenu: FC<AddLabelMenuProps> = ({
   const [labelTitle, setLabelTitle] = useState<string>(title || '');
   const [value, setValue] = useState<string>(itemColor || '');
 
-  const addColor = (val) => {
+  const addColor = (val: string) => {
     setValue(val);
     setNewLabel((prevState) => {return {...prevState, color: val}});
   }
@@ -30,9 +30,9 @@ const AddLabelMenu: FC<AddLabelMenuProps> = ({
   }, [itemStatus]
   )
 
-  const addTitle = (e) => {
-    setNewLabel((prevState) => {return {...prevState, value: e.target.value}});
-    setLabelTitle(e.target.value);
+  const addTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewLabel((prevState) => {return {...prevState, value: (e.target as HTMLInputElement).value}});
+    setLabelTitle((e.target as HTMLInputElement).value);
   }
 
   const addNewLabel = () => {

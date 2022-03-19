@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap';
 import { TaskModalBody } from './TaskModalBody';
 import { useAuth } from '../../contexts/Auth';
 import { TaskModalProps } from './types';
+import { Data } from './types';
 import './TaskModalWindow.css';
 
 const TaskModalWindow: FC<TaskModalProps> = ({
@@ -52,8 +53,8 @@ const TaskModalWindow: FC<TaskModalProps> = ({
         .eq('crd_id', cardId)
         .then(({ data, error }) => {
           if (!error) {
-            if (data[0].crd_description) {
-              setTaskDescription(data[0].crd_description);
+            if (data![0].crd_description) {
+              setTaskDescription(data![0].crd_description);
             } else {
               setTaskDescription('')
             }
