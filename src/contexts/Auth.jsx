@@ -1,39 +1,20 @@
-import {
-  ApiError,
-  Provider,
-  Session,
-  User,
-  UserCredentials,
-} from '@supabase/gotrue-js';
-
-import { SupabaseClient } from '@supabase/supabase-js';
-
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-  ReactNode,
-} from 'react';
-
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '../client';
 
-const AuthContext = React.createContext(undefined);
+// TODO: password restore
+/**
+ * fix password restore
+ * when password is restared user is singed in directly without asking to reset the assword
+ *  see here: https://dev.to/misha_wtf/user-authentication-in-nextjs-with-supabase-4l12
+ * */
 
-export type Props = {
-  children: ReactNode;
-};
+// TODO: refactor checkUser() not sure if checkUser() is required check
 
-export function useAuth(): {
-  client: SupabaseClient;
-  user: User;
-  userProfile: () => User;
-  signOut: () => Promise<{
-    error: ApiError;
-  }>;
-} {
+const AuthContext = React.createContext();
+
+export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
@@ -41,11 +22,9 @@ export function useAuth(): {
   return context;
 }
 
-export const AuthProvider = (props: { children: Props }) => {
-  const { children } = props;
-
+export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>();
+  const [user, setUser] = useState();
   const [authState, setAuthState] = useState('non-authenticated');
   const [loading, setLoading] = useState(true);
 
@@ -61,14 +40,15 @@ export const AuthProvider = (props: { children: Props }) => {
 
         if (event === 'SIGNED_IN') {
           navigate('/');
-          const { error } = await supabase.from('profiles').upsert({
-            id: user?.id,
-            username: user?.email,
+          const { _data, error } = await supabase.from('profiles').upsert({
+            id: supabase.auth.user().id,
+            username: supabase.auth.user().email,
           });
 
           if (!error) {
             setAuthState('authenticated');
           } else {
+            // navigate to 404
             setAuthState('non-authenticated');
           }
         }
@@ -93,14 +73,14 @@ export const AuthProvider = (props: { children: Props }) => {
 
   const value = useMemo(
     () => ({
-      signIn: (data: UserCredentials) => supabase.auth.signIn(data),
+      signIn: (data) => supabase.auth.signIn(data),
       signOut: () => supabase.auth.signOut(),
       userProfile: () => supabase.auth.user(),
       client: supabase,
-      authState,
       user,
+      authState,
     }),
-    [authState]
+    [authState, user]
   );
 
   return (
