@@ -17,7 +17,7 @@ const containerTransition = {
 export const SearchBar = () => {
   const [isExpanded, setExpanded] = useState<boolean>(false);
   const [parentRef, isClickOutside] = useClickOutside();
-  const inputRef = useRef<HTMLInputElement | undefined>();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
   const [searchDataDB, setSearchDataDB] = useState<IBoards[]>([]);
@@ -117,7 +117,7 @@ export const SearchBar = () => {
         .from(`boards`)
         .select('*')
         .like('title', `%${sanitize(searchQuery)}%`)
-        .then(({ data, error }) => {
+        .then(({ data, error }: { data: IBoards[]; error: ErrorEvent }) => {
           if (!error && data.length) {
             searchItems.push(...data);
           }
@@ -127,7 +127,7 @@ export const SearchBar = () => {
         .from(`boards`)
         .select('*')
         .like('description', `%${sanitize(searchQuery)}%`)
-        .then(({ data, error }) => {
+        .then(({ data, error }: { data: IBoards[]; error: ErrorEvent }) => {
           if (!error && data.length) {
             searchItems.push(...data);
           }

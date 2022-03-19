@@ -25,7 +25,7 @@ const Boards = () => {
     const getBoards = async () => {
       if (user) {
         try {
-          const { data } = await client
+          const { data }: { data: IBoards[] } = await client
             .from('boards')
             .select('*')
             .eq('user_id', user?.id)
