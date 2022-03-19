@@ -26,3 +26,10 @@ export interface BoardListCardProps {
   ) => void;
   boardId: number;
 }
+
+export interface Label {
+  id: number;
+  value: string;
+  status: boolean;
+  color: string;
+}

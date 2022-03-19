@@ -6,6 +6,7 @@ import { AddButton } from '../AddButton';
 import { RenderColumnTitle } from '../RenderColumnTitle';
 import { useAuth } from '../../contexts/Auth';
 import { BoardListCardProps } from './index.props';
+import { Label } from './index.props';
 
 const BoardListCard: FC<BoardListCardProps> = ({
   title,
@@ -38,7 +39,7 @@ const BoardListCard: FC<BoardListCardProps> = ({
   };
 
   /* board labels*/
-  const [labels, setLabels] = useState([]);
+  const [labels, setLabels] = useState<Label[]>([]);
   const [labelsUpdate, setLabelsUpdate] = useState<boolean>(false);
 
   useEffect(() => {
@@ -122,7 +123,7 @@ const BoardListCard: FC<BoardListCardProps> = ({
                       columnId={columnId}
                       card={card}
                       columnTitle={title}
-                      cardId={card.crd_id}
+                      cardId={Number(card.crd_id)}
                       cardIndex={ind}
                       updateCardTitle={updateCardTitle}
                       handleCardDelete={handleCardDelete}

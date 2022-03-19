@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC } from 'react';
 import { ProgressBar, Button, InputGroup, FormControl } from 'react-bootstrap';
 import '../TaskModalWindow.css'
-import { CheckListProps, Checkbox } from './types';
+import { CheckListProps, Checkbox, CheckedCheckbox } from './types';
 
 const CheckList: FC<CheckListProps> = ({ 
    title,
@@ -16,7 +16,7 @@ const CheckList: FC<CheckListProps> = ({
    }) => {
   const [progress, setProgress] = useState<number>();
   const [listCheckboxes, setListCheckboxes] = useState<Array<Checkbox>>([]);
-  const [listCheckedCheckboxes, setListCheckedCheckboxes] = useState<Array<Checkbox>>([]);
+  const [listCheckedCheckboxes, setListCheckedCheckboxes] = useState<Array<CheckedCheckbox>>([]);
 
   useEffect (
     () => {
@@ -33,16 +33,7 @@ const CheckList: FC<CheckListProps> = ({
 
   useEffect (
     () => {
-      checkboxes.map((item)=>{
-        if (item.listId === id) {
-          if (listCheckboxes.indexOf(item) === -1) {
-            setListCheckboxes((prevState)=>{
-            return [...prevState, item];
-            })
-          }
-        }
-        return null;
-      })
+      setListCheckboxes(checkboxes.filter((item) => item.listId === id))
     },
     [checkboxes]
   );
