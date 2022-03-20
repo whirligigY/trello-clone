@@ -1,20 +1,29 @@
-import React, { useContext, useState, useEffect, useMemo } from 'react';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { ApiError, User, UserCredentials } from '@supabase/gotrue-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  ReactNode,
+} from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '../client';
 
-// TODO: password restore
-/**
- * fix password restore
- * when password is restared user is singed in directly without asking to reset the assword
- *  see here: https://dev.to/misha_wtf/user-authentication-in-nextjs-with-supabase-4l12
- * */
+//@ts-ignore
+const AuthContext = React.createContext(any);
 
-// TODO: refactor checkUser() not sure if checkUser() is required check
-
-const AuthContext = React.createContext();
-
-export function useAuth() {
+export function useAuth(): {
+  client: SupabaseClient;
+  user: User;
+  userProfile: () => User;
+  signOut: () => Promise<{
+    error: ApiError;
+  }>;
+} {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
@@ -22,9 +31,9 @@ export function useAuth() {
   return context;
 }
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<User | null>();
   const [authState, setAuthState] = useState('non-authenticated');
   const [loading, setLoading] = useState(true);
 
@@ -40,9 +49,9 @@ export const AuthProvider = ({ children }) => {
 
         if (event === 'SIGNED_IN') {
           navigate('/');
-          const { _data, error } = await supabase.from('profiles').upsert({
-            id: supabase.auth.user().id,
-            username: supabase.auth.user().email,
+          const { error } = await supabase.from('profiles').upsert({
+            id: supabase.auth.user()?.id,
+            username: supabase.auth.user()?.email,
           });
 
           if (!error) {
@@ -73,14 +82,14 @@ export const AuthProvider = ({ children }) => {
 
   const value = useMemo(
     () => ({
-      signIn: (data) => supabase.auth.signIn(data),
+      signIn: (data: UserCredentials) => supabase.auth.signIn(data),
       signOut: () => supabase.auth.signOut(),
       userProfile: () => supabase.auth.user(),
       client: supabase,
       user,
       authState,
     }),
-    [authState, user]
+    [authState]
   );
 
   return (

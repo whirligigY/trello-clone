@@ -121,24 +121,3 @@ export const getColumnsAfterDragAndDrop = (
   }
   return columns;
 };
-
-export const useDebauncer = (
-  value: string,
-  timeout: Date,
-  callback: () => {}
-) => {
-  const [timer, setTimer] = useState(null);
-
-  const clearTimer = () => {
-    if (timer) clearTimeout(timer);
-  };
-
-  useEffect(() => {
-    clearTimer();
-
-    if (value && callback) {
-      const newTimer = setTimeout(callback, timeout);
-      setTimer(newTimer);
-    }
-  }, [value]);
-};

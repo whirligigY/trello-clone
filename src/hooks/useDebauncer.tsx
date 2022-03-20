@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 
-export const useDebauncer = (value, timeout, callback) => {
-  const [timer, setTimer] = useState(null);
+export const useDebauncer = (
+  value: string,
+  timeout: number,
+  callback: () => void
+) => {
+  const [timer, setTimer] = useState<NodeJS.Timeout>();
 
   const clearTimer = () => {
     if (timer) clearTimeout(timer);
