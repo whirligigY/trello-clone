@@ -16,11 +16,11 @@ interface TaskModal {
   checkLists: Array<CheckList>;
   cardId: number;
   addCheckBox: (id: number) => void;
-  changeCheckboxTitle: (e: Event) => void;
+  changeCheckboxTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
   removeCheckBox: (id: number, listId: number) => void;
   changeProgress: (arg: HTMLElement) => void;
-  removeCheckList: (e: Event) => void;
-  removeCheckListItem: (e: Event) => void;
+  removeCheckList: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  removeCheckListItem: (e: React.MouseEvent<HTMLButtonElement>) => void;
   checkboxes: Array<Checkbox>;
   checkedCheckboxes: Array<CheckedCheckbox>;
   colorCover: string;

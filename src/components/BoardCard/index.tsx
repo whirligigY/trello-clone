@@ -152,7 +152,7 @@ const BoardCard: FC<BoardCardProps> = ({
   const saveDeadlineDate = async () => {
     let startDate;
     let deadlineDate;
-    let savedTime = deadlineTime || null;
+    const savedTime = deadlineTime || null;
     if (Array.isArray(value)) {
       [startDate, deadlineDate] = [...value];
     } else {
@@ -335,7 +335,7 @@ const BoardCard: FC<BoardCardProps> = ({
     });
   };
 
-  const onChangeCheckboxTitle = (e: Event) => {
+  const onChangeCheckboxTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     const id = (target.closest('.subtask') as HTMLInputElement).id;
     const value = target.value;
@@ -395,7 +395,7 @@ const BoardCard: FC<BoardCardProps> = ({
     }
   };
 
-  const removeCheckList = (e: Event) => {
+  const removeCheckList = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLElement;
     const id = (target.closest('.check-list') as HTMLElement).dataset.num;
     const index = checkLists.findIndex(
@@ -417,7 +417,7 @@ const BoardCard: FC<BoardCardProps> = ({
     setChanges(true);
   };
 
-  const removeCheckListItem = (e: Event) => {
+  const removeCheckListItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLElement;
     const id = (target.closest('.subtask') as HTMLElement).id;
     const listId = (target.closest('.check-list') as HTMLElement).dataset.num;
@@ -473,7 +473,7 @@ const BoardCard: FC<BoardCardProps> = ({
                       new Date(data[0].crd_deadlineDate),
                     ]);
                   } else {
-                    let deadlineDate = new Date(data[0].crd_deadlineDate);
+                    const deadlineDate = new Date(data[0].crd_deadlineDate);
                     if (deadlineDate != new Date()) {
                       deadlineDate.setDate(deadlineDate.getDate() + 1);
                     }

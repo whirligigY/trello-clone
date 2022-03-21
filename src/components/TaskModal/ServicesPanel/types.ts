@@ -5,7 +5,7 @@ export interface CurrentLabelsProps {
   changeActiveLabels: (value: Label) => void;
   labels: Array<Label>;
   changeLabels: (val: Label) => void;
-  remove: () => void;
+  remove: (value: number) => void;
 }
 
 export interface CurrentLabelProps extends CurrentLabelsProps {
