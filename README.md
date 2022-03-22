@@ -1,7 +1,26 @@
-# trello-clone
+# Trello-clone
+Deploy: [https://crello-rsclone.herokuapp.com/](https://crello-rsclone.herokuapp.com/)
+
+Tech Stack:
+
+**TypeScript + React** with build **create-react-app** 
+
+Following tools are used additionally: 
+
+- Supabase (Auth, PostgreSQL)
+- Git
+- React Router dom (for routing)
+- React-Bootstrap (UI)
+- React-Beautiful-DnD (for beautiful drag and drop)
+- Unsplash API (for boards and tasks background)
+- ESLint 
+- Prettier
+
+
 
 npm start 
-Runs the app in development mode. Open http://localhost:3000 to view it in the browser.
+
+**Runs the app** in development mode. Open http://localhost:3000 to view it in the browser.
 The page will automatically reload if you make changes to the code. You will see the build errors and lint warnings in the console.
 
 npm test 
